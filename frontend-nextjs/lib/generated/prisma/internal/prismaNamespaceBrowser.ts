@@ -52,7 +52,10 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Enrollment: 'Enrollment',
+  FaceImage: 'FaceImage',
+  OrganizationRegistration: 'OrganizationRegistration'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -128,6 +131,45 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const EnrollmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  organization: 'organization',
+  notes: 'notes',
+  photosCount: 'photosCount',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+
+
+export const FaceImageScalarFieldEnum = {
+  id: 'id',
+  enrollmentId: 'enrollmentId',
+  cloudinaryPublicId: 'cloudinaryPublicId',
+  capturedAt: 'capturedAt',
+  width: 'width',
+  height: 'height',
+  format: 'format',
+  organization: 'organization'
+} as const
+
+export type FaceImageScalarFieldEnum = (typeof FaceImageScalarFieldEnum)[keyof typeof FaceImageScalarFieldEnum]
+
+
+export const OrganizationRegistrationScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  organization: 'organization',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrganizationRegistrationScalarFieldEnum = (typeof OrganizationRegistrationScalarFieldEnum)[keyof typeof OrganizationRegistrationScalarFieldEnum]
 
 
 export const SortOrder = {

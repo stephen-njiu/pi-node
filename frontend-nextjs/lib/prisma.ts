@@ -1,4 +1,4 @@
-// import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "./generated/prisma/client";
 import { PrismaClient } from "./generated/prisma/client";
 
 // Prevent creating multiple PrismaClient instances in dev/hot-reload

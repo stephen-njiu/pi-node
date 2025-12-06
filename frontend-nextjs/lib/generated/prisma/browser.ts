@@ -37,3 +37,18 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model Enrollment
+ * 
+ */
+export type Enrollment = Prisma.EnrollmentModel
+/**
+ * Model FaceImage
+ * 
+ */
+export type FaceImage = Prisma.FaceImageModel
+/**
+ * Model OrganizationRegistration
+ * 
+ */
+export type OrganizationRegistration = Prisma.OrganizationRegistrationModel

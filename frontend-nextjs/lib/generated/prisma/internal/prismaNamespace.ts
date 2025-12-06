@@ -393,7 +393,10 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Enrollment: 'Enrollment',
+  FaceImage: 'FaceImage',
+  OrganizationRegistration: 'OrganizationRegistration'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification"
+    modelProps: "user" | "session" | "account" | "verification" | "enrollment" | "faceImage" | "organizationRegistration"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -709,6 +712,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Enrollment: {
+      payload: Prisma.$EnrollmentPayload<ExtArgs>
+      fields: Prisma.EnrollmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EnrollmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EnrollmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>
+        }
+        findFirst: {
+          args: Prisma.EnrollmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EnrollmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>
+        }
+        findMany: {
+          args: Prisma.EnrollmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>[]
+        }
+        create: {
+          args: Prisma.EnrollmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>
+        }
+        createMany: {
+          args: Prisma.EnrollmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EnrollmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>[]
+        }
+        delete: {
+          args: Prisma.EnrollmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>
+        }
+        update: {
+          args: Prisma.EnrollmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.EnrollmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EnrollmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EnrollmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.EnrollmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnrollmentPayload>
+        }
+        aggregate: {
+          args: Prisma.EnrollmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEnrollment>
+        }
+        groupBy: {
+          args: Prisma.EnrollmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnrollmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EnrollmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnrollmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    FaceImage: {
+      payload: Prisma.$FaceImagePayload<ExtArgs>
+      fields: Prisma.FaceImageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FaceImageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FaceImageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>
+        }
+        findFirst: {
+          args: Prisma.FaceImageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FaceImageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>
+        }
+        findMany: {
+          args: Prisma.FaceImageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>[]
+        }
+        create: {
+          args: Prisma.FaceImageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>
+        }
+        createMany: {
+          args: Prisma.FaceImageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FaceImageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>[]
+        }
+        delete: {
+          args: Prisma.FaceImageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>
+        }
+        update: {
+          args: Prisma.FaceImageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>
+        }
+        deleteMany: {
+          args: Prisma.FaceImageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FaceImageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FaceImageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>[]
+        }
+        upsert: {
+          args: Prisma.FaceImageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FaceImagePayload>
+        }
+        aggregate: {
+          args: Prisma.FaceImageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFaceImage>
+        }
+        groupBy: {
+          args: Prisma.FaceImageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FaceImageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FaceImageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FaceImageCountAggregateOutputType> | number
+        }
+      }
+    }
+    OrganizationRegistration: {
+      payload: Prisma.$OrganizationRegistrationPayload<ExtArgs>
+      fields: Prisma.OrganizationRegistrationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrganizationRegistrationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrganizationRegistrationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>
+        }
+        findFirst: {
+          args: Prisma.OrganizationRegistrationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrganizationRegistrationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>
+        }
+        findMany: {
+          args: Prisma.OrganizationRegistrationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>[]
+        }
+        create: {
+          args: Prisma.OrganizationRegistrationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>
+        }
+        createMany: {
+          args: Prisma.OrganizationRegistrationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OrganizationRegistrationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>[]
+        }
+        delete: {
+          args: Prisma.OrganizationRegistrationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>
+        }
+        update: {
+          args: Prisma.OrganizationRegistrationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrganizationRegistrationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrganizationRegistrationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OrganizationRegistrationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>[]
+        }
+        upsert: {
+          args: Prisma.OrganizationRegistrationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrganizationRegistrationPayload>
+        }
+        aggregate: {
+          args: Prisma.OrganizationRegistrationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrganizationRegistration>
+        }
+        groupBy: {
+          args: Prisma.OrganizationRegistrationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrganizationRegistrationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrganizationRegistrationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrganizationRegistrationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -807,6 +1032,45 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const EnrollmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  organization: 'organization',
+  notes: 'notes',
+  photosCount: 'photosCount',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+
+
+export const FaceImageScalarFieldEnum = {
+  id: 'id',
+  enrollmentId: 'enrollmentId',
+  cloudinaryPublicId: 'cloudinaryPublicId',
+  capturedAt: 'capturedAt',
+  width: 'width',
+  height: 'height',
+  format: 'format',
+  organization: 'organization'
+} as const
+
+export type FaceImageScalarFieldEnum = (typeof FaceImageScalarFieldEnum)[keyof typeof FaceImageScalarFieldEnum]
+
+
+export const OrganizationRegistrationScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  organization: 'organization',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrganizationRegistrationScalarFieldEnum = (typeof OrganizationRegistrationScalarFieldEnum)[keyof typeof OrganizationRegistrationScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -897,6 +1161,34 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EnrollStatus'
+ */
+export type EnumEnrollStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'EnrollStatus[]'
+ */
+export type ListEnumEnrollStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 /**
@@ -990,6 +1282,9 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
+  enrollment?: Prisma.EnrollmentOmit
+  faceImage?: Prisma.FaceImageOmit
+  organizationRegistration?: Prisma.OrganizationRegistrationOmit
 }
 
 /* Types for Logging */

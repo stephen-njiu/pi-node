@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 type Photo = {
   id: string;
@@ -17,6 +19,23 @@ type Photo = {
 };
 
 export default function EnrollPage() {
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
+  const [currentRole, setCurrentRole] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    async function loadRole() {
+      try {
+        const email = session?.user?.email;
+        const id = session?.user?.id as string | undefined;
+        if (!email && !id) return;
+        const params = new URLSearchParams(email ? { email } : { id: id! });
+        const res = await fetch(`/api/user-role?${params.toString()}`);
+        const json = await res.json();
+        if (res.ok && json?.role) setCurrentRole(json.role as string);
+      } catch {}
+    }
+    loadRole();
+  }, [session?.user?.email, session?.user?.id]);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -30,6 +49,7 @@ export default function EnrollPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [organization, setOrganization] = useState("");
+  const [organizations, setOrganizations] = useState<string[]>([]);
   const [role, setRole] = useState("VIEWER");
   const [notes, setNotes] = useState("");
 
@@ -65,6 +85,27 @@ export default function EnrollPage() {
     }
     fetchDevices();
   }, [selectedDeviceId]);
+
+  // --- Load organizations (admin-only view) ---
+  useEffect(() => {
+    async function loadOrganizations() {
+      try {
+        const res = await fetch("/api/me/organization", { credentials: "include" });
+        const contentType = res.headers.get("content-type") || "";
+        if (!contentType.includes("application/json")) {
+          return; // avoid throwing on HTML redirects
+        }
+        const json = await res.json();
+        if (res.ok && Array.isArray(json.organizations)) {
+          setOrganizations(json.organizations);
+          if (!organization && json.organizations.length > 0) {
+            setOrganization(json.organizations[0]);
+          }
+        }
+      } catch (e) {}
+    }
+    loadOrganizations();
+  }, []);
 
   // --- Open camera ---
   const openCamera = useCallback(async () => {
@@ -189,6 +230,9 @@ export default function EnrollPage() {
     setUploadProgress(0);
 
     try {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:8000";
+
+      // 1) Send images + metadata to backend embeddings API
       const form = new FormData();
       form.append("fullName", fullName);
       form.append("email", email);
@@ -197,8 +241,6 @@ export default function EnrollPage() {
       form.append("notes", notes);
   // The FastAPI expects the field name 'files' (see Python script)
   photos.forEach((p, idx) => form.append("files", p.blob, `photo_${idx + 1}.jpg`));
-
-      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:8000";
 
       // simulate upload progress
       await new Promise<void>((res) => {
@@ -210,10 +252,37 @@ export default function EnrollPage() {
         }, 180);
       });
 
-      const res = await fetch(`${baseUrl}/api/v1/embeddings`, { method: "POST", body: form });
+      const res = await fetch(`${appUrl}/api/v1/embeddings`, { method: "POST", body: form });
       if (!res.ok) throw new Error(`Server error: ${res.status}`);
       await res.json();
-      toast.success("Enrollment sent successfully");
+
+      // 2) Upload images to Cloudinary (private) via server helper
+      const cloudForm = new FormData();
+      photos.forEach((p, idx) => cloudForm.append("files", p.blob, `photo_${idx + 1}.jpg`));
+      cloudForm.append("folder", "faces");
+      const cloudRes = await fetch(`/api/cloudinary/upload`, { method: "POST", body: cloudForm });
+      if (!cloudRes.ok) throw new Error(`Cloudinary upload failed: ${cloudRes.status}`);
+      const cloudJson = await cloudRes.json();
+      const publicIds: string[] = (cloudJson?.items ?? []).map((i: any) => i.public_id);
+      if (!publicIds.length) throw new Error("No public_ids returned from Cloudinary");
+
+      // 3) Upsert metadata + public_ids to Postgres
+      const enrollRes = await fetch(`/api/enroll`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fullName,
+          email,
+          organization,
+          role,
+          notes,
+          images: publicIds,
+        }),
+      });
+      const enrollJson = await enrollRes.json();
+      if (!enrollRes.ok) throw new Error(enrollJson?.error ?? `Enroll upsert failed: ${enrollRes.status}`);
+
+      toast.success("Enrollment complete: backend, Cloudinary, and Postgres updated");
       setUploadProgress(null);
     } catch (err: any) {
       console.error(err);
@@ -226,6 +295,16 @@ export default function EnrollPage() {
     const name = fullName || email || "U";
     return name.split(" ").map((p) => p[0]?.toUpperCase()).slice(0, 2).join("");
   }, [fullName, email]);
+
+  // --- Admin gate: only ADMIN can access ---
+  if (!isPending && currentRole && currentRole !== "ADMIN") {
+    // Optionally redirect to signin or home
+    if (typeof window !== "undefined") {
+      toast.error("Access restricted to admins");
+      router.replace("/signin");
+    }
+    return null;
+  }
 
   return (
     <div className="min-h-svh text-white flex items-center justify-center px-4 py-10 bg-linear-to-b from-[#061022] to-[#071226]">
@@ -320,7 +399,17 @@ export default function EnrollPage() {
               </div>
               <div>
                 <Label htmlFor="organization" className="pb-2">Organization *</Label>
-                <Input id="organization" value={organization} onChange={(e) => setOrganization(e.target.value)} placeholder="Company" className="bg-[#031422] border-white/8 text-white" />
+                <select
+                  id="organization"
+                  value={organization}
+                  onChange={(e) => setOrganization(e.target.value)}
+                  className="bg-[#031422] border border-white/8 rounded-md px-3 py-2 text-white"
+                >
+                  {organizations.length === 0 && <option value="">Loading…</option>}
+                  {organizations.map((org) => (
+                    <option key={org} value={org}>{org}</option>
+                  ))}
+                </select>
               </div>
               <div>
                 <Label htmlFor="role" className="pb-2">Role</Label>

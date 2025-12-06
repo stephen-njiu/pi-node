@@ -17,16 +17,17 @@ datasource db {
 // --- Auth and RBAC models ---
 
 model User {
-  id            String    @id
+  id            String       @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean      @default(false)
   image         String?
-  role          UserRole  @default(VIEWER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
+  role          UserRole     @default(VIEWER)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  enrollments   Enrollment[]
 
   @@unique([email])
   @@map("user")
@@ -44,8 +45,8 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
-  @@map("session")
   @@index([userId])
+  @@map("session")
 }
 
 model Account {
@@ -64,8 +65,8 @@ model Account {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
-  @@map("account")
   @@index([userId])
+  @@map("account")
 }
 
 model Verification {
@@ -76,12 +77,65 @@ model Verification {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
 
-  @@map("verification")
   @@index([identifier])
+  @@map("verification")
 }
 
 enum UserRole {
   VIEWER
   GATEKEEPER
   ADMIN
+}
+
+// --- Enrollment models ---
+
+model Enrollment {
+  id           String       @id @default(uuid())
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  organization String? // Organization chosen at time of enrollment
+  notes        String?
+  photosCount  Int          @default(0)
+  status       EnrollStatus @default(PENDING)
+  images       FaceImage[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([userId])
+  @@map("enrollment")
+}
+
+enum EnrollStatus {
+  PENDING
+  PROCESSED
+  FAILED
+}
+
+model FaceImage {
+  id                 String     @id @default(uuid())
+  enrollment         Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  enrollmentId       String
+  cloudinaryPublicId String
+  capturedAt         DateTime   @default(now())
+  width              Int?
+  height             Int?
+  format             String?
+  organization       String? // Optional denormalized org
+
+  @@unique([enrollmentId, cloudinaryPublicId])
+  @@index([enrollmentId])
+  @@map("face_image")
+}
+
+// --- Organization registry (admin-managed) ---
+model OrganizationRegistration {
+  id           String   @id @default(uuid())
+  email        String // Admin/owner email who registered the organization
+  organization String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([organization])
+  @@index([email])
+  @@map("organization_registration")
 }
