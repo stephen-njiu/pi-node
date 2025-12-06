@@ -1,0 +1,137 @@
+# =========================================================
+# ROOT-LEVEL (APPLIES TO BOTH BACKEND & FRONTEND)
+# =========================================================
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor junk
+.vscode/
+.idea/
+*.iml
+*.code-workspace
+
+# Backups
+*.bak
+*.backup
+*.orig
+
+# Do not allow nested git repos (prevents push errors)
+**/.git/
+
+# =========================================================
+# FRONTEND (Next.js / Node)
+# =========================================================
+
+frontend-nextjs/node_modules/
+frontend-nextjs/.next/
+frontend-nextjs/out/
+frontend-nextjs/dist/
+frontend-nextjs/.npm/
+frontend-nextjs/.pnpm-store/
+frontend-nextjs/.cache/
+frontend-nextjs/.vercel/
+frontend-nextjs/export/
+frontend-nextjs/coverage/
+frontend-nextjs/*.tsbuildinfo
+frontend-nextjs/next-env.d.ts
+
+# lock files (optional, remove if you want deterministic builds)
+frontend-nextjs/package-lock.json
+frontend-nextjs/yarn.lock
+frontend-nextjs/pnpm-lock.yaml
+
+# =========================================================
+# BACKEND (FastAPI / Python)
+# =========================================================
+
+backend-fastapi/venv/
+backend-fastapi/.venv/
+backend-fastapi/env/
+backend-fastapi/ENV/
+backend-fastapi/venv.bak/
+
+backend-fastapi/__pycache__/
+backend-fastapi/*.py[cod]
+backend-fastapi/*.pyo
+backend-fastapi/*.pyd
+backend-fastapi/*.pdb
+backend-fastapi/*.pickle
+
+# Python build / packaging
+backend-fastapi/build/
+backend-fastapi/dist/
+backend-fastapi/eggs/
+backend-fastapi/*.egg-info/
+backend-fastapi/.eggs/
+
+# Python test / coverage
+backend-fastapi/.tox/
+backend-fastapi/.nox/
+backend-fastapi/.coverage
+backend-fastapi/coverage.xml
+backend-fastapi/htmlcov/
+
+# FastAPI storage
+backend-fastapi/uploads/
+backend-fastapi/media/
+backend-fastapi/staticfiles/
+backend-fastapi/tmp/
+backend-fastapi/temp/
+backend-fastapi/logs/
+
+# =========================================================
+# HUGE MODEL FOLDERS (NEVER COMMIT)
+# =========================================================
+
+# Global rule: ignore ANY models folder anywhere in the repo
+**/models/
+**/model/
+**/weights/
+**/checkpoints/
+**/saved_models/
+**/artifacts/
+**/visacc/
+
+# Safety for huggingface / autodownloaded files
+**/.cache/huggingface/
+**/transformers_cache/
+**/datasets/
+
+# =========================================================
+# DATABASE
+# =========================================================
+
+# Prisma
+frontend-nextjs/prisma/dev.db
+frontend-nextjs/prisma/dev.db-journal
+frontend-nextjs/prisma/migrations/
+frontend-nextjs/prisma/.env
+
+# SQLite, postgres dumps
+*.sqlite3
+*.sqlite
+*.db
+*.db-journal
+*.sql
+
+# =========================================================
+# CLOUDINARY / TEMP UPLOAD FILES
+# =========================================================
+
+cloudinary_cache/
+upload_tmp/
+temp_uploads/
+
+# =========================================================
+# DOCKER
+# =========================================================
+
+docker-data/
+docker-compose.override.yml

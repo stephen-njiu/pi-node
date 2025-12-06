@@ -1,0 +1,7 @@
+# Optional ML dependencies (install when enabling real embeddings)
+onnxruntime==1.19.2
+opencv-python-headless==4.10.0.84
+# insightface pulls models dynamically; optional alternative to direct ONNX
+insightface==0.7.3
+# pinecone-client if storing vectors in Pinecone from backend
+# pinecone-client==5.0.1
