@@ -33,7 +33,7 @@ export default function SignIn() {
         errorCallbackURL: "/signin",
       });
       router.refresh();
-      toast.success("Signed in successfully");
+    //   toast.success("Signed in successfully");
     } catch (e: any) {
       const msg = e?.message ?? "Sign-in failed. Please try again.";
       setError(msg);

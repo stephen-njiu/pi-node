@@ -5,12 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 type FaceImage = { id: string; cloudinaryPublicId: string; capturedAt: string };
-type Enrollment = { id: string; createdAt: string; status: string; organization?: string | null; images: FaceImage[] };
+type Enrollment = { id: string; createdAt: string; status: string; organization?: string | null; isWanted?: boolean; notes?: string | null; images: FaceImage[] };
 type UserRow = { id: string; name: string; email: string; role: string; organization?: string | null; createdAt: string; updatedAt: string; enrollments: Enrollment[] };
 
 export default function AdminDashboardPage() {
@@ -24,6 +25,7 @@ export default function AdminDashboardPage() {
   const [users, setUsers] = useState<UserRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState<number>(0);
+  const [wantedFilter, setWantedFilter] = useState<string>(""); // "" | "true" | "false"
 
   // Resolve role via server API
   useEffect(() => {
@@ -63,8 +65,9 @@ export default function AdminDashboardPage() {
           setLoading(false);
           return;
         }
-        const params = new URLSearchParams({ q: query, page: String(page), pageSize: String(pageSize) });
+  const params = new URLSearchParams({ q: query, page: String(page), pageSize: String(pageSize) });
         if (roleFilter) params.set("role", roleFilter);
+  if (wantedFilter) params.set("wanted", wantedFilter);
         params.set(email ? "email" : "id", email ?? id!);
         const res = await fetch(`/api/admin/users?${params.toString()}`, { credentials: "include" });
         if (res.status === 403) {
@@ -93,7 +96,7 @@ export default function AdminDashboardPage() {
       }
     }, 250);
     return () => clearTimeout(t);
-  }, [query, roleFilter, page, pageSize, session?.user?.email, session?.user?.id, router]);
+  }, [query, roleFilter, wantedFilter, page, pageSize, session?.user?.email, session?.user?.id, router]);
 
   async function getSignedUrl(publicId: string) {
     try {
@@ -111,10 +114,18 @@ export default function AdminDashboardPage() {
           <h1 className="text-2xl text-white font-semibold">Admin Dashboard</h1>
           <p className="text-sm text-white/70">Search by name, organization, or email to view user details and images.</p>
 
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-5 gap-3">
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-6 gap-3">
             <div className="sm:col-span-2">
               <Label htmlFor="search" className="py-2">Search</Label>
               <Input id="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Jane, Savannah Gates, jane@example.com" className="bg-[#031422] border-white/8 text-white" />
+            </div>
+            <div>
+              <Label htmlFor="wanted" className="py-2">Wanted</Label>
+              <select id="wanted" value={wantedFilter} onChange={(e) => { setWantedFilter(e.target.value); setPage(1); }} className="w-full h-10 rounded-md bg-[#031422] border border-white/8 text-white">
+                <option value="">All</option>
+                <option value="true">Wanted only</option>
+                <option value="false">Non-wanted only</option>
+              </select>
             </div>
             <div>
               <Label htmlFor="role" className="py-2">Role</Label>
@@ -173,7 +184,33 @@ export default function AdminDashboardPage() {
                         <div className="p-3">
                           <div className="flex items-center justify-between text-white/80 text-sm">
                             <div>Enrollment: {new Date(en.createdAt).toLocaleString()}</div>
-                            <div>Status: {en.status}</div>
+                            <div className="flex items-center gap-2">
+                              <span>Status: {en.status}</span>
+                              {en.isWanted && (
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <button className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-600/80 text-white hover:bg-red-600 cursor-pointer">
+                                      Wanted
+                                    </button>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-[360px] bg-[#071528] border border-white/10 text-white">
+                                    <div className="space-y-2">
+                                      <div className="text-sm font-semibold">Reason</div>
+                                      <div className="text-sm text-white/80">{en.notes ? en.notes : "No reason provided"}</div>
+                                      <Separator className="my-2 bg-white/10" />
+                                      <div className="grid grid-cols-2 gap-2">
+                                        {en.images.length === 0 && (
+                                          <div className="text-xs text-white/60">No photos</div>
+                                        )}
+                                        {en.images.map((img) => (
+                                          <ImageThumb key={img.id} publicId={img.cloudinaryPublicId} capturedAt={img.capturedAt} getSignedUrl={getSignedUrl} />
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </PopoverContent>
+                                </Popover>
+                              )}
+                            </div>
                           </div>
                           <div className="mt-3 grid grid-cols-3 gap-2">
                             {en.images.length === 0 && <div className="text-white/60 text-sm">No images</div>}

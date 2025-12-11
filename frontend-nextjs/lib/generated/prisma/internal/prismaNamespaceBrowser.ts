@@ -138,6 +138,7 @@ export const EnrollmentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   organization: 'organization',
+  isWanted: 'isWanted',
   notes: 'notes',
   photosCount: 'photosCount',
   status: 'status',

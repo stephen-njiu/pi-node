@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend (Next.js)
 
-## Getting Started
+Savannah Gates’ frontend is a modern, accessible Next.js App Router UI:
 
-First, run the development server:
+- Pages
 
-```bash
+  - Home: polished landing with strong contrast, motion, real previews (`/pic1.png`…`/pic6.png`), and an anchored organization registration form (mailto)
+  - Enroll: camera capture + upload (1–5 images), pipeline to FastAPI embeddings → Cloudinary → Prisma/Neon
+  - Wanted Enroll: admin‑only upload with required reason; flags `Enrollment.isWanted=true`
+  - Dashboard: admin‑only, org‑scoped results, wanted filter, image previews via signed Cloudinary URLs and a “Wanted” popover showing reason
+  - 404: global `app/not-found.tsx` with a helpful UI
+
+- Global layout
+
+  - Responsive Navbar (SG branding, hamburger menu with ARIA)
+  - Footer (Savannah Gates links, support email)
+  - Toaster (sonner) configured in `app/layout.tsx`
+
+- Auth & access control
+  - Better Auth client hooks
+  - Server‑side admin validation within APIs (email/id provided by session)
+
+## Requirements
+
+- Node 18+
+- Environment variables (examples):
+  - `NEXT_PUBLIC_APP_URL` (FastAPI base URL)
+  - Cloudinary credentials (`cloud_name`, `api_key`, `api_secret`) or `CLOUDINARY_URL` (validated in server route)
+
+## Develop locally
+
+```powershell
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key routes (API)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/api/user-role` – resolve role from session (ADMIN required for dashboard)
+- `/api/organizations` – list orgs for selection
+- `/api/enroll` – upsert user + enrollment + images (persists `isWanted`)
+- `/api/cloudinary/upload` – server‑side upload to Cloudinary (private) with folder support
+- `/api/cloudinary/sign-url` – generate short‑lived signed URL for private assets
+- `/api/admin/users` – admin search with org scoping + wanted filter; returns enrollments with `notes` and images
 
-## Learn More
+## UX notes
 
-To learn more about Next.js, take a look at the following resources:
+- Strong contrast, no white‑on‑white text
+- Keyboard and screen reader friendly menus and popovers
+- Mobile‑first layouts for all pages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+— Made with 💙 from Silicon Savannah 💙

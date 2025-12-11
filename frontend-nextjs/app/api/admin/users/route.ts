@@ -8,7 +8,8 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
     const q = (searchParams.get("q") || "").trim();
-    const role = (searchParams.get("role") || "").trim();
+  const role = (searchParams.get("role") || "").trim();
+  const wantedParam = (searchParams.get("wanted") || "").trim(); // "true" | "false" | ""
     // Client-provided organization will be ignored; enforce org from requester
     const _clientOrganization = (searchParams.get("organization") || "").trim();
     // Identify requester (admin) via email or id
@@ -57,8 +58,15 @@ export async function GET(req: NextRequest) {
       AND.push({ role });
     }
 
-  // Enforce server-side organization scoping by Users.organization
+    // Enforce server-side organization scoping by Users.organization
   AND.push({ organization: enforcedOrganization });
+
+    // Wanted filter
+    if (wantedParam === "true") {
+      AND.push({ enrollments: { some: { isWanted: true } } });
+    } else if (wantedParam === "false") {
+      AND.push({ enrollments: { some: { isWanted: false } } });
+    }
 
     if (AND.length > 0) whereClause.AND = AND;
 
@@ -87,6 +95,8 @@ export async function GET(req: NextRequest) {
             createdAt: true,
             status: true,
             organization: true,
+            isWanted: true,
+            notes: true,
             images: {
               orderBy: { capturedAt: "desc" },
               take: 6,

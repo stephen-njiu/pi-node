@@ -6,13 +6,14 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, organization, role, notes, images } = body as {
+    const { name, email, organization, role, notes, images, isWanted } = body as {
       name: string;
       email: string;
       organization: string;
       role?: "VIEWER" | "GATEKEEPER" | "ADMIN";
       notes?: string;
       images: string[]; // Cloudinary public_id list
+      isWanted?: boolean;
     };
 
     if (!email || !name || !organization) {
@@ -45,9 +46,10 @@ export async function POST(req: Request) {
       data: {
         userId: user.id,
         organization,
+        isWanted: Boolean(isWanted),
         notes,
         photosCount: images.length,
-        status: "PENDING",
+        status: "PROCESSED",
       },
     });
 

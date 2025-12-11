@@ -243,13 +243,15 @@ export default function EnrollPage() {
     try {
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:8000";
 
-      // 1) Send images + metadata to backend embeddings API
+  // 1) Send images + metadata to backend embeddings API
       const form = new FormData();
       form.append("fullName", fullName);
       form.append("email", email);
       form.append("organization", organization);
       form.append("role", role);
       form.append("notes", notes);
+  // Ensure embeddings API receives wanted=false for standard enrollments
+  form.append("wanted", "false");
   // The FastAPI expects the field name 'files' (see Python script)
   photos.forEach((p, idx) => form.append("files", p.blob, `photo_${idx + 1}.jpg`));
 
@@ -292,13 +294,25 @@ export default function EnrollPage() {
           role,
           notes,
           images: publicIds,
+          isWanted: false,
         }),
       });
       const enrollJson = await enrollRes.json();
       if (!enrollRes.ok) throw new Error(enrollJson?.error ?? `Enroll upsert failed: ${enrollRes.status}`);
 
-      toast.success("Enrollment complete: backend, Cloudinary, and Postgres updated");
-      setUploadProgress(null);
+  toast.success("Enrollment complete: backend, Cloudinary, and Postgres updated");
+  // Reset form and photos for the next enrollment
+  setFullName("");
+  setEmail("");
+  setOrganization("");
+  setRole("VIEWER");
+  setNotes("");
+  resetPhotos();
+  setUploadProgress(null);
+        // Reload the browser to fully refresh state
+        if (typeof window !== "undefined") {
+          try { window.location.reload(); } catch {}
+        }
     } catch (err: any) {
       console.error(err);
       toast.error(err?.message ?? "Registration failed");
