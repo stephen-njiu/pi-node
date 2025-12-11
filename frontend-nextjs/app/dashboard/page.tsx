@@ -10,14 +10,13 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 type FaceImage = { id: string; cloudinaryPublicId: string; capturedAt: string };
-type Enrollment = { id: string; createdAt: string; status: string; images: FaceImage[] };
-type UserRow = { id: string; name: string; email: string; organization: string | null; role: string; createdAt: string; updatedAt: string; enrollments: Enrollment[] };
+type Enrollment = { id: string; createdAt: string; status: string; organization?: string | null; images: FaceImage[] };
+type UserRow = { id: string; name: string; email: string; role: string; organization?: string | null; createdAt: string; updatedAt: string; enrollments: Enrollment[] };
 
 export default function AdminDashboardPage() {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const [currentRole, setCurrentRole] = useState<string | undefined>();
-  const [currentOrg, setCurrentOrg] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("");
   const [page, setPage] = useState<number>(1);
@@ -42,21 +41,7 @@ export default function AdminDashboardPage() {
     loadRole();
   }, [session?.user?.email, session?.user?.id]);
 
-  // Resolve current organization for default filter
-  useEffect(() => {
-    async function loadOrg() {
-      try {
-        const email = session?.user?.email;
-        const id = session?.user?.id as string | undefined;
-        if (!email && !id) return;
-        const params = new URLSearchParams(email ? { email } : { id: id! });
-        const res = await fetch(`/api/me/organization?${params.toString()}`, { credentials: "include" });
-        const json = await res.json();
-        if (res.ok) setCurrentOrg(json.organization ?? null);
-      } catch {}
-    }
-    loadOrg();
-  }, [session?.user?.email, session?.user?.id]);
+  // No client-side org filter; server enforces org from the admin's user record
 
   // Admin gate
   useEffect(() => {
@@ -66,15 +51,27 @@ export default function AdminDashboardPage() {
     }
   }, [isPending, currentRole, router]);
 
-  // Fetch users by query, role, and pagination
+  // Fetch users by query, role, and pagination with server-side org scoping (email/id required)
   useEffect(() => {
     const t = setTimeout(async () => {
       try {
         setLoading(true);
+        const email = session?.user?.email;
+        const id = session?.user?.id as string | undefined;
+        if (!email && !id) {
+          // Wait for session to resolve
+          setLoading(false);
+          return;
+        }
         const params = new URLSearchParams({ q: query, page: String(page), pageSize: String(pageSize) });
         if (roleFilter) params.set("role", roleFilter);
-        if (currentOrg) params.set("organization", currentOrg);
+        params.set(email ? "email" : "id", email ?? id!);
         const res = await fetch(`/api/admin/users?${params.toString()}`, { credentials: "include" });
+        if (res.status === 403) {
+          toast.error("Access restricted: admin only");
+          router.replace("/");
+          return;
+        }
         const contentType = res.headers.get("content-type") || "";
         if (!contentType.includes("application/json")) {
           toast.error("Failed to load users (unexpected response). Are you signed in as admin?");
@@ -96,7 +93,7 @@ export default function AdminDashboardPage() {
       }
     }, 250);
     return () => clearTimeout(t);
-  }, [query, roleFilter, page, pageSize]);
+  }, [query, roleFilter, page, pageSize, session?.user?.email, session?.user?.id, router]);
 
   async function getSignedUrl(publicId: string) {
     try {
@@ -110,17 +107,17 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-svh text-white flex items-center justify-center px-4 py-10 bg-[#0a0f1a]">
       <Card className="w-full max-w-6xl border border-white/10 bg-[#0d1628] shadow-2xl">
-        <div className="p-6 md:p-8">
-          <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
+        <div className="p-6 md:p-8 text-white">
+          <h1 className="text-2xl text-white font-semibold">Admin Dashboard</h1>
           <p className="text-sm text-white/70">Search by name, organization, or email to view user details and images.</p>
 
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-5 gap-3">
             <div className="sm:col-span-2">
-              <Label htmlFor="search">Search</Label>
+              <Label htmlFor="search" className="py-2">Search</Label>
               <Input id="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Jane, Savannah Gates, jane@example.com" className="bg-[#031422] border-white/8 text-white" />
             </div>
             <div>
-              <Label htmlFor="role">Role</Label>
+              <Label htmlFor="role" className="py-2">Role</Label>
               <select id="role" value={roleFilter} onChange={(e) => { setRoleFilter(e.target.value); setPage(1); }} className="w-full h-10 rounded-md bg-[#031422] border border-white/8 text-white">
                 <option value="">All</option>
                 <option value="VIEWER">Viewer</option>
@@ -129,7 +126,7 @@ export default function AdminDashboardPage() {
               </select>
             </div>
             <div>
-              <Label htmlFor="pageSize">Page size</Label>
+              <Label htmlFor="pageSize" className="py-2">Page size</Label>
               <select id="pageSize" value={pageSize} onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }} className="w-full h-10 rounded-md bg-[#031422] border border-white/8 text-white">
                 <option value={10}>10</option>
                 <option value={20}>20</option>
@@ -192,8 +189,8 @@ export default function AdminDashboardPage() {
               </Card>
             ))}
             <div className="flex items-center justify-end gap-2">
-              <Button variant="outline" className="border-white/20" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</Button>
-              <Button variant="outline" className="border-white/20" disabled={page * pageSize >= total} onClick={() => setPage((p) => p + 1)}>Next</Button>
+              <Button variant="outline" className="border-white/20 text-black" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</Button>
+              <Button variant="outline" className="border-white/20 text-black" disabled={page * pageSize >= total} onClick={() => setPage((p) => p + 1)}>Next</Button>
             </div>
           </div>
         </div>

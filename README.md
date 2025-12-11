@@ -22,7 +22,6 @@ A production-ready, scalable, offline-safe, push-based facial recognition gate s
   - Real-time alerts via WebSocket
 - Media Relay Server
   - Receives single Pi WebRTC stream and redistributes to multiple viewers
-
 ## Key Design Decisions
 
 - Push-based sync via MQTT with acknowledgments (no polling)

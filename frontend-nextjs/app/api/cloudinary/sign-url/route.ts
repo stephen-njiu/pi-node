@@ -1,5 +1,5 @@
 export const runtime = "nodejs";
-export const dynamic = "force";
+export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 // @ts-ignore: cloudinary has no type declarations in this project

@@ -50,6 +50,8 @@ export default function EnrollPage() {
   const [email, setEmail] = useState("");
   const [organization, setOrganization] = useState("");
   const [organizations, setOrganizations] = useState<string[]>([]);
+  const [orgLoading, setOrgLoading] = useState<boolean>(true);
+  const [orgError, setOrgError] = useState<string>("");
   const [role, setRole] = useState("VIEWER");
   const [notes, setNotes] = useState("");
 
@@ -90,9 +92,12 @@ export default function EnrollPage() {
   useEffect(() => {
     async function loadOrganizations() {
       try {
-        const res = await fetch("/api/me/organization", { credentials: "include" });
+        setOrgLoading(true);
+        setOrgError("");
+        const res = await fetch("/api/organizations", { credentials: "include" });
         const contentType = res.headers.get("content-type") || "";
         if (!contentType.includes("application/json")) {
+          setOrgError("Unexpected response from server");
           return; // avoid throwing on HTML redirects
         }
         const json = await res.json();
@@ -101,8 +106,14 @@ export default function EnrollPage() {
           if (!organization && json.organizations.length > 0) {
             setOrganization(json.organizations[0]);
           }
+        } else {
+          setOrgError(json?.error || "Failed to load organizations");
         }
-      } catch (e) {}
+      } catch (e: any) {
+        setOrgError(e?.message || "Failed to load organizations");
+      } finally {
+        setOrgLoading(false);
+      }
     }
     loadOrganizations();
   }, []);
@@ -253,7 +264,11 @@ export default function EnrollPage() {
       });
 
       const res = await fetch(`${appUrl}/api/v1/embeddings`, { method: "POST", body: form });
-      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      if (!res.ok){
+         throw new Error(`Server error: ${res.status}`)
+         console.log("Embeddings API response not OK");
+      }
+      else console.log("Embeddings API response OK");
       await res.json();
 
       // 2) Upload images to Cloudinary (private) via server helper
@@ -405,7 +420,13 @@ export default function EnrollPage() {
                   onChange={(e) => setOrganization(e.target.value)}
                   className="bg-[#031422] border border-white/8 rounded-md px-3 py-2 text-white"
                 >
-                  {organizations.length === 0 && <option value="">Loading…</option>}
+                  {orgLoading && <option value="">Loading…</option>}
+                  {!orgLoading && organizations.length === 0 && (
+                    <option value="" disabled>No organizations found</option>
+                  )}
+                  {orgError && !orgLoading && (
+                    <option value="" disabled>Error: {orgError}</option>
+                  )}
                   {organizations.map((org) => (
                     <option key={org} value={org}>{org}</option>
                   ))}

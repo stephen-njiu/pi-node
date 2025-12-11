@@ -23,6 +23,7 @@ model User {
   emailVerified Boolean      @default(false)
   image         String?
   role          UserRole     @default(VIEWER)
+  organization  String?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @default(now()) @updatedAt
   sessions      Session[]
@@ -30,6 +31,7 @@ model User {
   enrollments   Enrollment[]
 
   @@unique([email])
+  @@index([organization])
   @@map("user")
 }
 

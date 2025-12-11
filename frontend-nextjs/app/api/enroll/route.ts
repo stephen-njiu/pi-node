@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
+import { PrismaClient } from "@/lib/generated/prisma/client";
 // Create a PrismaClient instance (avoid global singleton since user removed it)
 const prisma = new PrismaClient();
 
@@ -23,18 +22,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No images provided" }, { status: 400 });
     }
 
-    // Upsert user by email (user model intentionally does NOT store organization)
+    // Upsert user by email and ensure organization is stored on the user
     const user = await prisma.user.upsert({
       where: { email },
       update: {
         name,
         role: role ?? undefined,
+        organization,
         updatedAt: new Date(),
       },
       create: {
         id: crypto.randomUUID(),
         name,
         email,
+        organization,
         role: role ?? "VIEWER",
       },
     });
