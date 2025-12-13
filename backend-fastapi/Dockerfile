@@ -1,6 +1,4 @@
 # syntax=docker/dockerfile:1
-# FastAPI backend for Gate Access
-
 FROM python:3.11-slim AS base
 
 # -------------------------
@@ -11,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/app/backend-fastapi
 
 # -------------------------
-# System deps (for opencv, onnxruntime, insightface)
+# System deps
 # -------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -25,23 +23,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app/backend-fastapi
 
 # -------------------------
-# Install Python dependencies first (better caching)
+# Copy dependencies and install
 # -------------------------
-COPY backend-fastapi/requirements.txt backend-fastapi/extras-ml.txt ./
+COPY requirements.txt extras-ml.txt ./
 RUN pip install --no-cache-dir -r requirements.txt -r extras-ml.txt
 
 # -------------------------
-# Copy backend source code (without nested folder)
+# Copy source code
 # -------------------------
-COPY backend-fastapi/ ./
+COPY . .
 
 # -------------------------
-# Expose FastAPI port
+# Expose port
 # -------------------------
 EXPOSE 8000
 
 # -------------------------
-# Default environment (override in Railway)
+# Default environment variables
 # -------------------------
 ENV FG_EMBEDDING_BACKEND=onnx_arcface \
     FG_ARC_FACE_ONNX_PATH=models/arcface.onnx \
@@ -49,6 +47,6 @@ ENV FG_EMBEDDING_BACKEND=onnx_arcface \
     FG_PINECONE_NAMESPACE=__default__
 
 # -------------------------
-# Start FastAPI server
+# Start server
 # -------------------------
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
