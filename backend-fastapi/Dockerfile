@@ -7,7 +7,8 @@ FROM python:3.11-slim AS base
 # Environment
 # -------------------------
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app/backend-fastapi
 
 # -------------------------
 # System deps (for opencv, onnxruntime, insightface)
@@ -24,15 +25,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app/backend-fastapi
 
 # -------------------------
-# Install Python dependencies first for caching
+# Install Python dependencies first (better caching)
 # -------------------------
 COPY backend-fastapi/requirements.txt backend-fastapi/extras-ml.txt ./
 RUN pip install --no-cache-dir -r requirements.txt -r extras-ml.txt
 
 # -------------------------
-# Copy backend contents (not the folder itself)
+# Copy backend source code (without nested folder)
 # -------------------------
-COPY backend-fastapi/ . 
+COPY backend-fastapi/ ./
 
 # -------------------------
 # Expose FastAPI port
@@ -40,7 +41,7 @@ COPY backend-fastapi/ .
 EXPOSE 8000
 
 # -------------------------
-# Default environment (can override in Railway)
+# Default environment (override in Railway)
 # -------------------------
 ENV FG_EMBEDDING_BACKEND=onnx_arcface \
     FG_ARC_FACE_ONNX_PATH=models/arcface.onnx \
