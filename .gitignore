@@ -135,3 +135,6 @@ temp_uploads/
 
 docker-data/
 docker-compose.override.yml
+.dockerignore
+docker-compose.override.yaml
+*.Dockerfile
