@@ -265,23 +265,31 @@ export default function EnrollPage() {
         }, 180);
       });
 
-      const res = await fetch(`${appUrl}/api/v1/embeddings`, { method: "POST", body: form });
-      if (!res.ok){
-         throw new Error(`Server error: ${res.status}`)
-         console.log("Embeddings API response not OK");
-      }
-      else console.log("Embeddings API response OK");
-      await res.json();
-
-      // 2) Upload images to Cloudinary (private) via server helper
+      // 1) Embeddings + 2) Cloudinary in parallel
       const cloudForm = new FormData();
       photos.forEach((p, idx) => cloudForm.append("files", p.blob, `photo_${idx + 1}.jpg`));
       cloudForm.append("folder", "faces");
-      const cloudRes = await fetch(`/api/cloudinary/upload`, { method: "POST", body: cloudForm });
-      if (!cloudRes.ok) throw new Error(`Cloudinary upload failed: ${cloudRes.status}`);
-      const cloudJson = await cloudRes.json();
-      const publicIds: string[] = (cloudJson?.items ?? []).map((i: any) => i.public_id);
-      if (!publicIds.length) throw new Error("No public_ids returned from Cloudinary");
+
+      const embeddingsPromise = fetch(`${appUrl}/api/v1/embeddings`, { method: "POST", body: form })
+        .then(async (res) => {
+          if (!res.ok) throw new Error(`Embeddings server error: ${res.status}`);
+          const json = await res.json();
+          return json; // keep if you need ids later
+        });
+
+      const cloudPromise = fetch(`/api/cloudinary/upload`, { method: "POST", body: cloudForm })
+        .then(async (res) => {
+          if (!res.ok) throw new Error(`Cloudinary upload failed: ${res.status}`);
+          const json = await res.json();
+          const ids: string[] = (json?.items ?? []).map((i: any) => i.public_id);
+          if (!ids.length) throw new Error("No public_ids returned from Cloudinary");
+          return ids;
+        });
+
+      // Wait for Cloudinary (we need public_ids), but embeddings continues in parallel
+      const publicIds = await cloudPromise;
+      // Ensure embeddings succeeded before final toast/commit
+      await embeddingsPromise;
 
       // 3) Upsert metadata + public_ids to Postgres
       const enrollRes = await fetch(`/api/enroll`, {
@@ -300,7 +308,7 @@ export default function EnrollPage() {
       const enrollJson = await enrollRes.json();
       if (!enrollRes.ok) throw new Error(enrollJson?.error ?? `Enroll upsert failed: ${enrollRes.status}`);
 
-  toast.success("Enrollment complete: backend, Cloudinary, and Postgres updated");
+  toast.success("Enrollment complete: Facial Data, Images, and Postgres updated");
   // Reset form and photos for the next enrollment
   setFullName("");
   setEmail("");

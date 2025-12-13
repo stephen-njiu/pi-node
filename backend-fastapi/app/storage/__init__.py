@@ -17,6 +17,7 @@ def get_store():
             api_key=settings.PINECONE_API_KEY,
             index_name=settings.PINECONE_INDEX,
             namespace=settings.PINECONE_NAMESPACE,
+            host=settings.PINECONE_INDEX_HOST,
         )
     # default fallback to local jsonl store
     return LocalJsonlStore(settings.LOCAL_STORE_PATH)

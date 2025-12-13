@@ -3,10 +3,11 @@ from dataclasses import dataclass
 from typing import List, Optional
 import hashlib
 import numpy as np
+import os
 
 try:
     import onnxruntime as ort  # type: ignore
-except Exception:  # pragma: no cover - optional
+except Exception:
     ort = None  # type: ignore
 
 from ..config.settings import settings
@@ -15,7 +16,7 @@ from ..utils.image import load_image_to_rgb, resize_for_arcface
 
 @dataclass
 class Embedding:
-    vector: np.ndarray  # shape (D,)
+    vector: np.ndarray
     model: str
 
 
@@ -25,21 +26,16 @@ class BaseEmbeddingBackend:
 
 
 class MockEmbeddingBackend(BaseEmbeddingBackend):
-    """Deterministic mock embeddings derived from SHA256 of bytes.
-    Useful for development without ML dependencies.
-    """
+    """Deterministic mock embeddings derived from SHA256 of bytes."""
 
     def __init__(self, dim: int = 512):
         self.dim = dim
 
     def _bytes_to_vec(self, b: bytes) -> np.ndarray:
-        # Expand SHA256 digest deterministically to dim elements
         h = hashlib.sha256(b).digest()
-        # Repeat digest to exceed desired dim
         repeats = (self.dim * 4 + len(h) - 1) // len(h)
         buf = (h * repeats)[: self.dim]
         arr = np.frombuffer(buf, dtype=np.uint8).astype(np.float32)
-        # Normalize to unit vector
         norm = np.linalg.norm(arr) or 1.0
         return arr / norm
 
@@ -50,18 +46,39 @@ class MockEmbeddingBackend(BaseEmbeddingBackend):
 class OnnxArcFaceBackend(BaseEmbeddingBackend):
     def __init__(self, model_path: str, assume_aligned: bool = True):
         if ort is None:
-            raise RuntimeError("onnxruntime not available. Install optional ML deps.")
-        self.session = ort.InferenceSession(model_path, providers=["CPUExecutionProvider"])  # noqa: S603
+            raise RuntimeError("onnxruntime not available. Install optional ML dependencies.")
+
+        # Ensure model exists; download if URL is provided
+        if not os.path.exists(model_path):
+            url = getattr(settings, "ARC_FACE_ONNX_URL", None)
+            if url:
+                os.makedirs(os.path.dirname(model_path), exist_ok=True)
+                try:
+                    import urllib.request
+                    urllib.request.urlretrieve(url, model_path)
+                except Exception as e:
+                    raise RuntimeError(f"Failed to download ArcFace ONNX from {url}: {e}")
+            else:
+                raise RuntimeError(
+                    f"ArcFace ONNX model not found at '{model_path}'. "
+                    "Set ARC_FACE_ONNX_PATH to a valid file or provide FG_ARC_FACE_ONNX_URL to auto-download."
+                )
+
+        # Prefer GPU if available
+        providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
+        available_providers = ort.get_available_providers() if ort else []
+        used_providers = [p for p in providers if p in available_providers]
+        if not used_providers:
+            raise RuntimeError(f"No available ONNX Runtime providers found. Tried: {providers}")
+
+        self.session = ort.InferenceSession(model_path, providers=used_providers)
         self.input_name = self.session.get_inputs()[0].name
         self.assume_aligned = assume_aligned
 
     def _preprocess(self, b: bytes) -> np.ndarray:
-        from PIL import Image  # local import to avoid hard dep if unused
         img = load_image_to_rgb(b)
-        # For MVP we assume the image is already a face crop/aligned
         arr = resize_for_arcface(img)
-        # Add batch dim
-        arr = np.expand_dims(arr, axis=0)
+        arr = np.expand_dims(arr, axis=0)  # Add batch dim
         return arr
 
     def _postprocess(self, out: np.ndarray) -> np.ndarray:

@@ -47,8 +47,11 @@ def _get_detector() -> Any:
     if FaceAnalysis is None:
         raise RuntimeError("insightface not installed. Install extras-ml.txt to enable SCRFD.")
     root = _resolve_root(settings.INSIGHTFACE_ROOT)
+    # Ensure root directory exists (for auto-download/cache)
+    if root:
+        os.makedirs(root, exist_ok=True)
     # Initialize FaceAnalysis with SCRFD only to avoid downloading extra modules
-    app = FaceAnalysis(name='buffalo_l', root=root, allowed_modules=['detection'])  # includes SCRFD
+    app = FaceAnalysis(name=settings.INSIGHTFACE_MODEL_NAME, root=root, allowed_modules=['detection'])  # includes SCRFD
     app.prepare(ctx_id=0, det_size=(640, 640))
     DETECTOR = app
     return DETECTOR

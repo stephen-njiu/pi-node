@@ -1,117 +1,159 @@
 from __future__ import annotations
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query
-from fastapi.responses import JSONResponse
+
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Form
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import List, Optional, Tuple
-import numpy as np
+from typing import List, Optional
+from uuid import uuid4
 
 from .config.settings import settings
 from .services.embedding import EmbeddingService
-from .storage import get_store
 from .utils.image import load_image_to_rgb
 from .utils.augment import generate_variants
 from .utils.face import detect_and_align
 
+# =========================
+# Pinecone
+# =========================
+try:
+    from pinecone.grpc import PineconeGRPC as Pinecone
+except Exception:
+    from pinecone import Pinecone  # fallback
+
+# =========================
+# App
+# =========================
 app = FastAPI(title="Gate Backend API", version="0.1.0")
 
+# =========================
+# Startup
+# =========================
+@app.on_event("startup")
+async def startup_event():
+    # Embedding service
+    app.state.embedding_service = EmbeddingService()
 
+    # Validate settings
+    if not settings.PINECONE_API_KEY or not settings.PINECONE_INDEX_HOST:
+        raise RuntimeError("❌ Pinecone settings missing")
+
+    pc = Pinecone(api_key=settings.PINECONE_API_KEY)
+    index = pc.Index(host=settings.PINECONE_INDEX_HOST)
+
+    app.state.pinecone_index = index
+    app.state.pinecone_namespace = settings.PINECONE_NAMESPACE
+
+# =========================
+# Models
+# =========================
 class EmbeddingItem(BaseModel):
-    id: Optional[str] = None
-    vector: List[float] = Field(..., description="L2-normalized embedding vector")
-
+    id: Optional[str]
+    vector: List[float]
 
 class EmbeddingResponse(BaseModel):
-    person_id: Optional[str] = None
+    person_id: Optional[str]
     count: int
     items: List[EmbeddingItem]
-    stored: bool = False
+    stored: bool
     store: str
 
-
 def get_embedding_service() -> EmbeddingService:
-    return EmbeddingService()
+    return app.state.embedding_service  # type: ignore
 
-from fastapi.middleware.cors import CORSMiddleware
-
+# =========================
+# CORS
+# =========================
+origins_cfg = settings.ALLOW_ORIGINS or "http://localhost:3000,http://127.0.0.1:3000"
+allow_origins = [o.strip() for o in origins_cfg.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
+# =========================
+# Routes
+# =========================
 @app.get("/health")
 async def health():
-    return {"status": "ok", "backend": settings.EMBEDDING_BACKEND, "store": settings.VECTOR_STORE}
-
+    return {
+        "status": "ok",
+        "backend": settings.EMBEDDING_BACKEND,
+        "store": "pinecone",
+    }
 
 @app.post(f"{settings.API_PREFIX}/embeddings", response_model=EmbeddingResponse)
 async def create_embeddings(
-    files: List[UploadFile] = File(..., description="Up to 5 images"),
+    files: List[UploadFile] = File(...),
     person_id: Optional[str] = None,
-    augment: bool = Query(default=True, description="Generate augmented variants per image (default: true)"),
-    aug_per_image: int = Query(default=3, ge=0, le=5, description="Max augmented variants per image (<=5, default: 3)"),
+    augment: bool = Query(default=True),
+    aug_per_image: int = Query(default=3, ge=0, le=5),
+    fullName: str = Form(...),
+    email: str = Form(...),
+    organization: str = Form(...),
+    role: str = Form(...),
+    wanted: bool = Form(...),
+    notes: Optional[str] = Form(None),
     svc: EmbeddingService = Depends(get_embedding_service),
 ):
     if not files:
-        raise HTTPException(status_code=400, detail="No files uploaded")
+        raise HTTPException(400, "No files uploaded")
     if len(files) > 5:
-        raise HTTPException(status_code=400, detail="Maximum of 5 images allowed")
+        raise HTTPException(400, "Maximum of 5 images allowed")
 
-    # Read all bytes, detect+align face, then optionally create augmented variants
     images_bytes: List[bytes] = []
+
     for f in files:
-        b = await f.read()
-        try:
-            img = load_image_to_rgb(b)
-            aligned = detect_and_align(img) if not settings.ASSUME_ALIGNED else img
-            if aligned is None:
-                # if detection failed, fallback to original
-                aligned = img
-            # encode aligned crop to bytes
-            import io
-            buf = io.BytesIO()
-            aligned.save(buf, format="JPEG", quality=95)
-            images_bytes.append(buf.getvalue())
-        except Exception:
-            images_bytes.append(b)
+        raw = await f.read()
+        img = load_image_to_rgb(raw)
+        aligned = detect_and_align(img) if not settings.ASSUME_ALIGNED else img
+        aligned = aligned or img
 
-        if augment and aug_per_image > 0:
-            try:
-                # Generate variants from the aligned crop
-                img_for_aug = aligned if 'aligned' in locals() and aligned is not None else load_image_to_rgb(b)
-                variants = generate_variants(img_for_aug, max_variants=aug_per_image, allow_flip=False)
-                for name, aug_img in variants:
-                    # encode to jpeg bytes
-                    import io
-                    buf = io.BytesIO()
-                    aug_img.save(buf, format="JPEG", quality=90)
-                    images_bytes.append(buf.getvalue())
-            except Exception:
-                # if augmentation fails, continue with original
-                pass
+        import io
+        buf = io.BytesIO()
+        aligned.save(buf, format="JPEG", quality=95)
+        images_bytes.append(buf.getvalue())
 
-    # Compute embeddings
+        if augment:
+            for _, aug in generate_variants(aligned, aug_per_image, allow_flip=False):
+                buf = io.BytesIO()
+                aug.save(buf, format="JPEG", quality=90)
+                images_bytes.append(buf.getvalue())
+
     embeddings = svc.embed_many(images_bytes)
-    vectors = [emb.vector.astype(float).tolist() for emb in embeddings]
+    vectors = [e.vector.tolist() for e in embeddings]
 
-    # Store vectors
-    stored_ids: List[str] = []
-    stored = False
-    store_name = settings.VECTOR_STORE
+    index = app.state.pinecone_index
+    namespace = app.state.pinecone_namespace
+
+    meta = {
+        "person_id": person_id,
+        "fullName": fullName,
+        "email": email,
+        "organization": organization,
+        "role": role,
+        "notes": notes,
+        "wanted": wanted,
+    }
+    meta = {k: v for k, v in meta.items() if v is not None}
+
+    records, ids = [], []
+    for v in vectors:
+        _id = str(uuid4())
+        ids.append(_id)
+        records.append({"id": _id, "values": v, "metadata": meta})
+
     try:
-        store = get_store()
-        stored_items = store.upsert_many(vectors=vectors, person_id=person_id, metadata={"source": "upload"})
-        stored_ids = [it.id for it in stored_items]
-        stored = True
+        index.upsert(vectors=records, namespace=namespace)
     except Exception as e:
-        # Fallback: don't crash; return embeddings without storing
-        stored = False
+        raise HTTPException(502, f"Pinecone upsert failed: {e}")
 
-    items = [EmbeddingItem(id=(stored_ids[i] if i < len(stored_ids) else None), vector=vectors[i]) for i in range(len(vectors))]
-    return EmbeddingResponse(person_id=person_id, count=len(items), items=items, stored=stored, store=store_name)
+    return EmbeddingResponse(
+        person_id=person_id,
+        count=len(ids),
+        items=[EmbeddingItem(id=ids[i], vector=vectors[i]) for i in range(len(ids))],
+        stored=True,
+        store="pinecone",
+    )

@@ -3,36 +3,50 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    # Embedding backend: 'mock' (default) or 'onnx_arcface'
-    EMBEDDING_BACKEND: str = "mock"
+    # ===============================
+    # Embeddings
+    # ===============================
+    EMBEDDING_BACKEND: str = "onnx_arcface"
 
-    # ONNX model path for ArcFace (when EMBEDDING_BACKEND=onnx_arcface)
-    ARC_FACE_ONNX_PATH: Optional[str] = None
+    ARC_FACE_ONNX_PATH: Optional[str] = "models/arcface.onnx"
+    ARC_FACE_ONNX_URL: Optional[str] = None
 
-    # Assume uploaded images are already face-cropped/aligned
-    # Default false for raw camera images: enables detection+alignment in pipeline
     ASSUME_ALIGNED: bool = False
 
-    # Storage: 'local' (jsonl) or 'pinecone'
-    VECTOR_STORE: str = "local"
+    # ===============================
+    # Vector Store
+    # ===============================
+    VECTOR_STORE: str = "pinecone"
 
-    # Local store path
     LOCAL_STORE_PATH: str = "data/embeddings.jsonl"
 
-    # Pinecone config (optional for later)
+    # 🔑 Pinecone (ALL via Pydantic)
     PINECONE_API_KEY: Optional[str] = None
     PINECONE_INDEX: Optional[str] = None
-    PINECONE_ENV: Optional[str] = None
-    PINECONE_NAMESPACE: str = "default"
+    PINECONE_INDEX_HOST: Optional[str] = None
+    PINECONE_NAMESPACE: str = "__default__"
 
+    # ===============================
     # API
+    # ===============================
     API_PREFIX: str = "/api/v1"
+    # Comma-separated CORS origins (with FG_ prefix), e.g.,
+    # FG_ALLOW_ORIGINS="http://localhost:3000,http://127.0.0.1:3000,https://myapp.com"
+    ALLOW_ORIGINS: Optional[str] = None
 
-    # InsightFace (SCRFD) model root for offline use. If provided, models are loaded from here.
-    # Place the model zoo folder (e.g., `buffalo_l`) inside this directory.
+    # ===============================
+    # InsightFace
+    # ===============================
     INSIGHTFACE_ROOT: Optional[str] = "models"
+    INSIGHTFACE_MODEL_NAME: str = "buffalo_l"
+    INSIGHTFACE_ALLOW_AUTO_DOWNLOAD: bool = True
 
-    model_config = SettingsConfigDict(env_file=".env", env_prefix="FG_", case_sensitive=False)
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_prefix="FG_",
+        case_sensitive=False,
+        extra="ignore",
+    )
 
 
 settings = Settings()

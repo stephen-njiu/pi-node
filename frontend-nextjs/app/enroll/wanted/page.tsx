@@ -156,21 +156,29 @@ export default function WantedEnrollPage() {
         }, 180);
       });
 
-      const res = await fetch(`${appUrl}/api/v1/embeddings`, { method: "POST", body: form });
-      if (!res.ok){
-        throw new Error(`Server error: ${res.status}`)
-      }
-      await res.json();
-
-      // 2) Upload images to Cloudinary
+      // 1) Embeddings + 2) Cloudinary in parallel
       const cloudForm = new FormData();
       uploadPhotos.forEach((p, idx) => cloudForm.append("files", p.file, `wanted_${idx + 1}.jpg`));
       cloudForm.append("folder", "faces/wanted");
-      const cloudRes = await fetch(`/api/cloudinary/upload`, { method: "POST", body: cloudForm });
-      if (!cloudRes.ok) throw new Error(`Cloudinary upload failed: ${cloudRes.status}`);
-      const cloudJson = await cloudRes.json();
-      const publicIds: string[] = (cloudJson?.items ?? []).map((i: any) => i.public_id);
-      if (!publicIds.length) throw new Error("No public_ids returned from Cloudinary");
+
+      const embeddingsPromise = fetch(`${appUrl}/api/v1/embeddings`, { method: "POST", body: form })
+        .then(async (res) => {
+          if (!res.ok) throw new Error(`Embeddings server error: ${res.status}`);
+          const json = await res.json();
+          return json;
+        });
+
+      const cloudPromise = fetch(`/api/cloudinary/upload`, { method: "POST", body: cloudForm })
+        .then(async (res) => {
+          if (!res.ok) throw new Error(`Cloudinary upload failed: ${res.status}`);
+          const json = await res.json();
+          const ids: string[] = (json?.items ?? []).map((i: any) => i.public_id);
+          if (!ids.length) throw new Error("No public_ids returned from Cloudinary");
+          return ids;
+        });
+
+      const publicIds = await cloudPromise; // need these for enroll
+      await embeddingsPromise; // ensure embeddings succeeded
 
       // 3) Upsert metadata + public_ids to Postgres with isWanted=true
       const enrollRes = await fetch(`/api/enroll`, {

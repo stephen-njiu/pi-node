@@ -1,0 +1,27 @@
+# Ignore everything not needed for the backend image
+# Root-level artifacts
+../frontend-nextjs
+../visacc
+../README.md
+../requirements.txt
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node / editor / vcs
+node_modules/
+.git/
+.gitignore
+.vscode/
+
+# Local environments
+**/.env*
+.env.local
+.env.development
+.env
+
+# Large local model/zoo (optional to keep image small; models auto-download)
+models/
