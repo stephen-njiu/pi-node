@@ -93,6 +93,41 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+          
+          {/* Profile Link - only for signed-in users */}
+          {session?.user && (
+            <Link
+              href="/profile"
+              className={`px-3 py-1.5 rounded text-sm ${pathname === "/profile" ? "bg-white text-black" : "text-white hover:bg-white/10"}`}
+              aria-current={pathname === "/profile" ? "page" : undefined}
+            >
+              Profile
+            </Link>
+          )}
+
+          {/* Login/Logout Button */}
+          {session?.user ? (
+            <Button
+              onClick={async () => {
+                await authClient.signOut();
+                toast.success("Signed out successfully");
+                router.push("/");
+              }}
+              variant="outline"
+              size="sm"
+              className="border-white/30 text-white hover:bg-white hover:text-black"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              onClick={() => router.push("/signin")}
+              size="sm"
+              className="bg-linear-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-600 hover:to-emerald-700"
+            >
+              Login
+            </Button>
+          )}
         </nav>
 
         {/* Mobile hamburger */}
@@ -143,6 +178,48 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+
+          {/* Profile Link - Mobile - only for signed-in users */}
+          {session?.user && (
+            <Link
+              href="/profile"
+              className={`px-3 py-2 rounded text-sm ${pathname === "/profile" ? "bg-white text-black" : "text-white hover:bg-white/10"}`}
+              aria-current={pathname === "/profile" ? "page" : undefined}
+              onClick={() => setOpen(false)}
+            >
+              Profile
+            </Link>
+          )}
+
+          {/* Login/Logout Button - Mobile */}
+          <div className="pt-2 border-t border-white/10 mt-2">
+            {session?.user ? (
+              <Button
+                onClick={async () => {
+                  await authClient.signOut();
+                  toast.success("Signed out successfully");
+                  setOpen(false);
+                  router.push("/");
+                }}
+                variant="outline"
+                size="sm"
+                className="w-full border-white/30 text-white hover:bg-white hover:text-black"
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  setOpen(false);
+                  router.push("/signin");
+                }}
+                size="sm"
+                className="w-full bg-linear-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-600 hover:to-emerald-700"
+              >
+                Login
+              </Button>
+            )}
+          </div>
         </nav>
       </div>
     </header>

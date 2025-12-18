@@ -4,8 +4,6 @@ import { authClient } from "@/lib/auth-client";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-// If you haven't added shadcn avatar yet, you can create a simple inline avatar.
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 
