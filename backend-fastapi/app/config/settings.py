@@ -4,6 +4,11 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # ===============================
+    # Environment
+    # ===============================
+    ENVIRONMENT: str = "development"  # Set to "production" in Railway
+
+    # ===============================
     # Embeddings
     # ===============================
     EMBEDDING_BACKEND: str = "onnx_arcface"

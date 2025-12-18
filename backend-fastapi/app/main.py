@@ -2,9 +2,12 @@ from __future__ import annotations
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from uuid import uuid4
+import os
 
 from .config.settings import settings
 from .services.embedding import EmbeddingService
@@ -23,7 +26,15 @@ except Exception:
 # =========================
 # App
 # =========================
-app = FastAPI(title="Gate Backend API", version="0.1.0")
+# Disable docs in production (set ENVIRONMENT=production in Railway)
+is_production = os.getenv("ENVIRONMENT", "development") == "production"
+
+app = FastAPI(
+    title="Gate Backend API", 
+    version="0.1.0",
+    docs_url=None,  # Disable default docs, we'll create custom one
+    redoc_url="/redoc" if not is_production else None,
+)
 
 # =========================
 # Startup
@@ -72,6 +83,23 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# =========================
+# Custom Docs (Read-Only)
+# =========================
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    """
+    Custom Swagger UI with "Try it out" disabled.
+    Only shows API documentation without interactive testing.
+    """
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url,
+        title=app.title + " - Documentation",
+        swagger_ui_parameters={
+            "supportedSubmitMethods": [],  # Disables "Try it out" buttons
+        }
+    )
 
 # =========================
 # Routes
