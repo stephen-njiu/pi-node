@@ -115,7 +115,7 @@ export default function Navbar() {
               }}
               variant="outline"
               size="sm"
-              className="border-white/30 text-white hover:bg-white hover:text-black"
+              className="border-white/30 text-black hover:bg-white hover:text-black"
             >
               Logout
             </Button>
@@ -203,7 +203,7 @@ export default function Navbar() {
                 }}
                 variant="outline"
                 size="sm"
-                className="w-full border-white/30 text-white hover:bg-white hover:text-black"
+                className="w-full border-white/30 text-black hover:bg-white hover:text-black"
               >
                 Logout
               </Button>
