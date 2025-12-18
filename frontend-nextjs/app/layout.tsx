@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Reliable Access ",
-  description: "Modern Facial Gate Access Control System",
+  title: "SG - Savannah-Gates",
+  description: "Facial Gate Access Control System",
 };
 
 export default function RootLayout({

@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function HomePage() {
   return (
-    <div className="min-h-svh bg-gradient-to-b from-[#0b1224] via-[#0c152c] to-[#0e1936] text-white">
+    <div className="min-h-svh bg-linear-to-b from-[#0b1224] via-[#0c152c] to-[#0e1936] text-white">
       {/* HERO */}
       <section className="mx-auto max-w-6xl px-4 pt-14 pb-10 md:pt-24 md:pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -163,9 +163,140 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* PRICING */}
+      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white">Simple, Transparent Pricing</h2>
+          <p className="mt-2 text-white/80">Local monitoring is free. Pay only for remote access.</p>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Free Tier */}
+          <Card className="border-white/15 bg-[#121e3a] p-6 flex flex-col">
+            <div className="text-sm text-emerald-300/90 font-medium">FREE</div>
+            <div className="mt-2 text-3xl font-bold text-white">KES 0<span className="text-lg text-white/60">/month</span></div>
+            <div className="mt-1 text-sm text-white/70">Local monitoring included with hardware</div>
+            <Separator className="my-6 bg-white/10" />
+            <ul className="space-y-3 flex-1 text-sm text-white/80">
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Unlimited local network viewing</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Face recognition on Pi nodes</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>30-day access logs (local)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Email support (48-hour response)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-white/40 mt-0.5">✗</span>
+                <span className="text-white/50">No remote viewing</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-white/40 mt-0.5">✗</span>
+                <span className="text-white/50">No cloud alerts</span>
+              </li>
+            </ul>
+            <Button variant="outline" className="hover:text-white mt-6 w-full border-white/30 text-black hover:bg-white/10">
+              Get Started
+            </Button>
+          </Card>
+
+          {/* Remote Access */}
+          <Card className="border-emerald-400/40 bg-linear-to-br from-[#132349] to-[#1a2f58] p-6 flex flex-col relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-400 text-black text-xs font-semibold px-3 py-1 rounded-full">
+              MOST POPULAR
+            </div>
+            <div className="text-sm text-emerald-300/90 font-medium">REMOTE ACCESS</div>
+            <div className="mt-2 text-3xl font-bold text-white">KES 2,500<span className="text-lg text-white/60">/month</span></div>
+            <div className="mt-1 text-sm text-white/70">View cameras from anywhere</div>
+            <Separator className="my-6 bg-white/10" />
+            <ul className="space-y-3 flex-1 text-sm text-white/80">
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Everything in Free, plus:</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Remote streaming (up to 5 gates)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Cloud-synced wanted database</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>WhatsApp alerts (wanted detected)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>90-day cloud logs</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>2 admin accounts</span>
+              </li>
+            </ul>
+            <Button className="mt-6 w-full bg-emerald-400 text-black hover:bg-emerald-500">
+              Start Remote Access
+            </Button>
+          </Card>
+
+          {/* Professional */}
+          <Card className="border-white/15 bg-[#121e3a] p-6 flex flex-col">
+            <div className="text-sm text-blue-300/90 font-medium">PROFESSIONAL</div>
+            <div className="mt-2 text-3xl font-bold text-white">KES 5,500<span className="text-lg text-white/60">/month</span></div>
+            <div className="mt-1 text-sm text-white/70">For multi-location organizations</div>
+            <Separator className="my-6 bg-white/10" />
+            <ul className="space-y-3 flex-1 text-sm text-white/80">
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Everything in Remote Access, plus:</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Up to 20 gates</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>Multi-location management</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>SMS + WhatsApp + Email alerts</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>180-day cloud logs</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-400 mt-0.5">✓</span>
+                <span>5 admin accounts & export reports</span>
+              </li>
+            </ul>
+            <Button variant="outline" className="hover:text-white mt-6 w-full border-white/30 text-black hover:bg-white/10">
+              Contact Sales
+            </Button>
+          </Card>
+        </div>
+
+        <div className="mt-8 text-center">
+          <p className="text-sm text-white/70">
+            Hardware setup from <span className="text-white font-semibold">KES 45,000</span> per gate • 
+            <span className="ml-1">Annual plans save 2 months</span>
+          </p>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <Card className="border-white/15 bg-gradient-to-br from-[#132349] to-[#1a2f58]">
+        <Card className="border-white/15 bg-linear-to-br from-[#132349] to-[#1a2f58]">
           <div className="p-6 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
             <div>
               <h3 className="text-xl md:text-2xl text-white font-semibold">Ready to streamline access?</h3>
