@@ -3,8 +3,11 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useCurrency, formatPrice } from "@/lib/use-currency";
 
 export default function HomePage() {
+  const { currency, rate } = useCurrency();
+
   return (
     <div className="min-h-svh bg-linear-to-b from-[#0b1224] via-[#0c152c] to-[#0e1936] text-white">
       {/* HERO */}
@@ -174,7 +177,7 @@ export default function HomePage() {
           {/* Free Tier */}
           <Card className="border-white/15 bg-[#121e3a] p-6 flex flex-col">
             <div className="text-sm text-emerald-300/90 font-medium">FREE</div>
-            <div className="mt-2 text-3xl font-bold text-white">KES 0<span className="text-lg text-white/60">/month</span></div>
+            <div className="mt-2 text-3xl font-bold text-white">{formatPrice(0, currency, rate)}<span className="text-lg text-white/60">/month</span></div>
             <div className="mt-1 text-sm text-white/70">Local monitoring included with hardware</div>
             <Separator className="my-6 bg-white/10" />
             <ul className="space-y-3 flex-1 text-sm text-white/80">
@@ -214,7 +217,7 @@ export default function HomePage() {
               MOST POPULAR
             </div>
             <div className="text-sm text-emerald-300/90 font-medium">REMOTE ACCESS</div>
-            <div className="mt-2 text-3xl font-bold text-white">KES 2,500<span className="text-lg text-white/60">/month</span></div>
+            <div className="mt-2 text-3xl font-bold text-white">{formatPrice(2500, currency, rate)}<span className="text-lg text-white/60">/month</span></div>
             <div className="mt-1 text-sm text-white/70">View cameras from anywhere</div>
             <Separator className="my-6 bg-white/10" />
             <ul className="space-y-3 flex-1 text-sm text-white/80">
@@ -251,7 +254,7 @@ export default function HomePage() {
           {/* Professional */}
           <Card className="border-white/15 bg-[#121e3a] p-6 flex flex-col">
             <div className="text-sm text-blue-300/90 font-medium">PROFESSIONAL</div>
-            <div className="mt-2 text-3xl font-bold text-white">KES 5,500<span className="text-lg text-white/60">/month</span></div>
+            <div className="mt-2 text-3xl font-bold text-white">{formatPrice(5500, currency, rate)}<span className="text-lg text-white/60">/month</span></div>
             <div className="mt-1 text-sm text-white/70">For multi-location organizations</div>
             <Separator className="my-6 bg-white/10" />
             <ul className="space-y-3 flex-1 text-sm text-white/80">
@@ -288,7 +291,7 @@ export default function HomePage() {
 
         <div className="mt-8 text-center">
           <p className="text-sm text-white/70">
-            Hardware setup from <span className="text-white font-semibold">KES 45,000</span> per gate • 
+            Hardware setup from <span className="text-white font-semibold">{formatPrice(45000, currency, rate)}</span> per gate • 
             <span className="ml-1">Annual plans save 2 months</span>
           </p>
         </div>
