@@ -25,7 +25,22 @@ Savannah Gates’ frontend is a modern, accessible Next.js App Router UI:
 - Node 18+
 - Environment variables (examples):
   - `NEXT_PUBLIC_APP_URL` (FastAPI base URL)
+  - `BETTER_AUTH_URL` (Your production URL, e.g., https://your-app.vercel.app)
+  - `BETTER_AUTH_SECRET` (Generate using: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
+  - `DATABASE_URL` (PostgreSQL connection string)
+  - `GOOGLE_CLIENT_ID` (Google OAuth client ID)
+  - `GOOGLE_CLIENT_SECRET` (Google OAuth client secret)
   - Cloudinary credentials (`cloud_name`, `api_key`, `api_secret`) or `CLOUDINARY_URL` (validated in server route)
+
+### Generating BETTER_AUTH_SECRET
+
+To generate a secure random secret for Better Auth, run:
+
+```powershell
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Copy the output and set it as your `BETTER_AUTH_SECRET` environment variable.
 
 ## Develop locally
 

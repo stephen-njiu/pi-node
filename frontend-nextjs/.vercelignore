@@ -1,0 +1,6 @@
+# Ignore these during Vercel build
+
+node_modules
+.env.local
+.env*.local
+*.log

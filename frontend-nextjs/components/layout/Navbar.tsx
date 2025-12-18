@@ -43,13 +43,33 @@ export default function Navbar() {
   }, [session]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navItems[0]) => {
-    if (item.protected && userRole !== "ADMIN") {
-      e.preventDefault();
-      setOpen(false);
+    // Only check protected pages
+    if (!item.protected) {
+      return;
+    }
+
+    e.preventDefault();
+    setOpen(false);
+
+    // Step 1: Check if user is signed in
+    if (!session?.user) {
+      toast.error("Authentication Required", {
+        description: "Please sign in to access this page.",
+      });
+      router.push("/signin");
+      return;
+    }
+
+    // Step 2: Check if user is admin
+    if (userRole !== "ADMIN") {
       toast.error("Access Denied", {
         description: "You need to be an admin of an institution to access this page.",
       });
+      return;
     }
+
+    // Step 3: All checks passed, navigate
+    router.push(item.href);
   };
 
   return (
