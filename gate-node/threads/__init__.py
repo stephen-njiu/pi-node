@@ -13,18 +13,18 @@ import numpy as np
 class FaceOverlay:
     """Face overlay data for UI display."""
     bbox: tuple  # (x1, y1, x2, y2)
-    name: Optional[str] = None
-    status: Optional[str] = None
-    confidence: float = 0.0
     track_id: int = 0
+    status: Optional[str] = None
+    person_name: Optional[str] = None
+    confidence: float = 0.0
 
 
 @dataclass
 class UIFrame:
     """Frame data for UI thread."""
     frame: np.ndarray
-    overlays: List[FaceOverlay]
-    gate_status: str = "CLOSED"
+    faces: List[FaceOverlay]
+    gate_state: str = "CLOSED"
     timestamp: float = 0.0
 
 

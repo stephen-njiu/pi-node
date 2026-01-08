@@ -1,11 +1,14 @@
 """Core module for gate control and state management."""
 
-from .track_state import TrackStateManager
-from .gate_control import GateController, DecisionEngine, AccessStatus, GateAction, AccessDecision
-
-# Aliases for compatibility
-TrackStatus = AccessStatus
-GateDecision = AccessDecision
+from .track_state import TrackStateManager, TrackStatus, TrackState
+from .gate_control import (
+    GateController,
+    DecisionEngine,
+    GateDecision,
+    GateState,
+    GateAction,
+    AccessDecision,
+)
 
 
 def create_gate_controller_from_config(config) -> GateController:
@@ -22,10 +25,11 @@ def create_gate_controller_from_config(config) -> GateController:
 __all__ = [
     "TrackStateManager",
     "TrackStatus",
+    "TrackState",
     "GateController",
     "GateDecision",
+    "GateState",
     "DecisionEngine",
-    "AccessStatus",
     "GateAction",
     "AccessDecision",
     "create_gate_controller_from_config",

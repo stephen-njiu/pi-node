@@ -205,6 +205,25 @@ class StreamThread(threading.Thread):
             "viewers": self.viewers,
             "url": self.livekit_url
         }
+    
+    def put_frame(self, frame: np.ndarray):
+        """
+        Put a frame to the stream (alias for push_frame).
+        Compatible with main.py's expected interface.
+        """
+        self.push_frame(frame)
+    
+    def send_alert(self, alert_type: str, frame: np.ndarray):
+        """
+        Send an alert with frame to the stream.
+        
+        Args:
+            alert_type: Type of alert ("WANTED", "UNKNOWN", etc.)
+            frame: Frame to include with alert
+        """
+        logger.warning(f"ALERT: {alert_type} detected - sending to stream")
+        # For now, just push the frame. In future, could add overlay or metadata
+        self.push_frame(frame)
 
 
 class MockStreamThread(threading.Thread):
@@ -236,6 +255,14 @@ class MockStreamThread(threading.Thread):
     
     def push_frame(self, frame: np.ndarray):
         pass  # Discard
+    
+    def put_frame(self, frame: np.ndarray):
+        """Alias for push_frame."""
+        pass  # Discard
+    
+    def send_alert(self, alert_type: str, frame: np.ndarray):
+        """Log alert (no actual streaming)."""
+        logger.info(f"Mock alert: {alert_type}")
     
     def get_status(self) -> dict:
         return {

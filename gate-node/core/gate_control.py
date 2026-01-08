@@ -6,7 +6,7 @@ Handles gate hardware control and access decisions.
 import threading
 import time
 from enum import Enum
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Callable
 import logging
 
@@ -14,11 +14,18 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class AccessStatus(Enum):
-    """Face recognition status."""
+class GateDecision(Enum):
+    """Decision result for gate access."""
     AUTHORIZED = "AUTHORIZED"
     UNKNOWN = "UNKNOWN"
     WANTED = "WANTED"
+
+
+class GateState(Enum):
+    """Gate physical state."""
+    OPEN = "OPEN"
+    CLOSED = "CLOSED"
+    ERROR = "ERROR"
 
 
 class GateAction(Enum):
@@ -31,13 +38,17 @@ class GateAction(Enum):
 class AccessDecision:
     """Result of access decision."""
     action: GateAction
-    status: AccessStatus
+    decision: GateDecision
     track_id: int
     face_id: Optional[str]
     user_id: Optional[str]
     name: Optional[str]
     confidence: float
     reason: str
+    value: str = field(init=False)
+    
+    def __post_init__(self):
+        self.value = self.decision.value
 
 
 class GateController:
@@ -65,17 +76,33 @@ class GateController:
         self._is_open = False
         self._last_open_time = 0.0
         self._close_timer: Optional[threading.Timer] = None
+        self._initialized = False
+        
+        # Stats
+        self._stats = {
+            "total_opens": 0,
+            "authorized_opens": 0,
+            "wanted_opens": 0,
+            "rejected_unknown": 0,
+        }
         
         # Callback for state changes
         self.on_state_change: Optional[Callable[[bool], None]] = None
-        
-        self._init_gpio()
     
-    def _init_gpio(self):
+    @property
+    def state(self) -> GateState:
+        """Get current gate state."""
+        return GateState.OPEN if self._is_open else GateState.CLOSED
+    
+    def initialize(self) -> bool:
         """Initialize GPIO for relay control."""
+        if self._initialized:
+            return True
+        
         if not self.gpio_enabled:
             logger.info("GPIO disabled - gate control in simulation mode")
-            return
+            self._initialized = True
+            return True
         
         try:
             import RPi.GPIO as GPIO
@@ -89,21 +116,39 @@ class GateController:
             GPIO.output(self.relay_pin, initial)
             
             logger.info(f"GPIO initialized on pin {self.relay_pin}")
+            self._initialized = True
+            return True
             
         except ImportError:
             logger.warning("RPi.GPIO not available - running in simulation mode")
             self.gpio_enabled = False
+            self._initialized = True
+            return True
         except Exception as e:
             logger.error(f"GPIO initialization failed: {e}")
-            self.gpio_enabled = False
+            return False
     
-    def open_gate(self) -> bool:
+    def open_gate(
+        self,
+        decision: GateAction = None,
+        person_id: str = None,
+        track_id: int = None,
+        confidence: float = 0.0
+    ) -> bool:
         """
         Open the gate for configured duration.
         Returns True if gate was opened, False if in cooldown.
         """
         with self._lock:
             now = time.time()
+            
+            # Track stats based on decision
+            if decision:
+                self._stats["total_opens"] += 1
+                if decision == GateAction.OPEN or (hasattr(decision, 'value') and decision.value == "AUTHORIZED"):
+                    self._stats["authorized_opens"] += 1
+                elif hasattr(decision, 'value') and decision.value == "WANTED":
+                    self._stats["wanted_opens"] += 1
             
             # Check cooldown
             if now - self._last_open_time < self.cooldown and self._is_open:
@@ -129,6 +174,11 @@ class GateController:
                 self.on_state_change(True)
             
             return True
+    
+    def reject(self, track_id: int = None):
+        """Record a rejection (unknown person)."""
+        with self._lock:
+            self._stats["rejected_unknown"] += 1
     
     def close_gate(self):
         """Immediately close the gate."""
@@ -174,6 +224,47 @@ class GateController:
         with self._lock:
             return self._is_open
     
+    def get_stats(self) -> dict:
+        """Get gate operation statistics."""
+        with self._lock:
+            return self._stats.copy()
+    
+    def cleanup(self):
+        """Cleanup GPIO resources."""
+        if self._close_timer:
+            self._close_timer.cancel()
+        
+        if self._gpio and self.gpio_enabled:
+            try:
+                self._gpio.cleanup(self.relay_pin)
+            except Exception as e:
+                logger.error(f"GPIO cleanup error: {e}")
+            self._set_relay(False)
+            self._is_open = False
+            self._close_timer = None
+            
+            logger.info("Gate auto-closed")
+            
+            if self.on_state_change:
+                self.on_state_change(False)
+    
+    def _set_relay(self, open_state: bool):
+        """Set relay GPIO state."""
+        if self._gpio and self.gpio_enabled:
+            if self.active_low:
+                # Active low: LOW = relay on = gate open
+                value = self._gpio.LOW if open_state else self._gpio.HIGH
+            else:
+                # Active high: HIGH = relay on = gate open
+                value = self._gpio.HIGH if open_state else self._gpio.LOW
+            
+            self._gpio.output(self.relay_pin, value)
+    
+    def is_open(self) -> bool:
+        """Check if gate is currently open."""
+        with self._lock:
+            return self._is_open
+    
     def cleanup(self):
         """Cleanup GPIO resources."""
         if self._close_timer:
@@ -191,104 +282,60 @@ class DecisionEngine:
     Makes access decisions based on recognition results.
     
     Decision logic:
-    - AUTHORIZED: Open gate
+    - AUTHORIZED: Open gate (if confidence above threshold)
     - UNKNOWN: Keep closed (deny access)
     - WANTED: Open gate (to capture/detain), trigger alert
     """
     
     def __init__(
         self,
-        gate_controller: GateController,
-        on_alert: Optional[Callable[[AccessDecision], None]] = None
+        confidence_threshold: float = 0.6,
+        wanted_confidence_threshold: float = 0.5,
     ):
-        self.gate_controller = gate_controller
-        self.on_alert = on_alert  # Callback for UNKNOWN/WANTED alerts
+        self.confidence_threshold = confidence_threshold
+        self.wanted_confidence_threshold = wanted_confidence_threshold
     
-    def decide(
+    def make_decision(
         self,
-        track_id: int,
-        status: str,
-        face_id: Optional[str] = None,
-        user_id: Optional[str] = None,
-        name: Optional[str] = None,
-        confidence: float = 0.0
-    ) -> AccessDecision:
+        match_found: bool,
+        person_id: Optional[str] = None,
+        confidence: float = 0.0,
+        status: str = "AUTHORIZED",
+    ) -> GateDecision:
         """
         Make access decision based on recognition result.
         
         Args:
-            track_id: Tracker ID
-            status: Recognition status (AUTHORIZED, UNKNOWN, WANTED)
-            face_id: Matched face ID
-            user_id: Matched user ID
-            name: Matched user name
-            confidence: Recognition confidence
+            match_found: Whether a match was found in the database
+            person_id: ID of the matched person (if found)
+            confidence: Recognition confidence score
+            status: Status from database (AUTHORIZED, WANTED)
         
         Returns:
-            AccessDecision with action and details
+            GateDecision enum value
         """
-        try:
-            access_status = AccessStatus(status)
-        except ValueError:
-            access_status = AccessStatus.UNKNOWN
+        if not match_found:
+            logger.info(f"ACCESS DENIED: No match found")
+            return GateDecision.UNKNOWN
         
-        decision = None
+        # Check if wanted
+        if status.upper() == "WANTED":
+            if confidence >= self.wanted_confidence_threshold:
+                logger.warning(f"⚠️ WANTED DETECTED: {person_id} (confidence: {confidence:.2f})")
+                return GateDecision.WANTED
+            else:
+                logger.info(f"Low confidence wanted match: {person_id} ({confidence:.2f})")
+                return GateDecision.UNKNOWN
         
-        if access_status == AccessStatus.AUTHORIZED:
-            # Grant access
-            decision = AccessDecision(
-                action=GateAction.OPEN,
-                status=access_status,
-                track_id=track_id,
-                face_id=face_id,
-                user_id=user_id,
-                name=name,
-                confidence=confidence,
-                reason=f"Authorized user: {name or 'Unknown'}"
-            )
-            self.gate_controller.open_gate()
-            logger.info(f"ACCESS GRANTED: {name} (confidence: {confidence:.2f})")
-            
-        elif access_status == AccessStatus.WANTED:
-            # Open gate to capture (security protocol)
-            # But also trigger alert
-            decision = AccessDecision(
-                action=GateAction.OPEN,
-                status=access_status,
-                track_id=track_id,
-                face_id=face_id,
-                user_id=user_id,
-                name=name,
-                confidence=confidence,
-                reason=f"WANTED individual detected: {name or 'Unknown'}"
-            )
-            self.gate_controller.open_gate()
-            logger.warning(f"⚠️ WANTED DETECTED: {name} - Gate opened for capture")
-            
-            # Trigger alert
-            if self.on_alert:
-                self.on_alert(decision)
-            
-        else:  # UNKNOWN
-            # Deny access
-            decision = AccessDecision(
-                action=GateAction.CLOSE,
-                status=access_status,
-                track_id=track_id,
-                face_id=None,
-                user_id=None,
-                name=None,
-                confidence=confidence,
-                reason="Unknown individual - access denied"
-            )
-            logger.info(f"ACCESS DENIED: Unknown face (confidence: {confidence:.2f})")
-            
-            # Trigger alert for unknown
-            if self.on_alert:
-                self.on_alert(decision)
+        # Check if authorized
+        if status.upper() == "AUTHORIZED":
+            if confidence >= self.confidence_threshold:
+                logger.info(f"ACCESS GRANTED: {person_id} (confidence: {confidence:.2f})")
+                return GateDecision.AUTHORIZED
+            else:
+                logger.info(f"Low confidence match: {person_id} ({confidence:.2f})")
+                return GateDecision.UNKNOWN
         
-        return decision
-    
-    def get_gate_status(self) -> str:
-        """Get current gate status."""
-        return "OPEN" if self.gate_controller.is_open() else "CLOSED"
+        # Default to unknown
+        logger.info(f"Unknown status '{status}' for {person_id}")
+        return GateDecision.UNKNOWN

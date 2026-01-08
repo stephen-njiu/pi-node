@@ -5,6 +5,7 @@ Local node application for real-time facial recognition gate access control.
 ## Overview
 
 This application runs on a Raspberry Pi (or laptop for development) and provides:
+
 - Real-time face detection using SCRFD
 - Face recognition using ArcFace (512-dim embeddings)
 - IoU-based face tracking across frames
@@ -75,7 +76,6 @@ Download the ONNX models and place in `models/` directory:
 
 - **SCRFD** (Face Detection): `scrfd_10g_bnkps.onnx`
   - Source: InsightFace model zoo
-  
 - **ArcFace** (Face Recognition): `w600k_r50.onnx`
   - Source: InsightFace model zoo
   - Note: You may already have this in `backend-fastapi/models/buffalo_l/`
@@ -103,6 +103,7 @@ nano .env     # Linux/Mac
 ```
 
 Key settings:
+
 - `BACKEND_URL`: Your Railway FastAPI backend URL
 - `ORG_ID`: Your organization ID
 - `DISPLAY_MODE`: `continuous` (demo) or `alert_only` (production)
@@ -117,6 +118,7 @@ python main.py
 ## Display Modes
 
 ### Continuous Mode (Development/Demo)
+
 - Shows live video feed with all face detections
 - Green boxes for AUTHORIZED users
 - Orange boxes for UNKNOWN faces
@@ -124,6 +126,7 @@ python main.py
 - Good for demonstrations and debugging
 
 ### Alert-Only Mode (Production)
+
 - Shows idle dashboard screen
 - Only displays alert screen for UNKNOWN/WANTED faces
 - Alert shows for 5 seconds then returns to idle
@@ -168,16 +171,17 @@ python main.py
 ## Decision Logic
 
 | Face Status | Gate Action | Alert |
-|-------------|-------------|-------|
+| ----------- | ----------- | ----- |
 | AUTHORIZED  | OPEN        | No    |
 | UNKNOWN     | CLOSE       | Yes   |
-| WANTED      | OPEN*       | Yes   |
+| WANTED      | OPEN\*      | Yes   |
 
-*WANTED individuals trigger gate open for controlled capture scenario.
+\*WANTED individuals trigger gate open for controlled capture scenario.
 
 ## Hardware Setup (Raspberry Pi)
 
 ### Components
+
 - Raspberry Pi 4 (4GB+ recommended)
 - Pi Camera Module or USB webcam
 - 5V Relay module
@@ -185,6 +189,7 @@ python main.py
 - Electric gate/door strike
 
 ### GPIO Wiring
+
 ```
 Pi GPIO 17 ──────► Relay IN
 Pi 5V ───────────► Relay VCC
@@ -194,6 +199,7 @@ Relay NO/NC ─────► Gate/Door Strike
 ```
 
 ### Pi-Specific Setup
+
 ```bash
 # Enable camera
 sudo raspi-config
@@ -209,30 +215,34 @@ pip install RPi.GPIO
 
 ## Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `Q` | Quit application |
+| Key | Action              |
+| --- | ------------------- |
+| `Q` | Quit application    |
 | `M` | Toggle display mode |
 
 ## Troubleshooting
 
 ### Camera not found
+
 ```bash
 # Check available cameras
 python -c "import cv2; print([cv2.VideoCapture(i).isOpened() for i in range(5)])"
 ```
 
 ### Model loading fails
+
 - Ensure ONNX files are in `models/` directory
 - Check file permissions
 - Verify ONNX Runtime installation
 
 ### Low FPS
+
 - Reduce `CAMERA_WIDTH` and `CAMERA_HEIGHT`
 - Use `alert_only` display mode
 - Check CPU/memory usage with `htop`
 
 ### Backend sync fails
+
 - Verify `BACKEND_URL` is correct
 - Check network connectivity
 - Ensure backend `/api/v1/faces/sync` endpoint is working
@@ -240,6 +250,7 @@ python -c "import cv2; print([cv2.VideoCapture(i).isOpened() for i in range(5)])
 ## Development
 
 ### Running on Laptop (Demo Mode)
+
 ```bash
 # Disable GPIO, use webcam
 # In .env:
@@ -249,6 +260,7 @@ DISPLAY_MODE=continuous
 ```
 
 ### Testing Recognition
+
 1. First enroll faces via the web frontend
 2. Ensure backend sync completes (check logs)
 3. Face the camera - should see detection boxes

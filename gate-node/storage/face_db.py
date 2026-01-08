@@ -7,7 +7,7 @@ import json
 import os
 import threading
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List, Tuple
 import logging
 
 import numpy as np
@@ -54,7 +54,7 @@ class FaceDatabase:
         index_path: str = "data/faces.index",
         metadata_path: str = "data/faces_metadata.json",
         version_path: str = "data/sync_version.txt",
-        dim: int = 512,
+        dimension: int = 512,
         max_elements: int = 10000,
         ef_construction: int = 200,
         m: int = 16
@@ -62,7 +62,7 @@ class FaceDatabase:
         self.index_path = index_path
         self.metadata_path = metadata_path
         self.version_path = version_path
-        self.dim = dim
+        self.dim = dimension
         self.max_elements = max_elements
         self.ef_construction = ef_construction
         self.m = m
@@ -248,7 +248,7 @@ class FaceDatabase:
         embedding: np.ndarray,
         threshold: float = 0.5,
         k: int = 1
-    ) -> list[MatchResult]:
+    ) -> List[Tuple[str, float, dict]]:
         """
         Search for matching faces.
         Returns list of matches within threshold.
@@ -259,7 +259,7 @@ class FaceDatabase:
             k: Number of nearest neighbors to return
         
         Returns:
-            List of MatchResult sorted by distance (best first)
+            List of (person_id, distance, metadata) tuples sorted by distance
         """
         with self._lock:
             if not self._metadata:
@@ -283,15 +283,16 @@ class FaceDatabase:
                     for idx, dist in zip(labels[0], distances[0]):
                         if idx in self._metadata and dist <= threshold:
                             meta = self._metadata[idx]
-                            # Convert cosine distance to confidence (0-1)
-                            confidence = 1.0 - (dist / 2.0)
-                            results.append(MatchResult(
-                                face_id=meta["face_id"],
-                                user_id=meta["user_id"],
-                                name=meta["name"],
-                                status=meta["status"],
-                                distance=float(dist),
-                                confidence=confidence
+                            # Return as (person_id, distance, metadata)
+                            results.append((
+                                meta["face_id"],
+                                float(dist),
+                                {
+                                    "face_id": meta["face_id"],
+                                    "user_id": meta["user_id"],
+                                    "full_name": meta["name"],
+                                    "status": meta["status"]
+                                }
                             ))
                 except Exception as e:
                     logger.error(f"Search error: {e}")
@@ -305,15 +306,23 @@ class FaceDatabase:
                     dist = distances[idx]
                     if int(idx) in self._metadata and dist <= threshold:
                         meta = self._metadata[int(idx)]
-                        confidence = 1.0 - (dist / 2.0)
-                        results.append(MatchResult(
-                            face_id=meta["face_id"],
-                            user_id=meta["user_id"],
-                            name=meta["name"],
-                            status=meta["status"],
-                            distance=float(dist),
-                            confidence=confidence
+                        results.append((
+                            meta["face_id"],
+                            float(dist),
+                            {
+                                "face_id": meta["face_id"],
+                                "user_id": meta["user_id"],
+                                "full_name": meta["name"],
+                                "status": meta["status"]
+                            }
                         ))
+            
+            return results
+    
+    def count(self) -> int:
+        """Return the number of faces in the database."""
+        with self._lock:
+            return len(self._metadata)
             
             return results
     

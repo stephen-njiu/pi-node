@@ -122,29 +122,30 @@ class AccessLogger:
     
     def log_access(
         self,
-        gate_id: str,
-        track_id: int,
-        status: str,
-        decision: str,
-        confidence: float,
+        person_id: Optional[str] = None,
+        person_name: Optional[str] = None,
+        status: str = "UNKNOWN",
+        confidence: float = 0.0,
+        gate_id: str = "gate-001",
+        track_id: int = 0,
+        frame: Optional[np.ndarray] = None,
+        bbox: Optional[tuple] = None,
+        # Legacy parameters for backwards compatibility
         face_id: Optional[str] = None,
         user_id: Optional[str] = None,
         name: Optional[str] = None,
-        frame: Optional[np.ndarray] = None,
-        bbox: Optional[tuple] = None
+        decision: Optional[str] = None,
     ) -> int:
         """
         Log an access event.
         
         Args:
+            person_id: Person/face identifier
+            person_name: Person's full name
+            status: AUTHORIZED, UNKNOWN, or WANTED
+            confidence: Recognition confidence (0-1)
             gate_id: Gate identifier
             track_id: Track ID from tracker
-            status: AUTHORIZED, UNKNOWN, or WANTED
-            decision: OPEN or CLOSE
-            confidence: Recognition confidence (0-1)
-            face_id: Matched face ID if any
-            user_id: User ID if matched
-            name: User name if matched
             frame: Video frame for face crop
             bbox: Bounding box (x1, y1, x2, y2)
         
@@ -152,6 +153,11 @@ class AccessLogger:
             Event ID
         """
         timestamp = datetime.utcnow().isoformat() + "Z"
+        
+        # Handle legacy parameter names
+        actual_face_id = person_id or face_id
+        actual_name = person_name or name
+        actual_decision = decision or status
         
         # Encode face crop if provided
         face_crop_b64 = None
@@ -167,16 +173,21 @@ class AccessLogger:
                 (timestamp, gate_id, track_id, face_id, user_id, name, status, decision, confidence, face_crop_b64, synced)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
             """, (
-                timestamp, gate_id, track_id, face_id, user_id, name,
-                status, decision, confidence, face_crop_b64
+                timestamp, gate_id, track_id, actual_face_id, user_id, actual_name,
+                status, actual_decision, confidence, face_crop_b64
             ))
             
             event_id = cursor.lastrowid
             conn.commit()
             conn.close()
             
-            logger.info(f"Logged access event #{event_id}: {status} -> {decision}")
+            logger.info(f"Logged access event #{event_id}: {status} -> {actual_decision}")
             return event_id
+    
+    def close(self):
+        """Close database connection (cleanup)."""
+        # SQLite connections are handled per-operation, but we can do cleanup here
+        logger.info("Access logger closed")
     
     def get_unsynced_events(self, limit: int = 100) -> list[AccessEvent]:
         """Get events that haven't been synced to backend."""

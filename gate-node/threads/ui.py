@@ -91,6 +91,9 @@ class UIThread(threading.Thread):
         self._stop_event = threading.Event()
         self._gate_status = "CLOSED"
         
+        # Status info for display
+        self._status_info = {"face_count": 0, "sync_status": "Unknown"}
+        
         # Stats
         self.fps = 0.0
         self._frame_count = 0
@@ -241,10 +244,15 @@ class UIThread(threading.Thread):
         if frame.shape[1] != self.display_width or frame.shape[0] != self.display_height:
             frame = cv2.resize(frame, (self.display_width, self.display_height))
         
-        # Draw tracks
+        # Draw tracks (FaceOverlay objects)
         for track in data.tracks:
-            bbox = track.bbox.astype(int)
-            status = track.status or "DETECTING"
+            # Handle bbox as tuple or numpy array
+            if hasattr(track.bbox, 'astype'):
+                bbox = track.bbox.astype(int)
+            else:
+                bbox = tuple(int(x) for x in track.bbox)
+            
+            status = track.status or "PENDING"
             
             # Choose color
             if status == "AUTHORIZED":
@@ -257,8 +265,9 @@ class UIThread(threading.Thread):
             # Draw box
             cv2.rectangle(frame, (bbox[0], bbox[1]), (bbox[2], bbox[3]), color, 2)
             
-            # Draw label
-            label = f"{track.name or status}"
+            # Draw label - use person_name if available, otherwise status
+            name = getattr(track, 'person_name', None) or getattr(track, 'name', None)
+            label = name if name else status
             if track.confidence > 0:
                 label += f" ({track.confidence:.0%})"
             
@@ -450,3 +459,56 @@ class UIThread(threading.Thread):
             logger.info(f"Display mode set to: {self.mode.value}")
         except ValueError:
             logger.warning(f"Invalid display mode: {mode}")
+
+    def put_frame(self, ui_frame):
+        """
+        Put a UIFrame on the display queue.
+        Compatible with main.py's expected interface.
+        
+        Args:
+            ui_frame: UIFrame dataclass with frame, faces, gate_state, timestamp
+        """
+        if self.mode != DisplayMode.CONTINUOUS:
+            # In alert-only mode, check for alerts in faces
+            for face in ui_frame.faces:
+                if face.status in ("UNKNOWN", "WANTED"):
+                    self.show_alert(
+                        status=face.status,
+                        name=face.person_name,
+                        confidence=face.confidence,
+                    )
+            return
+        
+        # Create DisplayFrame for internal use
+        display_data = DisplayFrame(
+            frame=ui_frame.frame.copy(),
+            tracks=ui_frame.faces,  # Use faces as tracks
+            gate_status=ui_frame.gate_state,
+            timestamp=ui_frame.timestamp
+        )
+        
+        try:
+            # Drop old frame if queue full
+            if self._frame_queue.full():
+                try:
+                    self._frame_queue.get_nowait()
+                except queue.Empty:
+                    pass
+            self._frame_queue.put_nowait(display_data)
+        except queue.Full:
+            pass
+    
+    def update_status(self, face_count: int = 0, sync_status: str = "Unknown"):
+        """
+        Update status information displayed on screen.
+        
+        Args:
+            face_count: Number of faces in database
+            sync_status: Status of sync thread
+        """
+        # Store status for display in status bar
+        self._status_info = {
+            "face_count": face_count,
+            "sync_status": sync_status,
+        }
+
