@@ -1,0 +1,6 @@
+# Runtime data directory
+# This folder contains:
+# - faces.index (hnswlib index)
+# - faces_metadata.json (face metadata)
+# - logs.db (SQLite access logs)
+# - sync_version.txt (sync version tracker)

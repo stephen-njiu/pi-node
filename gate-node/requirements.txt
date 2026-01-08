@@ -1,0 +1,29 @@
+# Gate Node - Raspberry Pi 4B / Laptop Demo
+# Python 3.10+
+
+# Core
+numpy>=1.24.0
+opencv-python>=4.8.0  # Use opencv-python for HDMI display
+onnxruntime>=1.16.0   # Use onnxruntime-gpu if Coral TPU available
+
+# Vector search
+hnswlib>=0.8.0
+
+# HTTP client
+requests>=2.31.0
+
+# Tracking (DeepSORT-style)
+scipy>=1.11.0
+
+# MQTT for streaming commands
+paho-mqtt>=2.0.0
+
+# LiveKit streaming (optional - install separately if needed)
+# livekit>=0.11.0
+
+# GPIO (Pi only - uncomment on actual Raspberry Pi)
+# RPi.GPIO>=0.7.1
+
+# Utilities
+python-dotenv>=1.0.0
+Pillow>=10.0.0
