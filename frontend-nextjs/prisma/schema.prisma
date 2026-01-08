@@ -144,3 +144,32 @@ model OrganizationRegistration {
   @@index([email])
   @@map("organization_registration")
 }
+
+// --- Face embeddings for Pi sync ---
+// This table stores face embeddings for gate-node polling
+// Pi nodes poll this table to sync their local hnswlib index
+model Face {
+  id        String     @id // Same ID used in Pinecone
+  personId  String? // Optional person identifier
+  orgId     String // Organization this face belongs to
+  fullName  String // Person's full name
+  email     String? // Optional email
+  role      String? // Role at organization
+  status    FaceStatus @default(AUTHORIZED) // AUTHORIZED or WANTED
+  embedding Bytes // 512 floats as binary (2048 bytes)
+  imageUrl  String? // Optional reference image URL
+  notes     String? // Optional notes
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  deletedAt DateTime? // Soft delete for sync
+
+  @@index([orgId, updatedAt]) // Primary query index for Pi polling
+  @@index([orgId, status])
+  @@index([deletedAt])
+  @@map("face")
+}
+
+enum FaceStatus {
+  AUTHORIZED
+  WANTED
+}

@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     ALLOW_ORIGINS: Optional[str] = None
 
     # ===============================
+    # Postgres (for Pi sync)
+    # ===============================
+    # Database URL for face embeddings storage (same DB as Next.js/Prisma)
+    # FG_DATABASE_URL="postgresql://user:pass@host:5432/db"
+    DATABASE_URL: Optional[str] = None
+
+    # ===============================
     # InsightFace
     # ===============================
     INSIGHTFACE_ROOT: Optional[str] = "models"
