@@ -28,6 +28,14 @@ class StreamThread(threading.Thread):
     
     Streams camera feed to LiveKit server for remote viewing.
     Only active when admin requests live view.
+    
+    Frame Sources (in priority order):
+    1. CaptureThread's stream queue (if set) - SMOOTH, 15+ FPS
+    2. Internal frame queue (via put_frame()) - fallback
+    
+    Architecture:
+        CaptureThread → stream_queue → StreamThread → LiveKit → Admin Dashboard
+                                                              (smooth 15+ FPS)
     """
     
     def __init__(
@@ -36,7 +44,8 @@ class StreamThread(threading.Thread):
         gate_id: str,
         frame_width: int = 640,
         frame_height: int = 480,
-        fps: int = 15
+        fps: int = 15,
+        capture_thread=None  # Optional: CaptureThread for smooth frames
     ):
         super().__init__(name="StreamThread", daemon=True)
         
@@ -46,7 +55,10 @@ class StreamThread(threading.Thread):
         self.frame_height = frame_height
         self.fps = fps
         
+        # Frame source: capture thread (preferred) or internal queue (fallback)
+        self._capture_thread = capture_thread
         self._frame_queue: queue.Queue = queue.Queue(maxsize=5)
+        
         self._stop_event = threading.Event()
         self._streaming = False
         self._room = None
@@ -55,6 +67,12 @@ class StreamThread(threading.Thread):
         # Stats
         self.is_connected = False
         self.viewers = 0
+        self.frames_streamed = 0
+    
+    def set_capture_thread(self, capture_thread):
+        """Set capture thread for smooth frame source."""
+        self._capture_thread = capture_thread
+        logger.info("StreamThread: Using CaptureThread for smooth frames")
     
     def run(self):
         """Main streaming loop."""
@@ -64,19 +82,44 @@ class StreamThread(threading.Thread):
         
         logger.info("Stream thread started")
         
+        frame_interval = 1.0 / self.fps
+        
         while not self._stop_event.is_set():
             if self._streaming and self.is_connected:
-                try:
-                    frame = self._frame_queue.get(timeout=0.1)
+                loop_start = time.time()
+                
+                # Get frame from capture thread (preferred) or internal queue
+                frame = self._get_frame()
+                
+                if frame is not None:
                     self._publish_frame(frame)
-                except queue.Empty:
-                    pass
+                    self.frames_streamed += 1
+                
+                # Frame rate control for smooth streaming
+                elapsed = time.time() - loop_start
+                sleep_time = frame_interval - elapsed
+                if sleep_time > 0:
+                    time.sleep(sleep_time)
             else:
                 # Not streaming, sleep
                 self._stop_event.wait(timeout=1.0)
         
         self._disconnect()
-        logger.info("Stream thread stopped")
+        logger.info(f"Stream thread stopped. Frames streamed: {self.frames_streamed}")
+    
+    def _get_frame(self):
+        """Get frame from best available source."""
+        # Priority 1: Capture thread's stream queue (smooth, 15+ FPS)
+        if self._capture_thread is not None:
+            frame = self._capture_thread.get_stream_frame(timeout=0.05)
+            if frame is not None:
+                return frame
+        
+        # Priority 2: Internal queue (fallback, may be jittery)
+        try:
+            return self._frame_queue.get_nowait()
+        except queue.Empty:
+            return None
     
     def stop(self):
         """Signal thread to stop."""

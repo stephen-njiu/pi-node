@@ -36,10 +36,10 @@ class Config:
     CAMERA_FPS: int = field(default_factory=lambda: int(os.getenv("CAMERA_FPS", "15")))
     
     # =========================
-    # Models
+    # Models (default to backend-fastapi models)
     # =========================
-    SCRFD_MODEL_PATH: str = field(default_factory=lambda: os.getenv("SCRFD_MODEL_PATH", "models/scrfd_10g_bnkps.onnx"))
-    ARCFACE_MODEL_PATH: str = field(default_factory=lambda: os.getenv("ARCFACE_MODEL_PATH", "models/w600k_r50.onnx"))
+    SCRFD_MODEL_PATH: str = field(default_factory=lambda: os.getenv("SCRFD_MODEL_PATH", "../backend-fastapi/models/buffalo_l/det_10g.onnx"))
+    ARCFACE_MODEL_PATH: str = field(default_factory=lambda: os.getenv("ARCFACE_MODEL_PATH", "../backend-fastapi/models/buffalo_l/w600k_r50.onnx"))
     
     # =========================
     # Recognition

@@ -1,0 +1,962 @@
+2026-01-08 19:00:51,601 [INFO] GateNode: ==================================================
+2026-01-08 19:00:51,602 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 19:00:51,602 [INFO] GateNode: Organization: default-org
+2026-01-08 19:00:51,603 [INFO] GateNode: ==================================================
+2026-01-08 19:00:51,603 [INFO] GateNode: Initializing storage...
+2026-01-08 19:00:52,455 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 19:00:52,458 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 19:00:52,460 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 19:00:52,463 [ERROR] GateNode: SCRFD model not found: models\scrfd_10g_bnkps.onnx
+2026-01-08 19:00:52,468 [ERROR] GateNode: Failed to start Gate Node
+2026-01-08 19:15:45,548 [INFO] GateNode: ==================================================
+2026-01-08 19:15:45,587 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 19:15:45,591 [INFO] GateNode: Organization: 2
+2026-01-08 19:15:45,593 [INFO] GateNode: ==================================================
+2026-01-08 19:15:45,594 [INFO] GateNode: Initializing storage...
+2026-01-08 19:15:45,704 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 19:15:45,704 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 19:15:45,705 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 19:15:45,705 [ERROR] GateNode: SCRFD model not found: ..\models\scrfd_10g_bnkps.onnx
+2026-01-08 19:15:45,705 [ERROR] GateNode: Failed to start Gate Node
+2026-01-08 19:24:34,648 [INFO] GateNode: ==================================================
+2026-01-08 19:24:34,650 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 19:24:34,651 [INFO] GateNode: Organization: 2
+2026-01-08 19:24:34,651 [INFO] GateNode: ==================================================
+2026-01-08 19:24:34,653 [INFO] GateNode: Initializing storage...
+2026-01-08 19:24:34,667 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 19:24:34,668 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 19:24:34,670 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 19:24:36,457 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 19:24:36,458 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 19:24:41,009 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 19:24:41,010 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 19:24:41,010 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 19:24:41,010 [INFO] GateNode: Initializing gate controller...
+2026-01-08 19:24:41,011 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 19:24:41,011 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 19:24:41,013 [INFO] GateNode: Opening camera 0...
+2026-01-08 19:24:53,111 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 19:24:53,111 [INFO] GateNode: Initializing worker threads...
+2026-01-08 19:24:53,112 [ERROR] GateNode: Failed to initialize threads: SyncThread.__init__() got an unexpected keyword argument 'interval_seconds'
+2026-01-08 19:24:53,112 [ERROR] GateNode: Failed to start Gate Node
+2026-01-08 19:30:00,654 [INFO] GateNode: ==================================================
+2026-01-08 19:30:00,655 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 19:30:00,655 [INFO] GateNode: Organization: 2
+2026-01-08 19:30:00,655 [INFO] GateNode: ==================================================
+2026-01-08 19:30:00,656 [INFO] GateNode: Initializing storage...
+2026-01-08 19:30:00,661 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 19:30:00,661 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 19:30:00,661 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 19:30:01,043 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 19:30:01,074 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 19:30:04,049 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 19:30:04,050 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 19:30:04,050 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 19:30:04,050 [INFO] GateNode: Initializing gate controller...
+2026-01-08 19:30:04,051 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 19:30:04,051 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 19:30:04,052 [INFO] GateNode: Opening camera 0...
+2026-01-08 19:30:05,130 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 19:30:05,131 [INFO] GateNode: Initializing worker threads...
+2026-01-08 19:30:05,134 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 19:30:05,134 [INFO] GateNode: Worker threads initialized
+2026-01-08 19:30:05,136 [INFO] threads.sync: Sync thread started
+2026-01-08 19:30:05,136 [INFO] GateNode: Sync thread started
+2026-01-08 19:30:05,136 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 19:30:05,139 [INFO] threads.ui: UI thread started in continuous mode
+2026-01-08 19:30:05,139 [INFO] GateNode: UI thread started
+2026-01-08 19:30:05,179 [INFO] GateNode: Gate Node started successfully
+2026-01-08 19:30:05,179 [INFO] GateNode: Starting main vision loop...
+2026-01-08 19:30:08,997 [ERROR] GateNode: Unexpected error: cannot unpack non-iterable Detection object
+2026-01-08 19:30:09,000 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 19:30:09,761 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 19:30:09,778 [INFO] threads.sync: Sync thread stopped
+2026-01-08 19:30:10,374 [INFO] storage.logs: Access logger closed
+2026-01-08 19:30:10,375 [INFO] GateNode: Gate Node stopped
+2026-01-08 19:30:10,377 [INFO] GateNode: ==================================================
+2026-01-08 19:30:10,378 [INFO] GateNode: Session Statistics:
+2026-01-08 19:30:10,380 [INFO] GateNode:   Runtime: 5.2s
+2026-01-08 19:30:10,381 [INFO] GateNode:   Frames processed: 2
+2026-01-08 19:30:10,384 [INFO] GateNode:   Average FPS: 0.4
+2026-01-08 19:30:10,386 [INFO] GateNode:   Faces detected: 1
+2026-01-08 19:30:10,387 [INFO] GateNode:   Recognitions: 0
+2026-01-08 19:30:10,388 [INFO] GateNode:   Gate opens: 0
+2026-01-08 19:30:10,389 [INFO] GateNode:     - Authorized: 0
+2026-01-08 19:30:10,390 [INFO] GateNode:     - Wanted: 0
+2026-01-08 19:30:10,391 [INFO] GateNode:     - Rejected: 0
+2026-01-08 19:30:10,394 [INFO] GateNode: ==================================================
+2026-01-08 19:34:02,040 [INFO] GateNode: ==================================================
+2026-01-08 19:34:02,041 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 19:34:02,041 [INFO] GateNode: Organization: 2
+2026-01-08 19:34:02,042 [INFO] GateNode: ==================================================
+2026-01-08 19:34:02,042 [INFO] GateNode: Initializing storage...
+2026-01-08 19:34:02,047 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 19:34:02,047 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 19:34:02,048 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 19:34:02,448 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 19:34:02,473 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 19:34:06,772 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 19:34:06,772 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 19:34:06,773 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 19:34:06,774 [INFO] GateNode: Initializing gate controller...
+2026-01-08 19:34:06,775 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 19:34:06,775 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 19:34:06,776 [INFO] GateNode: Opening camera 0...
+2026-01-08 19:34:09,760 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 19:34:09,760 [INFO] GateNode: Initializing worker threads...
+2026-01-08 19:34:09,761 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 19:34:09,761 [INFO] GateNode: Worker threads initialized
+2026-01-08 19:34:09,762 [INFO] threads.sync: Sync thread started
+2026-01-08 19:34:09,762 [INFO] GateNode: Sync thread started
+2026-01-08 19:34:09,762 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 19:34:09,764 [INFO] threads.ui: UI thread started in continuous mode
+2026-01-08 19:34:09,764 [INFO] GateNode: UI thread started
+2026-01-08 19:34:09,765 [INFO] GateNode: Gate Node started successfully
+2026-01-08 19:34:09,771 [INFO] GateNode: Starting main vision loop...
+2026-01-08 19:34:11,653 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 19:35:10,173 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 19:35:10,488 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:11,338 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:12,501 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:13,527 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:14,410 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:15,300 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:16,185 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:17,082 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:17,972 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:18,823 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:19,716 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:20,636 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:21,520 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:22,439 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:22,830 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 19:35:44,270 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 19:35:44,986 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:45,020 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:45,904 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:45,938 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:46,787 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:46,821 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:47,917 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:49,538 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:50,616 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:51,520 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:52,371 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:53,156 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:54,040 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:55,041 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:55,891 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:56,808 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:57,655 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:58,544 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:35:59,518 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:01,359 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:03,631 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:05,140 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:06,294 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:07,356 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:08,351 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:09,234 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:10,158 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:11,048 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:11,973 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 19:36:12,449 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:13,620 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:13,922 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 19:36:14,610 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:15,580 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:16,509 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:17,498 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:18,449 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:19,418 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:20,368 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:21,616 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:22,643 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:23,698 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:25,062 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:26,245 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:27,405 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:28,404 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:29,323 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:30,315 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:31,272 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:32,160 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:33,018 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:33,905 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:34,825 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:35,748 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:36,667 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:37,594 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:38,509 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:39,427 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:40,421 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:41,364 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:42,330 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:43,347 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:44,341 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:45,257 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:46,306 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:47,337 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:48,359 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:49,327 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:50,313 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:51,285 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:52,261 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:53,275 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:54,448 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:55,422 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:56,395 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:57,500 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:58,428 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:36:59,350 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:00,311 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:01,265 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:02,208 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:03,170 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:04,180 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:05,174 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:06,201 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:07,126 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:08,126 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:09,151 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:10,179 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:11,172 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:12,614 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:13,632 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:14,620 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:15,646 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:16,682 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:17,678 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:18,635 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:19,624 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:20,550 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:21,501 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:22,402 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:23,295 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:24,314 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:25,422 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:26,504 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:27,504 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:28,492 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:29,381 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:30,333 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:31,287 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:32,181 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:33,131 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:34,126 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:35,088 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:36,169 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:37,211 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:38,160 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:39,028 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:39,981 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:41,218 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:42,217 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:43,208 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:44,138 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:45,098 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:46,286 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:47,241 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:48,158 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:49,126 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:50,067 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:51,233 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:52,728 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:54,394 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:55,451 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:56,606 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:57,719 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:37:59,176 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:00,459 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:01,695 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:02,934 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:04,074 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:05,244 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:06,442 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:07,606 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:08,808 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:09,946 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:11,050 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:12,416 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:38:13,861 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 19:38:14,137 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 19:38:15,939 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 19:38:17,749 [INFO] threads.ui: UI thread stopped
+2026-01-08 19:39:56,659 [INFO] GateNode: Received signal 2
+2026-01-08 19:39:56,660 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 19:39:56,660 [INFO] threads.sync: Sync thread stopped
+2026-01-08 19:39:57,377 [INFO] storage.logs: Access logger closed
+2026-01-08 19:39:57,379 [INFO] GateNode: Gate Node stopped
+2026-01-08 19:39:57,381 [INFO] GateNode: ==================================================
+2026-01-08 19:39:57,383 [INFO] GateNode: Session Statistics:
+2026-01-08 19:39:57,383 [INFO] GateNode:   Runtime: 347.6s
+2026-01-08 19:39:57,387 [INFO] GateNode:   Frames processed: 373
+2026-01-08 19:39:57,390 [INFO] GateNode:   Average FPS: 1.1
+2026-01-08 19:39:57,392 [INFO] GateNode:   Faces detected: 363
+2026-01-08 19:39:57,394 [INFO] GateNode:   Recognitions: 9
+2026-01-08 19:39:57,395 [INFO] GateNode:   Gate opens: 0
+2026-01-08 19:39:57,396 [INFO] GateNode:     - Authorized: 0
+2026-01-08 19:39:57,398 [INFO] GateNode:     - Wanted: 0
+2026-01-08 19:39:57,399 [INFO] GateNode:     - Rejected: 0
+2026-01-08 19:39:57,401 [INFO] GateNode: ==================================================
+2026-01-08 19:39:57,404 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 19:39:57,406 [INFO] storage.logs: Access logger closed
+2026-01-08 19:39:57,407 [INFO] GateNode: Gate Node stopped
+2026-01-08 19:39:57,409 [INFO] GateNode: ==================================================
+2026-01-08 19:39:57,410 [INFO] GateNode: Session Statistics:
+2026-01-08 19:39:57,412 [INFO] GateNode:   Runtime: 347.6s
+2026-01-08 19:39:57,413 [INFO] GateNode:   Frames processed: 373
+2026-01-08 19:39:57,414 [INFO] GateNode:   Average FPS: 1.1
+2026-01-08 19:39:57,424 [INFO] GateNode:   Faces detected: 363
+2026-01-08 19:39:57,425 [INFO] GateNode:   Recognitions: 9
+2026-01-08 19:39:57,426 [INFO] GateNode:   Gate opens: 0
+2026-01-08 19:39:57,426 [INFO] GateNode:     - Authorized: 0
+2026-01-08 19:39:57,427 [INFO] GateNode:     - Wanted: 0
+2026-01-08 19:39:57,428 [INFO] GateNode:     - Rejected: 0
+2026-01-08 19:39:57,429 [INFO] GateNode: ==================================================
+2026-01-08 19:40:09,757 [INFO] GateNode: ==================================================
+2026-01-08 19:40:09,758 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 19:40:09,758 [INFO] GateNode: Organization: 2
+2026-01-08 19:40:09,758 [INFO] GateNode: ==================================================
+2026-01-08 19:40:09,759 [INFO] GateNode: Initializing storage...
+2026-01-08 19:40:09,765 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 19:40:09,765 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 19:40:09,766 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 19:40:10,084 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 19:40:10,085 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 19:40:13,585 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 19:40:13,585 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 19:40:13,586 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 19:40:13,587 [INFO] GateNode: Initializing gate controller...
+2026-01-08 19:40:13,588 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 19:40:13,589 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 19:40:13,597 [INFO] GateNode: Opening camera 0...
+2026-01-08 19:40:13,909 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 19:40:13,909 [INFO] GateNode: Initializing worker threads...
+2026-01-08 19:40:13,910 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 19:40:13,910 [INFO] GateNode: Worker threads initialized
+2026-01-08 19:40:13,911 [INFO] threads.sync: Sync thread started
+2026-01-08 19:40:13,912 [INFO] GateNode: Sync thread started
+2026-01-08 19:40:13,912 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 19:40:13,916 [INFO] threads.ui: UI thread started in continuous mode
+2026-01-08 19:40:13,916 [INFO] GateNode: UI thread started
+2026-01-08 19:40:13,919 [INFO] GateNode: Gate Node started successfully
+2026-01-08 19:40:13,919 [INFO] GateNode: Starting main vision loop...
+2026-01-08 19:40:15,598 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 19:40:30,073 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 19:40:30,145 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:31,264 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:32,395 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:33,432 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:34,790 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:35,815 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:36,903 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:38,735 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:40,095 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:41,359 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:42,482 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:43,468 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:44,459 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:45,480 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:46,504 [INFO] threads.ui: Showing alert: UNKNOWN
+2026-01-08 19:40:46,698 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 19:41:19,447 [INFO] threads.ui: UI thread stopped
+2026-01-08 19:41:47,918 [INFO] GateNode: Received signal 2
+2026-01-08 19:41:47,919 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 19:41:47,920 [INFO] threads.sync: Sync thread stopped
+2026-01-08 19:41:48,431 [INFO] storage.logs: Access logger closed
+2026-01-08 19:41:48,433 [INFO] GateNode: Gate Node stopped
+2026-01-08 19:41:48,434 [INFO] GateNode: ==================================================
+2026-01-08 19:41:48,437 [INFO] GateNode: Session Statistics:
+2026-01-08 19:41:48,441 [INFO] GateNode:   Runtime: 94.5s
+2026-01-08 19:41:48,443 [INFO] GateNode:   Frames processed: 110
+2026-01-08 19:41:48,443 [INFO] GateNode:   Average FPS: 1.2
+2026-01-08 19:41:48,444 [INFO] GateNode:   Faces detected: 107
+2026-01-08 19:41:48,446 [INFO] GateNode:   Recognitions: 3
+2026-01-08 19:41:48,446 [INFO] GateNode:   Gate opens: 0
+2026-01-08 19:41:48,447 [INFO] GateNode:     - Authorized: 0
+2026-01-08 19:41:48,447 [INFO] GateNode:     - Wanted: 0
+2026-01-08 19:41:48,448 [INFO] GateNode:     - Rejected: 0
+2026-01-08 19:41:48,448 [INFO] GateNode: ==================================================
+2026-01-08 19:41:48,449 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 19:41:48,450 [INFO] storage.logs: Access logger closed
+2026-01-08 19:41:48,450 [INFO] GateNode: Gate Node stopped
+2026-01-08 19:41:48,451 [INFO] GateNode: ==================================================
+2026-01-08 19:41:48,453 [INFO] GateNode: Session Statistics:
+2026-01-08 19:41:48,453 [INFO] GateNode:   Runtime: 94.5s
+2026-01-08 19:41:48,454 [INFO] GateNode:   Frames processed: 110
+2026-01-08 19:41:48,454 [INFO] GateNode:   Average FPS: 1.2
+2026-01-08 19:41:48,455 [INFO] GateNode:   Faces detected: 107
+2026-01-08 19:41:48,455 [INFO] GateNode:   Recognitions: 3
+2026-01-08 19:41:48,456 [INFO] GateNode:   Gate opens: 0
+2026-01-08 19:41:48,456 [INFO] GateNode:     - Authorized: 0
+2026-01-08 19:41:48,457 [INFO] GateNode:     - Wanted: 0
+2026-01-08 19:41:48,457 [INFO] GateNode:     - Rejected: 0
+2026-01-08 19:41:48,458 [INFO] GateNode: ==================================================
+2026-01-08 20:01:58,585 [INFO] GateNode: ==================================================
+2026-01-08 20:01:58,585 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 20:01:58,586 [INFO] GateNode: Organization: 2
+2026-01-08 20:01:58,586 [INFO] GateNode: ==================================================
+2026-01-08 20:01:58,587 [INFO] GateNode: Initializing storage...
+2026-01-08 20:01:58,592 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 20:01:58,593 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 20:01:58,594 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 20:01:58,896 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 20:01:58,896 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 20:02:02,675 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 20:02:02,676 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 20:02:02,676 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 20:02:02,677 [INFO] GateNode: Initializing gate controller...
+2026-01-08 20:02:02,677 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 20:02:02,678 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 20:02:02,678 [INFO] GateNode: Opening camera 0...
+2026-01-08 20:02:06,355 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 20:02:06,356 [INFO] GateNode: Initializing worker threads...
+2026-01-08 20:02:06,357 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 20:02:06,357 [INFO] GateNode: Worker threads initialized
+2026-01-08 20:02:06,358 [INFO] threads.sync: Sync thread started
+2026-01-08 20:02:06,358 [INFO] GateNode: Sync thread started
+2026-01-08 20:02:06,359 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:02:06,360 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-08 20:02:06,360 [INFO] GateNode: UI thread started
+2026-01-08 20:02:06,361 [INFO] GateNode: Gate Node started successfully
+2026-01-08 20:02:06,362 [INFO] GateNode: Starting main vision loop...
+2026-01-08 20:02:06,424 [INFO] threads.ui: Display window created: 1280x720
+2026-01-08 20:02:07,987 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:02:25,391 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:26,937 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:02:28,889 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:32,454 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:35,502 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:38,833 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:42,370 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:45,949 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:49,482 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:53,092 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:55,578 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 20:02:56,564 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:02:58,523 [INFO] threads.ui: UI thread stopped
+2026-01-08 20:04:08,214 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:04:09,853 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:05:32,347 [INFO] GateNode: Received signal 2
+2026-01-08 20:05:32,348 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:05:32,348 [INFO] threads.sync: Sync thread stopped
+2026-01-08 20:05:33,060 [INFO] storage.logs: Access logger closed
+2026-01-08 20:05:33,063 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:05:33,066 [INFO] GateNode: ==================================================
+2026-01-08 20:05:33,068 [INFO] GateNode: Session Statistics:
+2026-01-08 20:05:33,074 [INFO] GateNode:   Runtime: 206.7s
+2026-01-08 20:05:33,086 [INFO] GateNode:   Frames processed: 313
+2026-01-08 20:05:33,088 [INFO] GateNode:   Average FPS: 1.5
+2026-01-08 20:05:33,092 [INFO] GateNode:   Faces detected: 106
+2026-01-08 20:05:33,094 [INFO] GateNode:   Recognitions: 12
+2026-01-08 20:05:33,096 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:05:33,099 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:05:33,101 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:05:33,102 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:05:33,103 [INFO] GateNode: ==================================================
+2026-01-08 20:05:33,105 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:05:33,106 [INFO] storage.logs: Access logger closed
+2026-01-08 20:05:33,107 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:05:33,108 [INFO] GateNode: ==================================================
+2026-01-08 20:05:33,109 [INFO] GateNode: Session Statistics:
+2026-01-08 20:05:33,110 [INFO] GateNode:   Runtime: 206.7s
+2026-01-08 20:05:33,111 [INFO] GateNode:   Frames processed: 313
+2026-01-08 20:05:33,112 [INFO] GateNode:   Average FPS: 1.5
+2026-01-08 20:05:33,123 [INFO] GateNode:   Faces detected: 106
+2026-01-08 20:05:33,127 [INFO] GateNode:   Recognitions: 12
+2026-01-08 20:05:33,128 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:05:33,129 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:05:33,129 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:05:33,130 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:05:33,131 [INFO] GateNode: ==================================================
+2026-01-08 20:16:28,749 [INFO] GateNode: ==================================================
+2026-01-08 20:16:28,768 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 20:16:28,769 [INFO] GateNode: Organization: 2
+2026-01-08 20:16:28,770 [INFO] GateNode: ==================================================
+2026-01-08 20:16:28,770 [INFO] GateNode: Initializing storage...
+2026-01-08 20:16:28,894 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 20:16:28,895 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 20:16:28,895 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 20:16:30,336 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 20:16:30,337 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 20:16:34,347 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 20:16:34,348 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 20:16:34,348 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 20:16:34,349 [INFO] GateNode: Initializing gate controller...
+2026-01-08 20:16:34,349 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 20:16:34,350 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 20:16:34,350 [INFO] GateNode: Opening camera 0...
+2026-01-08 20:16:38,856 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 20:16:38,857 [INFO] GateNode: Initializing worker threads...
+2026-01-08 20:16:38,859 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 20:16:38,860 [INFO] GateNode: Worker threads initialized
+2026-01-08 20:16:38,862 [INFO] threads.sync: Sync thread started
+2026-01-08 20:16:38,862 [INFO] GateNode: Sync thread started
+2026-01-08 20:16:38,863 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:16:38,866 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-08 20:16:38,866 [INFO] GateNode: UI thread started
+2026-01-08 20:16:38,867 [INFO] GateNode: Gate Node started successfully
+2026-01-08 20:16:38,868 [INFO] GateNode: Starting main vision loop...
+2026-01-08 20:16:39,530 [INFO] threads.ui: Display window created: 1280x720
+2026-01-08 20:16:45,822 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:16:48,979 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:16:51,996 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:16:55,354 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:16:58,645 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:01,947 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:05,307 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:08,738 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:12,075 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:23,558 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:24,976 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:17:26,797 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:30,301 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:33,908 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:36,958 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:40,084 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:43,240 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:46,434 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:49,867 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:17:52,464 [INFO] threads.ui: UI thread stopped
+2026-01-08 20:18:02,362 [INFO] GateNode: Received signal 2
+2026-01-08 20:18:02,362 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:18:02,363 [INFO] threads.sync: Sync thread stopped
+2026-01-08 20:18:03,166 [INFO] storage.logs: Access logger closed
+2026-01-08 20:18:03,166 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:18:03,167 [INFO] GateNode: ==================================================
+2026-01-08 20:18:03,167 [INFO] GateNode: Session Statistics:
+2026-01-08 20:18:03,168 [INFO] GateNode:   Runtime: 84.3s
+2026-01-08 20:18:03,168 [INFO] GateNode:   Frames processed: 95
+2026-01-08 20:18:03,169 [INFO] GateNode:   Average FPS: 1.1
+2026-01-08 20:18:03,169 [INFO] GateNode:   Faces detected: 94
+2026-01-08 20:18:03,169 [INFO] GateNode:   Recognitions: 3
+2026-01-08 20:18:03,170 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:18:03,170 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:18:03,170 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:18:03,171 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:18:03,171 [INFO] GateNode: ==================================================
+2026-01-08 20:18:03,172 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:18:03,173 [INFO] storage.logs: Access logger closed
+2026-01-08 20:18:03,173 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:18:03,173 [INFO] GateNode: ==================================================
+2026-01-08 20:18:03,174 [INFO] GateNode: Session Statistics:
+2026-01-08 20:18:03,174 [INFO] GateNode:   Runtime: 84.3s
+2026-01-08 20:18:03,175 [INFO] GateNode:   Frames processed: 95
+2026-01-08 20:18:03,176 [INFO] GateNode:   Average FPS: 1.1
+2026-01-08 20:18:03,176 [INFO] GateNode:   Faces detected: 94
+2026-01-08 20:18:03,176 [INFO] GateNode:   Recognitions: 3
+2026-01-08 20:18:03,177 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:18:03,178 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:18:03,178 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:18:03,179 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:18:03,179 [INFO] GateNode: ==================================================
+2026-01-08 20:33:43,089 [INFO] GateNode: ==================================================
+2026-01-08 20:33:43,089 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 20:33:43,089 [INFO] GateNode: Organization: 2
+2026-01-08 20:33:43,090 [INFO] GateNode: ==================================================
+2026-01-08 20:33:43,090 [INFO] GateNode: Initializing storage...
+2026-01-08 20:33:43,172 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 20:33:43,173 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 20:33:43,173 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 20:33:46,756 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 20:33:46,756 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 20:33:50,943 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 20:33:50,943 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 20:33:50,943 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.3, min_hits=3, max_age=30, max_emb_dist=0.6
+2026-01-08 20:33:50,943 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 20:33:50,944 [INFO] GateNode: Initializing gate controller...
+2026-01-08 20:33:50,944 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 20:33:50,944 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 20:33:50,944 [INFO] GateNode: Opening camera 0...
+2026-01-08 20:33:53,538 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 20:33:53,539 [INFO] GateNode: Initializing worker threads...
+2026-01-08 20:33:53,540 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 20:33:53,541 [INFO] GateNode: Worker threads initialized
+2026-01-08 20:33:53,544 [INFO] threads.sync: Sync thread started
+2026-01-08 20:33:53,545 [INFO] GateNode: Sync thread started
+2026-01-08 20:33:53,546 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:33:53,549 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-08 20:33:53,550 [INFO] GateNode: UI thread started
+2026-01-08 20:33:53,553 [INFO] GateNode: Gate Node started successfully
+2026-01-08 20:33:53,554 [INFO] GateNode: Starting main vision loop...
+2026-01-08 20:33:54,123 [INFO] threads.ui: Display window created: 1280x720
+2026-01-08 20:33:58,983 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:34:02,047 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-08 20:34:02,055 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:34:09,718 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:34:09,720 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:34:13,283 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:34:16,923 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:34:20,337 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:34:23,918 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:34:27,476 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:34:29,996 [INFO] threads.ui: UI thread stopped
+2026-01-08 20:34:34,247 [INFO] GateNode: Track 2 marked UNKNOWN after 3 attempts
+2026-01-08 20:35:00,626 [INFO] GateNode: Received signal 2
+2026-01-08 20:35:00,626 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:35:00,627 [INFO] threads.sync: Sync thread stopped
+2026-01-08 20:35:01,593 [INFO] storage.logs: Access logger closed
+2026-01-08 20:35:01,594 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:35:01,594 [INFO] GateNode: ==================================================
+2026-01-08 20:35:01,594 [INFO] GateNode: Session Statistics:
+2026-01-08 20:35:01,595 [INFO] GateNode:   Runtime: 68.0s
+2026-01-08 20:35:01,595 [INFO] GateNode:   Frames processed: 85
+2026-01-08 20:35:01,595 [INFO] GateNode:   Average FPS: 1.2
+2026-01-08 20:35:01,595 [INFO] GateNode:   Unique tracks created: 2
+2026-01-08 20:35:01,596 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-08 20:35:01,596 [INFO] GateNode:   Tracks recognized: 2
+2026-01-08 20:35:01,596 [INFO] GateNode:   People counts:
+2026-01-08 20:35:01,596 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:35:01,597 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:35:01,597 [INFO] GateNode:     - Unknown: 2
+2026-01-08 20:35:01,597 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:35:01,597 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:35:01,597 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:35:01,598 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:35:01,598 [INFO] GateNode: ==================================================
+2026-01-08 20:35:01,598 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:35:01,598 [INFO] storage.logs: Access logger closed
+2026-01-08 20:35:01,598 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:35:01,599 [INFO] GateNode: ==================================================
+2026-01-08 20:35:01,599 [INFO] GateNode: Session Statistics:
+2026-01-08 20:35:01,599 [INFO] GateNode:   Runtime: 68.0s
+2026-01-08 20:35:01,599 [INFO] GateNode:   Frames processed: 85
+2026-01-08 20:35:01,599 [INFO] GateNode:   Average FPS: 1.2
+2026-01-08 20:35:01,600 [INFO] GateNode:   Unique tracks created: 2
+2026-01-08 20:35:01,600 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-08 20:35:01,600 [INFO] GateNode:   Tracks recognized: 2
+2026-01-08 20:35:01,600 [INFO] GateNode:   People counts:
+2026-01-08 20:35:01,600 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:35:01,601 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:35:01,601 [INFO] GateNode:     - Unknown: 2
+2026-01-08 20:35:01,601 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:35:01,601 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:35:01,601 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:35:01,601 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:35:01,602 [INFO] GateNode: ==================================================
+2026-01-08 20:39:54,472 [INFO] GateNode: ==================================================
+2026-01-08 20:39:54,472 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 20:39:54,473 [INFO] GateNode: Organization: 2
+2026-01-08 20:39:54,473 [INFO] GateNode: ==================================================
+2026-01-08 20:39:54,474 [INFO] GateNode: Initializing storage...
+2026-01-08 20:39:54,515 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 20:39:54,515 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 20:39:54,516 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 20:39:55,476 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 20:39:55,476 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 20:39:58,940 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 20:39:58,940 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 20:39:58,941 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=0.7
+2026-01-08 20:39:58,941 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 20:39:58,942 [INFO] GateNode: Initializing gate controller...
+2026-01-08 20:39:58,942 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 20:39:58,943 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 20:39:58,943 [INFO] GateNode: Opening camera 0...
+2026-01-08 20:40:01,904 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 20:40:01,904 [INFO] GateNode: Initializing worker threads...
+2026-01-08 20:40:01,905 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 20:40:01,905 [INFO] GateNode: Worker threads initialized
+2026-01-08 20:40:01,906 [INFO] threads.sync: Sync thread started
+2026-01-08 20:40:01,906 [INFO] GateNode: Sync thread started
+2026-01-08 20:40:01,907 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:40:01,908 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-08 20:40:01,908 [INFO] GateNode: UI thread started
+2026-01-08 20:40:01,910 [INFO] GateNode: Gate Node started successfully
+2026-01-08 20:40:01,910 [INFO] GateNode: Starting main vision loop...
+2026-01-08 20:40:02,181 [INFO] threads.ui: Display window created: 1280x720
+2026-01-08 20:40:06,031 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:40:09,822 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-08 20:40:09,835 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:40:12,226 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:40:28,964 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 20:40:35,398 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:41:13,205 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 20:41:29,288 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:42:06,368 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:42:08,505 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:42:56,618 [INFO] GateNode: Received signal 2
+2026-01-08 20:42:56,620 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:42:56,655 [INFO] threads.sync: Sync thread stopped
+2026-01-08 20:42:56,791 [INFO] threads.ui: UI thread stopped
+2026-01-08 20:42:57,581 [INFO] storage.logs: Access logger closed
+2026-01-08 20:42:57,582 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:42:57,582 [INFO] GateNode: ==================================================
+2026-01-08 20:42:57,583 [INFO] GateNode: Session Statistics:
+2026-01-08 20:42:57,584 [INFO] GateNode:   Runtime: 175.7s
+2026-01-08 20:42:57,584 [INFO] GateNode:   Frames processed: 110
+2026-01-08 20:42:57,585 [INFO] GateNode:   Average FPS: 0.6
+2026-01-08 20:42:57,586 [INFO] GateNode:   Unique tracks created: 3
+2026-01-08 20:42:57,586 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 20:42:57,587 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 20:42:57,588 [INFO] GateNode:   People counts:
+2026-01-08 20:42:57,588 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:42:57,589 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:42:57,589 [INFO] GateNode:     - Unknown: 1
+2026-01-08 20:42:57,590 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:42:57,591 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:42:57,591 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:42:57,592 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:42:57,592 [INFO] GateNode: ==================================================
+2026-01-08 20:42:57,593 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:42:57,594 [INFO] storage.logs: Access logger closed
+2026-01-08 20:42:57,594 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:42:57,595 [INFO] GateNode: ==================================================
+2026-01-08 20:42:57,596 [INFO] GateNode: Session Statistics:
+2026-01-08 20:42:57,598 [INFO] GateNode:   Runtime: 175.7s
+2026-01-08 20:42:57,599 [INFO] GateNode:   Frames processed: 110
+2026-01-08 20:42:57,601 [INFO] GateNode:   Average FPS: 0.6
+2026-01-08 20:42:57,602 [INFO] GateNode:   Unique tracks created: 3
+2026-01-08 20:42:57,603 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 20:42:57,608 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 20:42:57,609 [INFO] GateNode:   People counts:
+2026-01-08 20:42:57,610 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:42:57,610 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:42:57,611 [INFO] GateNode:     - Unknown: 1
+2026-01-08 20:42:57,611 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:42:57,612 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:42:57,613 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:42:57,613 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:42:57,614 [INFO] GateNode: ==================================================
+2026-01-08 20:49:48,577 [INFO] GateNode: ==================================================
+2026-01-08 20:49:48,578 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 20:49:48,578 [INFO] GateNode: Organization: 2
+2026-01-08 20:49:48,578 [INFO] GateNode: ==================================================
+2026-01-08 20:49:48,579 [INFO] GateNode: Initializing storage...
+2026-01-08 20:49:48,618 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 20:49:48,619 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 20:49:48,620 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 20:49:48,937 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 20:49:48,943 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 20:49:51,791 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 20:49:51,791 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 20:49:51,792 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=0.7
+2026-01-08 20:49:51,792 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 20:49:51,793 [INFO] GateNode: Initializing gate controller...
+2026-01-08 20:49:51,793 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 20:49:51,794 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 20:49:51,795 [INFO] GateNode: Opening camera 0...
+2026-01-08 20:49:53,070 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 20:49:53,070 [INFO] GateNode: Initializing worker threads...
+2026-01-08 20:49:53,071 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 20:49:53,071 [INFO] GateNode: Worker threads initialized
+2026-01-08 20:49:53,072 [INFO] threads.sync: Sync thread started
+2026-01-08 20:49:53,072 [INFO] GateNode: Sync thread started
+2026-01-08 20:49:53,073 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:49:53,074 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-08 20:49:53,074 [INFO] GateNode: UI thread started
+2026-01-08 20:49:53,076 [INFO] GateNode: Gate Node started successfully
+2026-01-08 20:49:53,078 [INFO] GateNode: Starting main vision loop...
+2026-01-08 20:49:53,362 [INFO] threads.ui: Display window created: 1280x720
+2026-01-08 20:49:55,029 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:49:59,041 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-08 20:49:59,064 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:50:01,241 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:50:41,405 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 20:51:05,916 [INFO] threads.ui: UI thread stopped
+2026-01-08 20:51:16,931 [INFO] GateNode: Received signal 2
+2026-01-08 20:51:16,931 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:51:16,932 [INFO] threads.sync: Sync thread stopped
+2026-01-08 20:51:17,396 [INFO] storage.logs: Access logger closed
+2026-01-08 20:51:17,398 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:51:17,400 [INFO] GateNode: ==================================================
+2026-01-08 20:51:17,401 [INFO] GateNode: Session Statistics:
+2026-01-08 20:51:17,402 [INFO] GateNode:   Runtime: 84.3s
+2026-01-08 20:51:17,403 [INFO] GateNode:   Frames processed: 102
+2026-01-08 20:51:17,407 [INFO] GateNode:   Average FPS: 1.2
+2026-01-08 20:51:17,409 [INFO] GateNode:   Unique tracks created: 1
+2026-01-08 20:51:17,410 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 20:51:17,412 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 20:51:17,413 [INFO] GateNode:   People counts:
+2026-01-08 20:51:17,415 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:51:17,418 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:51:17,419 [INFO] GateNode:     - Unknown: 1
+2026-01-08 20:51:17,421 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:51:17,422 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:51:17,424 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:51:17,425 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:51:17,426 [INFO] GateNode: ==================================================
+2026-01-08 20:51:17,427 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 20:51:17,428 [INFO] storage.logs: Access logger closed
+2026-01-08 20:51:17,429 [INFO] GateNode: Gate Node stopped
+2026-01-08 20:51:17,430 [INFO] GateNode: ==================================================
+2026-01-08 20:51:17,431 [INFO] GateNode: Session Statistics:
+2026-01-08 20:51:17,431 [INFO] GateNode:   Runtime: 84.4s
+2026-01-08 20:51:17,432 [INFO] GateNode:   Frames processed: 102
+2026-01-08 20:51:17,433 [INFO] GateNode:   Average FPS: 1.2
+2026-01-08 20:51:17,434 [INFO] GateNode:   Unique tracks created: 1
+2026-01-08 20:51:17,434 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 20:51:17,436 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 20:51:17,437 [INFO] GateNode:   People counts:
+2026-01-08 20:51:17,443 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:51:17,446 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:51:17,447 [INFO] GateNode:     - Unknown: 1
+2026-01-08 20:51:17,448 [INFO] GateNode:   Gate opens: 0
+2026-01-08 20:51:17,448 [INFO] GateNode:     - Authorized: 0
+2026-01-08 20:51:17,448 [INFO] GateNode:     - Wanted: 0
+2026-01-08 20:51:17,449 [INFO] GateNode:     - Rejected: 0
+2026-01-08 20:51:17,450 [INFO] GateNode: ==================================================
+2026-01-08 20:59:03,769 [INFO] GateNode: ==================================================
+2026-01-08 20:59:03,770 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 20:59:03,771 [INFO] GateNode: Organization: 2
+2026-01-08 20:59:03,772 [INFO] GateNode: ==================================================
+2026-01-08 20:59:03,772 [INFO] GateNode: Initializing storage...
+2026-01-08 20:59:03,779 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 20:59:03,780 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 20:59:03,781 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 20:59:04,120 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 20:59:04,120 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 20:59:06,967 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 20:59:06,969 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 20:59:06,971 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=0.7
+2026-01-08 20:59:06,972 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 20:59:06,973 [INFO] GateNode: Initializing gate controller...
+2026-01-08 20:59:06,973 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 20:59:06,975 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 20:59:06,975 [INFO] GateNode: Opening camera 0...
+2026-01-08 20:59:07,466 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 20:59:07,467 [INFO] GateNode: Initializing worker threads...
+2026-01-08 20:59:07,467 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 20:59:07,468 [INFO] GateNode: Worker threads initialized
+2026-01-08 20:59:07,469 [INFO] threads.sync: Sync thread started
+2026-01-08 20:59:07,469 [INFO] GateNode: Sync thread started
+2026-01-08 20:59:07,469 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 20:59:07,470 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-08 20:59:07,471 [INFO] GateNode: UI thread started
+2026-01-08 20:59:07,471 [INFO] GateNode: Gate Node started successfully
+2026-01-08 20:59:07,475 [INFO] GateNode: Starting main vision loop...
+2026-01-08 20:59:07,525 [INFO] threads.ui: Display window created: 1280x720
+2026-01-08 20:59:09,182 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 20:59:13,763 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-08 20:59:13,799 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 20:59:21,597 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 20:59:24,462 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 21:00:02,756 [INFO] threads.ui: UI thread stopped
+2026-01-08 21:00:37,473 [INFO] GateNode: Received signal 2
+2026-01-08 21:00:37,474 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 21:00:37,474 [INFO] threads.sync: Sync thread stopped
+2026-01-08 21:00:38,036 [INFO] storage.logs: Access logger closed
+2026-01-08 21:00:38,040 [INFO] GateNode: Gate Node stopped
+2026-01-08 21:00:38,042 [INFO] GateNode: ==================================================
+2026-01-08 21:00:38,045 [INFO] GateNode: Session Statistics:
+2026-01-08 21:00:38,047 [INFO] GateNode:   Runtime: 90.6s
+2026-01-08 21:00:38,050 [INFO] GateNode:   Frames processed: 283
+2026-01-08 21:00:38,051 [INFO] GateNode:   Average FPS: 3.1
+2026-01-08 21:00:38,055 [INFO] GateNode:   Unique tracks created: 1
+2026-01-08 21:00:38,056 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 21:00:38,058 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 21:00:38,059 [INFO] GateNode:   People counts:
+2026-01-08 21:00:38,060 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:00:38,061 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:00:38,062 [INFO] GateNode:     - Unknown: 1
+2026-01-08 21:00:38,062 [INFO] GateNode:   Gate opens: 0
+2026-01-08 21:00:38,063 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:00:38,064 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:00:38,065 [INFO] GateNode:     - Rejected: 0
+2026-01-08 21:00:38,066 [INFO] GateNode: ==================================================
+2026-01-08 21:00:38,069 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 21:00:38,071 [INFO] storage.logs: Access logger closed
+2026-01-08 21:00:38,072 [INFO] GateNode: Gate Node stopped
+2026-01-08 21:00:38,073 [INFO] GateNode: ==================================================
+2026-01-08 21:00:38,073 [INFO] GateNode: Session Statistics:
+2026-01-08 21:00:38,074 [INFO] GateNode:   Runtime: 90.6s
+2026-01-08 21:00:38,075 [INFO] GateNode:   Frames processed: 283
+2026-01-08 21:00:38,075 [INFO] GateNode:   Average FPS: 3.1
+2026-01-08 21:00:38,075 [INFO] GateNode:   Unique tracks created: 1
+2026-01-08 21:00:38,076 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 21:00:38,078 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 21:00:38,082 [INFO] GateNode:   People counts:
+2026-01-08 21:00:38,087 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:00:38,088 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:00:38,090 [INFO] GateNode:     - Unknown: 1
+2026-01-08 21:00:38,091 [INFO] GateNode:   Gate opens: 0
+2026-01-08 21:00:38,091 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:00:38,092 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:00:38,093 [INFO] GateNode:     - Rejected: 0
+2026-01-08 21:00:38,094 [INFO] GateNode: ==================================================
+2026-01-08 21:01:57,692 [INFO] GateNode: ==================================================
+2026-01-08 21:01:57,692 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-08 21:01:57,692 [INFO] GateNode: Organization: 2
+2026-01-08 21:01:57,693 [INFO] GateNode: ==================================================
+2026-01-08 21:01:57,693 [INFO] GateNode: Initializing storage...
+2026-01-08 21:01:57,698 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-08 21:01:57,699 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-08 21:01:57,699 [INFO] GateNode: Initializing vision pipeline...
+2026-01-08 21:01:58,161 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\buffalo_l\det_10g.onnx
+2026-01-08 21:01:58,164 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-08 21:02:01,538 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\buffalo_l\w600k_r50.onnx
+2026-01-08 21:02:01,539 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-08 21:02:01,539 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=0.7
+2026-01-08 21:02:01,539 [INFO] GateNode: Vision pipeline initialized
+2026-01-08 21:02:01,540 [INFO] GateNode: Initializing gate controller...
+2026-01-08 21:02:01,540 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-08 21:02:01,541 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-08 21:02:01,542 [INFO] GateNode: Opening camera 0...
+2026-01-08 21:02:02,464 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-08 21:02:02,465 [INFO] GateNode: Initializing worker threads...
+2026-01-08 21:02:02,466 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-08 21:02:02,466 [INFO] GateNode: Worker threads initialized
+2026-01-08 21:02:02,467 [INFO] threads.sync: Sync thread started
+2026-01-08 21:02:02,467 [INFO] GateNode: Sync thread started
+2026-01-08 21:02:02,467 [INFO] threads.sync: Syncing faces from https://your-backend.railway.app/api/v1/faces/sync (current version: 0)
+2026-01-08 21:02:02,469 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-08 21:02:02,469 [INFO] GateNode: UI thread started
+2026-01-08 21:02:02,474 [INFO] GateNode: Gate Node started successfully
+2026-01-08 21:02:02,475 [INFO] GateNode: Starting main vision loop...
+2026-01-08 21:02:02,523 [INFO] threads.ui: Display window created: 1280x720
+2026-01-08 21:02:05,304 [WARNING] threads.sync: Face sync failed (network): 404 Client Error: Not Found for url: https://your-backend.railway.app/api/v1/faces/sync?org_id=2&since_version=0
+2026-01-08 21:02:14,772 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-08 21:02:14,799 [INFO] threads.ui: Displaying alert: UNKNOWN - Unknown
+2026-01-08 21:02:17,293 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-08 21:02:31,540 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-08 21:02:40,452 [INFO] threads.ui: UI thread stopped
+2026-01-08 21:02:43,324 [INFO] GateNode: Received signal 2
+2026-01-08 21:02:43,324 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 21:02:43,325 [INFO] threads.sync: Sync thread stopped
+2026-01-08 21:02:43,989 [INFO] storage.logs: Access logger closed
+2026-01-08 21:02:43,990 [INFO] GateNode: Gate Node stopped
+2026-01-08 21:02:43,990 [INFO] GateNode: ==================================================
+2026-01-08 21:02:43,991 [INFO] GateNode: Session Statistics:
+2026-01-08 21:02:43,991 [INFO] GateNode:   Runtime: 41.5s
+2026-01-08 21:02:43,991 [INFO] GateNode:   Frames processed: 133
+2026-01-08 21:02:43,992 [INFO] GateNode:   Average FPS: 3.2
+2026-01-08 21:02:43,992 [INFO] GateNode:   Detection optimization:
+2026-01-08 21:02:43,992 [INFO] GateNode:     - Detections run: 27
+2026-01-08 21:02:43,993 [INFO] GateNode:     - Detections skipped: 105
+2026-01-08 21:02:43,993 [INFO] GateNode:     - Skip rate: 79.5%
+2026-01-08 21:02:43,994 [INFO] GateNode:   Unique tracks created: 1
+2026-01-08 21:02:43,994 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 21:02:43,994 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 21:02:43,995 [INFO] GateNode:   People counts:
+2026-01-08 21:02:43,996 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:02:43,996 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:02:43,997 [INFO] GateNode:     - Unknown: 1
+2026-01-08 21:02:43,997 [INFO] GateNode:   Gate opens: 0
+2026-01-08 21:02:43,998 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:02:43,998 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:02:43,998 [INFO] GateNode:     - Rejected: 0
+2026-01-08 21:02:43,999 [INFO] GateNode: ==================================================
+2026-01-08 21:02:44,000 [INFO] GateNode: Gate Node shutting down...
+2026-01-08 21:02:44,001 [INFO] storage.logs: Access logger closed
+2026-01-08 21:02:44,001 [INFO] GateNode: Gate Node stopped
+2026-01-08 21:02:44,002 [INFO] GateNode: ==================================================
+2026-01-08 21:02:44,002 [INFO] GateNode: Session Statistics:
+2026-01-08 21:02:44,003 [INFO] GateNode:   Runtime: 41.5s
+2026-01-08 21:02:44,003 [INFO] GateNode:   Frames processed: 133
+2026-01-08 21:02:44,004 [INFO] GateNode:   Average FPS: 3.2
+2026-01-08 21:02:44,004 [INFO] GateNode:   Detection optimization:
+2026-01-08 21:02:44,005 [INFO] GateNode:     - Detections run: 27
+2026-01-08 21:02:44,006 [INFO] GateNode:     - Detections skipped: 105
+2026-01-08 21:02:44,007 [INFO] GateNode:     - Skip rate: 79.5%
+2026-01-08 21:02:44,007 [INFO] GateNode:   Unique tracks created: 1
+2026-01-08 21:02:44,008 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-08 21:02:44,008 [INFO] GateNode:   Tracks recognized: 1
+2026-01-08 21:02:44,009 [INFO] GateNode:   People counts:
+2026-01-08 21:02:44,009 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:02:44,009 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:02:44,010 [INFO] GateNode:     - Unknown: 1
+2026-01-08 21:02:44,011 [INFO] GateNode:   Gate opens: 0
+2026-01-08 21:02:44,011 [INFO] GateNode:     - Authorized: 0
+2026-01-08 21:02:44,012 [INFO] GateNode:     - Wanted: 0
+2026-01-08 21:02:44,012 [INFO] GateNode:     - Rejected: 0
+2026-01-08 21:02:44,013 [INFO] GateNode: ==================================================

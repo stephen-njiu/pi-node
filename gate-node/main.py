@@ -12,18 +12,24 @@ Architecture:
 - 5 worker threads: Vision, Decision (part of main loop), UI, Sync, Streaming
 - Main thread runs the vision pipeline and decision loop
 
-Flow:
-1. Camera capture → Detection → Tracking → Recognition
-2. Decision engine makes gate decision
-3. Gate controller executes action (mock on laptop)
-4. UI displays status
-5. Sync keeps local DB updated
-6. Streaming publishes on demand
+Flow (DeepSORT-lite pipeline):
+1. Camera capture → Detection → Tracking (phase-based)
+2. Recognition runs ONCE per confirmed track (not per frame!)
+3. Decision engine makes gate decision per unique person
+4. Gate controller executes action (mock on laptop)
+5. UI displays status
+6. Sync keeps local DB updated
+7. Streaming publishes on demand
 
 For laptop demo:
 - GPIO is disabled (uses mock)
 - Webcam used instead of Pi camera
 - Display shows live video feed by default
+
+Key Principles:
+- Track IDs are stable across frames
+- Recognition runs once per person, not per detection
+- Statistics count unique people, not raw detections
 """
 
 import signal
@@ -45,7 +51,8 @@ except ImportError:
 # Local imports
 from config import config
 from storage import FaceDatabase, AccessLogger
-from vision import SCRFDDetector, ArcFaceRecognizer, SimpleTracker, align_face
+from vision import SCRFDDetector, ArcFaceRecognizer, SimpleTracker, Track, align_face
+from vision.tracker import TrackPhase  # Import phase enum
 from core import (
     TrackStateManager,
     TrackStatus,
@@ -59,6 +66,7 @@ from threads import (
     UIThread,
     UIFrame,
     FaceOverlay,
+    CaptureThread,
     create_ui_thread_from_config,
 )
 
@@ -88,6 +96,13 @@ class GateNode:
     
     Coordinates all components and runs the main vision loop.
     Works on both Raspberry Pi and laptop (for demo).
+    
+    Recognition Flow (CRITICAL):
+    1. Detector finds faces → raw detections
+    2. Tracker assigns stable IDs → tracks with phases
+    3. Only CONFIRMED tracks (phase=CONFIRMED, recognized=False) get recognition
+    4. Recognition runs ONCE, then track.recognized=True forever
+    5. This ensures we count people, not detections
     """
     
     def __init__(self):
@@ -105,7 +120,6 @@ class GateNode:
         self.detector: Optional[SCRFDDetector] = None
         self.recognizer: Optional[ArcFaceRecognizer] = None
         self.tracker: Optional[SimpleTracker] = None
-        self.track_state_manager: Optional[TrackStateManager] = None
         self.gate_controller: Optional[GateController] = None
         self.decision_engine: Optional[DecisionEngine] = None
         
@@ -113,15 +127,16 @@ class GateNode:
         self.sync_thread: Optional[SyncThread] = None
         self.ui_thread: Optional[UIThread] = None
         self.stream_thread = None  # Optional: StreamThread
+        self.capture_thread: Optional[CaptureThread] = None  # Decoupled camera capture
         
-        # Camera
-        self.camera = None  # cv2.VideoCapture
+        # Recognition config
+        self.max_recognition_attempts = getattr(config, 'MAX_RECOGNITION_ATTEMPTS', 3)
         
-        # Stats
+        # Stats (track-based, not detection-based)
         self.stats = {
             "frames_processed": 0,
-            "faces_detected": 0,
-            "recognitions_attempted": 0,
+            "detections_run": 0,      # Times detection actually ran
+            "detections_skipped": 0,  # Times detection was skipped
             "start_time": None,
         }
     
@@ -176,18 +191,14 @@ class GateNode:
                 model_path=str(arcface_path),
             )
             
-            # Initialize tracker
+            # Initialize DeepSORT-lite tracker
+            # Tuned for low FPS scenarios (~1-2 FPS)
             self.tracker = SimpleTracker(
-                max_age=30,  # ~2 seconds at 15fps
-                min_hits=3,
-                iou_threshold=0.3,
-            )
-            
-            # Track state manager
-            self.track_state_manager = TrackStateManager(
-                max_attempts=config.MAX_RECOGNITION_ATTEMPTS,
-                attempt_interval=0.5,
-                cooldown=config.TRACK_COOLDOWN_SECONDS,
+                max_age=60,              # ~60 seconds at 1fps - keep tracks longer
+                min_hits=2,              # 2 consecutive detections to confirm (faster)
+                iou_threshold=0.2,       # Lower IoU for low-FPS (more permissive)
+                max_embedding_distance=0.7,  # Slightly more permissive for embeddings
+                embedding_weight=0.5,    # Give more weight to embeddings vs IoU
             )
             
             logger.info("Vision pipeline initialized")
@@ -227,27 +238,43 @@ class GateNode:
             return False
     
     def _init_camera(self) -> bool:
-        """Initialize camera."""
+        """
+        Initialize camera via CaptureThread.
+        
+        The capture thread handles:
+        - Camera open/close
+        - Continuous frame capture at native FPS
+        - Distribution to AI queue and stream queue
+        
+        This decouples camera from AI processing for smooth streaming.
+        """
         try:
-            logger.info(f"Opening camera {config.CAMERA_INDEX}...")
+            logger.info(f"Opening camera {config.CAMERA_INDEX} via capture thread...")
             
-            self.camera = cv2.VideoCapture(config.CAMERA_INDEX)
+            # Create capture thread
+            self.capture_thread = CaptureThread(
+                camera_index=config.CAMERA_INDEX,
+                width=config.CAMERA_WIDTH,
+                height=config.CAMERA_HEIGHT,
+                fps=config.CAMERA_FPS,
+                ai_queue_size=2,       # Small - AI processes latest
+                stream_queue_size=5,   # Buffer for smooth streaming
+            )
             
-            if not self.camera.isOpened():
+            # Start capture thread
+            self.capture_thread.start()
+            
+            # Wait for camera to open (up to 3 seconds)
+            for _ in range(30):
+                if self.capture_thread.camera_opened:
+                    break
+                time.sleep(0.1)
+            
+            if not self.capture_thread.camera_opened:
                 logger.error(f"Failed to open camera {config.CAMERA_INDEX}")
                 return False
             
-            # Set camera properties
-            self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, config.CAMERA_WIDTH)
-            self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, config.CAMERA_HEIGHT)
-            self.camera.set(cv2.CAP_PROP_FPS, config.CAMERA_FPS)
-            
-            # Verify settings
-            actual_w = int(self.camera.get(cv2.CAP_PROP_FRAME_WIDTH))
-            actual_h = int(self.camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            actual_fps = int(self.camera.get(cv2.CAP_PROP_FPS))
-            
-            logger.info(f"Camera opened: {actual_w}x{actual_h} @ {actual_fps}fps")
+            logger.info(f"Camera opened: {config.CAMERA_WIDTH}x{config.CAMERA_HEIGHT} @ {config.CAMERA_FPS}fps")
             return True
             
         except Exception as e:
@@ -274,11 +301,15 @@ class GateNode:
             
             # Stream thread (optional)
             if STREAMING_AVAILABLE and (config.MQTT_ENABLED or config.LIVEKIT_URL):
-                stream_config = create_stream_config_from_config(config)
                 self.stream_thread = StreamThread(
-                    config=stream_config,
-                    on_alert=self._handle_alert,
+                    livekit_url=config.LIVEKIT_URL,
+                    gate_id=config.GATE_ID,
+                    frame_width=config.CAMERA_WIDTH,
+                    frame_height=config.CAMERA_HEIGHT,
+                    fps=config.CAMERA_FPS,
+                    capture_thread=self.capture_thread,  # For smooth streaming
                 )
+                logger.info("StreamThread connected to CaptureThread for smooth streaming")
             else:
                 logger.info("Streaming disabled (MQTT/LiveKit not configured or unavailable)")
             
@@ -352,7 +383,7 @@ class GateNode:
         self._running = False
         self._shutdown_event.set()
         
-        # Stop threads
+        # Stop threads (order matters - stop capture last to avoid frame starvation)
         if self.sync_thread:
             self.sync_thread.stop()
             self.sync_thread.join(timeout=5.0)
@@ -365,9 +396,10 @@ class GateNode:
             self.stream_thread.stop()
             self.stream_thread.join(timeout=2.0)
         
-        # Release camera
-        if self.camera:
-            self.camera.release()
+        # Stop capture thread (this also releases the camera)
+        if self.capture_thread:
+            self.capture_thread.stop()
+            self.capture_thread.join(timeout=2.0)
         
         # Cleanup gate controller
         if self.gate_controller:
@@ -381,7 +413,7 @@ class GateNode:
         self._print_stats()
     
     def _print_stats(self):
-        """Print final statistics."""
+        """Print final statistics (track-based, not detection-based)."""
         if self.stats["start_time"]:
             runtime = time.time() - self.stats["start_time"]
             fps = self.stats["frames_processed"] / runtime if runtime > 0 else 0
@@ -389,10 +421,38 @@ class GateNode:
             logger.info("="*50)
             logger.info("Session Statistics:")
             logger.info(f"  Runtime: {runtime:.1f}s")
-            logger.info(f"  Frames processed: {self.stats['frames_processed']}")
-            logger.info(f"  Average FPS: {fps:.1f}")
-            logger.info(f"  Faces detected: {self.stats['faces_detected']}")
-            logger.info(f"  Recognitions: {self.stats['recognitions_attempted']}")
+            logger.info(f"  Frames processed (AI): {self.stats['frames_processed']}")
+            logger.info(f"  Average AI FPS: {fps:.1f}")
+            
+            # Capture thread stats (decoupled camera)
+            if self.capture_thread:
+                cap_stats = self.capture_thread.get_stats()
+                logger.info(f"  Camera capture:")
+                logger.info(f"    - Frames captured: {cap_stats['frames_captured']}")
+                logger.info(f"    - Capture FPS: {cap_stats['actual_fps']}")
+                logger.info(f"    - Frames dropped (AI queue): {cap_stats['frames_dropped_ai']}")
+                logger.info(f"    - Frames dropped (stream): {cap_stats['frames_dropped_stream']}")
+            
+            # Detection skip optimization stats
+            det_run = self.stats.get("detections_run", 0)
+            det_skip = self.stats.get("detections_skipped", 0)
+            total_det = det_run + det_skip
+            skip_rate = (det_skip / total_det * 100) if total_det > 0 else 0
+            logger.info(f"  Detection optimization:")
+            logger.info(f"    - Detections run: {det_run}")
+            logger.info(f"    - Detections skipped: {det_skip}")
+            logger.info(f"    - Skip rate: {skip_rate:.1f}%")
+            
+            # Tracker statistics (track-based, not detection-based)
+            if self.tracker:
+                tracker_stats = self.tracker.get_statistics()
+                logger.info(f"  Unique tracks created: {tracker_stats.tracks_created}")
+                logger.info(f"  Tracks confirmed: {tracker_stats.tracks_confirmed}")
+                logger.info(f"  Tracks recognized: {tracker_stats.tracks_recognized}")
+                logger.info(f"  People counts:")
+                logger.info(f"    - Authorized: {tracker_stats.authorized_count}")
+                logger.info(f"    - Wanted: {tracker_stats.wanted_count}")
+                logger.info(f"    - Unknown: {tracker_stats.unknown_count}")
             
             if self.gate_controller:
                 gate_stats = self.gate_controller.get_stats()
@@ -403,11 +463,155 @@ class GateNode:
             
             logger.info("="*50)
     
+    def _recognize_track(self, track: Track, frame: np.ndarray) -> bool:
+        """
+        Run recognition for a single track.
+        
+        This should only be called for tracks where:
+        - track.is_ready_for_recognition() returns True
+        - track.phase == CONFIRMED
+        - track.recognized == False
+        
+        Returns:
+            True if recognition completed (success or failure)
+        """
+        track_id = track.track_id
+        bbox = track.bbox
+        
+        try:
+            # Extract face region
+            x1, y1, x2, y2 = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
+            
+            # Clamp to frame bounds
+            h, w = frame.shape[:2]
+            x1, y1 = max(0, x1), max(0, y1)
+            x2, y2 = min(w, x2), min(h, y2)
+            
+            if x2 <= x1 or y2 <= y1:
+                logger.warning(f"Track {track_id}: Invalid bbox after clamping")
+                return False
+            
+            face_crop = frame[y1:y2, x1:x2]
+            
+            if face_crop.size == 0:
+                logger.warning(f"Track {track_id}: Empty face crop")
+                return False
+            
+            # Resize to recognition model input size
+            aligned_face = cv2.resize(face_crop, (112, 112))
+            
+            # Get embedding
+            embedding = self.recognizer.get_embedding(aligned_face)
+            
+            # Search in database
+            results = self.face_db.search(embedding, k=1)
+            
+            if results and len(results) > 0:
+                person_id, distance, metadata = results[0]
+                confidence = 1.0 - distance  # Convert distance to similarity
+                
+                # Make decision
+                decision = self.decision_engine.make_decision(
+                    match_found=True,
+                    person_id=person_id,
+                    confidence=confidence,
+                    status=metadata.get("status", "AUTHORIZED"),
+                )
+                
+                # Map decision to status string
+                if decision == GateDecision.AUTHORIZED:
+                    status = "AUTHORIZED"
+                elif decision == GateDecision.WANTED:
+                    status = "WANTED"
+                else:
+                    status = "UNKNOWN"
+                
+                # Update tracker with recognition result (marks track as RECOGNIZED)
+                self.tracker.update_track_recognition(
+                    track_id=track_id,
+                    face_id=person_id,
+                    user_id=metadata.get("user_id"),
+                    name=metadata.get("full_name"),
+                    status=status,
+                    confidence=confidence,
+                )
+                
+                # Execute gate action
+                self.gate_controller.open_gate(
+                    decision=decision,
+                    person_id=person_id,
+                    track_id=track_id,
+                    confidence=confidence,
+                )
+                
+                # Log access
+                self.access_logger.log_access(
+                    person_id=person_id,
+                    person_name=metadata.get("full_name", "Unknown"),
+                    status=status,
+                    confidence=confidence,
+                    gate_id=config.GATE_ID,
+                )
+                
+                # Alert for WANTED
+                if decision == GateDecision.WANTED and self.stream_thread:
+                    self.stream_thread.send_alert("WANTED", frame)
+                
+                logger.info(
+                    f"Track {track_id} recognized: {status} "
+                    f"({metadata.get('full_name', 'Unknown')}, conf={confidence:.2f})"
+                )
+                return True
+                
+            else:
+                # No match found - mark as UNKNOWN after max attempts
+                self.tracker.record_recognition_attempt(track_id)
+                
+                if track.recognition_attempts >= self.max_recognition_attempts:
+                    # Max attempts reached, mark as UNKNOWN permanently
+                    self.tracker.update_track_recognition(
+                        track_id=track_id,
+                        face_id=None,
+                        user_id=None,
+                        name=None,
+                        status="UNKNOWN",
+                        confidence=0.0,
+                    )
+                    
+                    logger.info(
+                        f"Track {track_id} marked UNKNOWN after "
+                        f"{self.max_recognition_attempts} attempts"
+                    )
+                    return True
+                
+                return False
+                
+        except Exception as e:
+            logger.error(f"Recognition error for track {track_id}: {e}")
+            self.tracker.record_recognition_attempt(track_id)
+            return False
+    
     def run(self):
         """
         Main vision loop.
         
         This runs on the main thread and processes camera frames.
+        
+        Architecture (DECOUPLED):
+        - CaptureThread: Reads camera at 15+ FPS, feeds AI queue + stream queue
+        - This loop: Pulls from AI queue, runs detection/recognition at 1-2 FPS
+        - StreamThread: Pulls from stream queue, sends to LiveKit at 15+ FPS
+        
+        Pipeline per frame:
+        1. Get frame from AI queue (non-blocking, drops old frames)
+        2. SMART DETECTION: Skip if all tracks are recognized and stable
+        3. Detect faces → raw detections (only when needed)
+        4. Update tracker → stable track IDs
+        5. For tracks ready for recognition → run recognition ONCE
+        6. Update UI with all confirmed tracks
+        
+        Optimization: Skip detection when all active tracks are recognized and stable.
+        This saves ~200-400ms per frame when people stay in view after recognition.
         """
         if not self._running:
             logger.error("Gate Node not started")
@@ -415,144 +619,106 @@ class GateNode:
         
         logger.info("Starting main vision loop...")
         
-        frame_time = 1.0 / config.CAMERA_FPS
-        last_frame_time = 0
+        # Detection skip logic
+        detection_skip_frames = 0     # Counter for skipped frames
+        max_skip_frames = 5           # Max frames to skip before forced detection
         
         while self._running and not self._shutdown_event.is_set():
             loop_start = time.time()
             
-            # Capture frame
-            ret, frame = self.camera.read()
-            if not ret:
-                logger.warning("Failed to capture frame")
-                time.sleep(0.1)
+            # =========================
+            # GET FRAME FROM AI QUEUE
+            # =========================
+            # CaptureThread handles camera read at full FPS
+            # We pull frames from AI queue (drops old frames if we're slow)
+            frame = self.capture_thread.get_ai_frame(timeout=0.5)
+            if frame is None:
+                # No frame available, capture thread might be starting up
                 continue
             
             self.stats["frames_processed"] += 1
             
             # =========================
-            # DETECTION
+            # SMART DETECTION DECISION
             # =========================
-            detections = self.detector.detect(frame)
-            self.stats["faces_detected"] += len(detections)
+            # Skip expensive detection if:
+            # 1. We have active tracks that are all recognized
+            # 2. Tracks are still being matched (not lost)
+            # 3. Haven't skipped too many frames
+            # 
+            # WHY THIS WORKS:
+            # - After recognition, person stays in frame
+            # - We don't need to re-detect them every frame
+            # - Skip 5 frames, then do 1 detection to check if they left
+            # - This can boost FPS 5x when person is standing still
+            should_detect = True
+            
+            if self.tracker and detection_skip_frames < max_skip_frames:
+                active_tracks = self.tracker.get_all_active_tracks()
+                if active_tracks:
+                    # Check if all tracks are recognized AND recently updated
+                    all_recognized = all(t.recognized for t in active_tracks)
+                    all_stable = all(t.time_since_update <= 1 for t in active_tracks)
+                    
+                    if all_recognized and all_stable:
+                        # Skip detection - but we STILL need to keep tracks alive
+                        should_detect = False
+                        detection_skip_frames += 1
             
             # =========================
-            # TRACKING
+            # DETECTION (conditional)
             # =========================
-            tracks = self.tracker.update(detections)
-            
-            # Cleanup stale track states
-            active_track_ids = {t[4] for t in tracks}  # (x1, y1, x2, y2, track_id, ...)
-            self.track_state_manager.cleanup_stale(active_track_ids)
+            if should_detect:
+                detection_skip_frames = 0  # Reset skip counter
+                detections = self.detector.detect(frame)
+                tracker_detections = [(det.bbox, det.score, None) for det in detections]
+                
+                # Update tracker with detections
+                confirmed_tracks = self.tracker.update(tracker_detections)
+                self.stats["detections_run"] += 1
+            else:
+                # Skip detection - DON'T update tracker, just use last known tracks
+                # This prevents time_since_update from incrementing
+                confirmed_tracks = self.tracker.get_all_active_tracks()
+                self.stats["detections_skipped"] += 1
             
             # =========================
-            # RECOGNITION & DECISION
+            # RECOGNITION (once per track)
+            # =========================
+            # Get tracks that need recognition (CONFIRMED + not recognized)
+            tracks_to_recognize = self.tracker.get_tracks_for_recognition()
+            
+            for track in tracks_to_recognize:
+                # Run recognition ONCE for this track
+                # After this, track.recognized=True and it won't appear again
+                self._recognize_track(track, frame)
+            
+            # =========================
+            # BUILD UI OVERLAYS
             # =========================
             face_overlays: List[FaceOverlay] = []
             
-            for track in tracks:
-                x1, y1, x2, y2, track_id = track[:5]
-                landmarks = track[5] if len(track) > 5 else None
+            for track in confirmed_tracks:
+                bbox = track.bbox
+                bbox_tuple = (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))
                 
-                bbox = (int(x1), int(y1), int(x2), int(y2))
-                
-                # Check if we should attempt recognition
-                if self.track_state_manager.should_attempt_recognition(track_id):
-                    self.track_state_manager.record_attempt(track_id)
-                    self.stats["recognitions_attempted"] += 1
-                    
-                    # Extract face and get embedding
-                    try:
-                        # Align face if we have landmarks
-                        if landmarks is not None:
-                            aligned_face = align_face(frame, landmarks)
-                        else:
-                            # Fallback: crop and resize
-                            face_crop = frame[bbox[1]:bbox[3], bbox[0]:bbox[2]]
-                            aligned_face = cv2.resize(face_crop, (112, 112))
-                        
-                        # Get embedding
-                        embedding = self.recognizer.get_embedding(aligned_face)
-                        
-                        # Search in database
-                        results = self.face_db.search(embedding, k=1)
-                        
-                        if results and len(results) > 0:
-                            person_id, distance, metadata = results[0]
-                            confidence = 1.0 - distance  # Convert distance to similarity
-                            
-                            # Make decision
-                            decision = self.decision_engine.make_decision(
-                                match_found=True,
-                                person_id=person_id,
-                                confidence=confidence,
-                                status=metadata.get("status", "AUTHORIZED"),
-                            )
-                            
-                            # Record result
-                            if decision == GateDecision.AUTHORIZED:
-                                self.track_state_manager.record_success(
-                                    track_id=track_id,
-                                    status=TrackStatus.AUTHORIZED,
-                                    person_id=person_id,
-                                    metadata=metadata,
-                                    confidence=confidence,
-                                )
-                            elif decision == GateDecision.WANTED:
-                                self.track_state_manager.record_success(
-                                    track_id=track_id,
-                                    status=TrackStatus.WANTED,
-                                    person_id=person_id,
-                                    metadata=metadata,
-                                    confidence=confidence,
-                                )
-                                # Send alert
-                                if self.stream_thread:
-                                    self.stream_thread.send_alert("WANTED", frame)
-                            else:
-                                self.track_state_manager.record_failure(track_id)
-                                
-                            # Execute gate action
-                            self.gate_controller.open_gate(
-                                decision=decision,
-                                person_id=person_id,
-                                track_id=track_id,
-                                confidence=confidence,
-                            )
-                            
-                            # Log access
-                            self.access_logger.log_access(
-                                person_id=person_id,
-                                person_name=metadata.get("full_name", "Unknown"),
-                                status=decision.value,
-                                confidence=confidence,
-                                gate_id=config.GATE_ID,
-                            )
-                        else:
-                            # No match found
-                            self.track_state_manager.record_failure(track_id)
-                            
-                    except Exception as e:
-                        logger.error(f"Recognition error for track {track_id}: {e}")
-                        self.track_state_manager.record_failure(track_id)
-                
-                # Get current track state for UI
-                track_state = self.track_state_manager.get_state(track_id)
-                
-                if track_state:
-                    face_overlays.append(FaceOverlay(
-                        bbox=bbox,
-                        track_id=track_id,
-                        status=track_state.status.value,
-                        person_name=track_state.metadata.get("full_name") if track_state.metadata else None,
-                        confidence=track_state.confidence,
-                    ))
+                # Determine display status
+                if track.recognized:
+                    status = track.status or "UNKNOWN"
+                    name = track.name
+                    confidence = track.confidence
                 else:
-                    face_overlays.append(FaceOverlay(
-                        bbox=bbox,
-                        track_id=track_id,
-                        status="PENDING",
-                    ))
+                    status = "PENDING"
+                    name = None
+                    confidence = 0.0
+                
+                face_overlays.append(FaceOverlay(
+                    bbox=bbox_tuple,
+                    track_id=track.track_id,
+                    status=status,
+                    person_name=name,
+                    confidence=confidence,
+                ))
             
             # =========================
             # UPDATE UI
@@ -568,24 +734,18 @@ class GateNode:
                 
                 # Update status periodically
                 if self.stats["frames_processed"] % 30 == 0:
+                    tracker_stats = self.tracker.get_statistics()
                     self.ui_thread.update_status(
                         face_count=self.face_db.count(),
                         sync_status="Synced" if self.sync_thread.last_sync_success else "Error",
                     )
             
             # =========================
-            # UPDATE STREAM
+            # NOTE: NO FRAME RATE CONTROL NEEDED
             # =========================
-            if self.stream_thread:
-                self.stream_thread.put_frame(frame)
-            
-            # =========================
-            # FRAME RATE CONTROL
-            # =========================
-            elapsed = time.time() - loop_start
-            sleep_time = frame_time - elapsed
-            if sleep_time > 0:
-                time.sleep(sleep_time)
+            # The capture thread handles camera timing.
+            # AI loop runs as fast as it can - if it's slow, frames drop (that's fine).
+            # Stream gets smooth frames from capture thread, not from here.
         
         logger.info("Main vision loop ended")
 

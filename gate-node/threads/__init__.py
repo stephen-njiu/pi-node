@@ -3,6 +3,7 @@
 from .sync import SyncThread
 from .ui import UIThread, DisplayMode
 from .stream import StreamThread, MockStreamThread
+from .capture import CaptureThread, create_capture_thread
 
 from dataclasses import dataclass
 from typing import Optional, List

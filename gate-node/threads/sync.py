@@ -9,7 +9,7 @@ import requests
 import logging
 from typing import Optional
 
-from storage import FaceDatabase, AccessLogger
+from storage import FaceDatabase
 
 
 logger = logging.getLogger(__name__)
@@ -28,26 +28,21 @@ class SyncThread(threading.Thread):
     def __init__(
         self,
         face_db: FaceDatabase,
-        access_logger: AccessLogger,
         backend_url: str,
-        gate_id: str,
         org_id: str,
-        sync_interval: float = 120.0,
-        log_upload_interval: float = 60.0
+        interval_seconds: float = 120.0,
+        version_file: str = "data/sync_version.txt",
     ):
         super().__init__(name="SyncThread", daemon=True)
         
         self.face_db = face_db
-        self.access_logger = access_logger
         self.backend_url = backend_url.rstrip("/")
-        self.gate_id = gate_id
         self.org_id = org_id
-        self.sync_interval = sync_interval
-        self.log_upload_interval = log_upload_interval
+        self.sync_interval = interval_seconds
+        self.version_file = version_file
         
         self._stop_event = threading.Event()
         self._last_face_sync = 0.0
-        self._last_log_upload = 0.0
         
         # Stats
         self.last_sync_success = False
@@ -67,10 +62,6 @@ class SyncThread(threading.Thread):
             # Check if face sync needed
             if now - self._last_face_sync >= self.sync_interval:
                 self._sync_faces()
-            
-            # Check if log upload needed
-            if now - self._last_log_upload >= self.log_upload_interval:
-                self._upload_logs()
             
             # Sleep briefly
             self._stop_event.wait(timeout=5.0)

@@ -2,7 +2,7 @@
 
 from .detector import SCRFDDetector
 from .recognizer import ArcFaceRecognizer
-from .tracker import SimpleTracker
+from .tracker import SimpleTracker, DeepSORTLiteTracker, Track, TrackPhase, TrackerStatistics
 
 # Re-export align_face from detector
 def align_face(image, landmarks):
@@ -27,4 +27,13 @@ def align_face(image, landmarks):
     
     return cv2.warpAffine(image, M, (112, 112), borderValue=0)
 
-__all__ = ["SCRFDDetector", "ArcFaceRecognizer", "SimpleTracker", "align_face"]
+__all__ = [
+    "SCRFDDetector", 
+    "ArcFaceRecognizer", 
+    "SimpleTracker",
+    "DeepSORTLiteTracker",
+    "Track",
+    "TrackPhase",
+    "TrackerStatistics",
+    "align_face",
+]
