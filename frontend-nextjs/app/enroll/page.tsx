@@ -73,20 +73,21 @@ export default function EnrollPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // --- Load video devices ---
-  useEffect(() => {
-    async function fetchDevices() {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const cams = devices.filter((d) => d.kind === "videoinput");
-        setVideoDevices(cams);
-        if (!selectedDeviceId && cams.length > 0) setSelectedDeviceId(cams[0].deviceId);
-      } catch (err) {
-        console.error("Error fetching video devices", err);
-      }
+  // --- Load video devices (after permission granted) ---
+  const fetchDevices = useCallback(async () => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const cams = devices.filter((d) => d.kind === "videoinput");
+      setVideoDevices(cams);
+      if (!selectedDeviceId && cams.length > 0) setSelectedDeviceId(cams[0].deviceId);
+    } catch (err) {
+      console.error("Error fetching video devices", err);
     }
-    fetchDevices();
   }, [selectedDeviceId]);
+
+  useEffect(() => {
+    fetchDevices();
+  }, [fetchDevices]);
 
   // --- Load organizations (admin-only view) ---
   useEffect(() => {
@@ -120,13 +121,17 @@ export default function EnrollPage() {
 
   // --- Open camera ---
   const openCamera = useCallback(async () => {
-    if (!selectedDeviceId) return toast.error("No camera selected");
     setInitializing(true);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { deviceId: { exact: selectedDeviceId }, width: { ideal: 640 }, height: { ideal: 480 } },
-        audio: false,
-      });
+      // Request permissions first with any camera, then enumerate to get labels
+      const constraints = selectedDeviceId 
+        ? { video: { deviceId: { exact: selectedDeviceId }, width: { ideal: 640 }, height: { ideal: 480 } }, audio: false }
+        : { video: { width: { ideal: 640 }, height: { ideal: 480 } }, audio: false };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+      // After permission granted, refresh device list to get proper labels
+      await fetchDevices();
 
       streamRef.current = stream;
       const video = videoRef.current;
@@ -173,7 +178,7 @@ export default function EnrollPage() {
       setCameraOpen(false);
       setCameraReady(false);
     } finally { setInitializing(false); }
-  }, [selectedDeviceId]);
+  }, [selectedDeviceId, fetchDevices]);
 
   const closeCamera = useCallback(() => {
     if (streamRef.current) {
@@ -326,7 +331,7 @@ export default function EnrollPage() {
       toast.error(err?.message ?? "Registration failed");
       setUploadProgress(null);
     } finally { setLoading(false); }
-  }, [canRegister, fullName, email, organization, role, notes, photos]);
+  }, [canRegister, fullName, email, organization, role, notes, photos, resetPhotos]);
 
   const initials = useMemo(() => {
     const name = fullName || email || "U";
