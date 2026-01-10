@@ -1,0 +1,5 @@
+# Place ONNX model files here
+# Required models:
+# -  det_10g.onnx for face detection
+# - w600k_r50.onnx (for face recognition)
+# w600k_r50

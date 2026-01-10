@@ -1,0 +1,2332 @@
+2026-01-10 05:54:27,887 [INFO] GateNode: ==================================================
+2026-01-10 05:54:27,888 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 05:54:27,889 [INFO] GateNode: Organization: DKUT
+2026-01-10 05:54:27,890 [INFO] GateNode: ==================================================
+2026-01-10 05:54:27,891 [INFO] GateNode: Initializing storage...
+2026-01-10 05:54:27,971 [INFO] storage.face_db: Current sync version: 2026-01-09T12:18:13.184984+00:00
+2026-01-10 05:54:28,286 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 05:54:28,288 [INFO] GateNode: Storage initialized: 0 faces in database
+2026-01-10 05:54:28,289 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 05:54:28,536 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 05:54:28,536 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 05:54:29,652 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 05:54:29,653 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 05:54:29,653 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 05:54:29,654 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 05:54:29,654 [INFO] GateNode: Initializing gate controller...
+2026-01-10 05:54:29,655 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 05:54:29,656 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 05:54:29,657 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 05:54:29,659 [INFO] threads.capture: Capture thread starting...
+2026-01-10 05:54:31,450 [INFO] threads.capture: Camera opened: 640x480 @ 15.0fps
+2026-01-10 05:54:31,451 [INFO] threads.capture: Capture thread running at 15 FPS target
+2026-01-10 05:54:31,486 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-10 05:54:31,490 [INFO] GateNode: Initializing worker threads...
+2026-01-10 05:54:31,493 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 05:54:31,494 [INFO] GateNode: Worker threads initialized
+2026-01-10 05:54:31,497 [INFO] threads.sync: Sync thread started
+2026-01-10 05:54:31,497 [INFO] GateNode: Sync thread started
+2026-01-10 05:54:31,499 [INFO] threads.sync: [INIT] HNSW database: 0 faces, version: 2026-01-09T12:18:13.184984+00:00
+2026-01-10 05:54:31,503 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-09T12:18:13.184984+00:00)
+2026-01-10 05:54:31,504 [INFO] threads.ui: UI thread starting in continuous mode
+2026-01-10 05:54:31,504 [INFO] GateNode: UI thread started
+2026-01-10 05:54:31,506 [INFO] GateNode: Gate Node started successfully
+2026-01-10 05:54:31,506 [INFO] GateNode: Starting main vision loop...
+2026-01-10 05:54:32,494 [INFO] threads.ui: Display window created: 1280x720
+2026-01-10 05:54:33,168 [INFO] threads.sync: API returned: 4 upserts, 0 deletes, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 05:54:33,215 [INFO] storage.face_db: Added face b7ad2442-3dae-4ab6-b95d-d606599cb00c (Stephen Njiu) with status AUTHORIZED
+2026-01-10 05:54:33,219 [INFO] storage.face_db: Added face 3a88d549-655c-491e-a207-cba58728cb48 (Stephen Njiu) with status AUTHORIZED
+2026-01-10 05:54:33,225 [INFO] storage.face_db: Added face 25079658-9b13-472c-bee5-27f4649ff4ed (Stephen Njiu) with status AUTHORIZED
+2026-01-10 05:54:33,227 [INFO] storage.face_db: Added face 53005694-1f87-48b6-a743-02a5e7d1a956 (Stephen Njiu) with status AUTHORIZED
+2026-01-10 05:54:33,228 [INFO] threads.sync: Added/updated 4/4 faces
+2026-01-10 05:54:33,315 [INFO] threads.sync: [SYNC OK] 4 upserts, 0 deletes -> 4 faces in DB, version 2026-01-10T02:54:31.722356+00:00
+2026-01-10 05:54:54,440 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-10 05:55:06,930 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-10 05:55:27,427 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.68)
+2026-01-10 05:55:27,429 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 05:55:27,664 [INFO] storage.logs: Logged access event #47: AUTHORIZED -> AUTHORIZED
+2026-01-10 05:55:27,664 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.68)
+2026-01-10 05:55:32,439 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 05:55:45,712 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.61)
+2026-01-10 05:55:45,761 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 05:55:46,031 [INFO] storage.logs: Logged access event #48: AUTHORIZED -> AUTHORIZED
+2026-01-10 05:55:46,032 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.61)
+2026-01-10 05:55:50,776 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 05:56:30,983 [INFO] core.gate_control: ACCESS GRANTED: b7ad2442-3dae-4ab6-b95d-d606599cb00c (confidence: 0.70)
+2026-01-10 05:56:30,984 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 05:56:31,165 [INFO] storage.logs: Logged access event #49: AUTHORIZED -> AUTHORIZED
+2026-01-10 05:56:31,165 [INFO] GateNode: Track 3 recognized: AUTHORIZED (Stephen Njiu, conf=0.70)
+2026-01-10 05:56:33,516 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 05:56:34,327 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T02:56:33.717672+00:00
+2026-01-10 05:56:34,328 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 05:56:35,988 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 05:56:41,559 [INFO] threads.ui: Display mode changed to: alert_only
+2026-01-10 05:58:34,521 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 05:58:35,342 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T02:58:34.720832+00:00
+2026-01-10 05:58:35,349 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:00:35,564 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:00:38,552 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:00:37.680691+00:00
+2026-01-10 06:00:38,553 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:02:38,711 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:02:39,640 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:02:38.913780+00:00
+2026-01-10 06:02:39,641 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:02:52,740 [INFO] threads.ui: Display mode changed to: continuous
+2026-01-10 06:03:07,861 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.62)
+2026-01-10 06:03:07,863 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:03:08,075 [INFO] storage.logs: Logged access event #50: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:03:08,076 [INFO] GateNode: Track 5 recognized: AUTHORIZED (Stephen Njiu, conf=0.62)
+2026-01-10 06:03:12,866 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:03:21,606 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.61)
+2026-01-10 06:03:21,608 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:03:21,786 [INFO] storage.logs: Logged access event #51: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:03:21,787 [INFO] GateNode: Track 6 recognized: AUTHORIZED (Stephen Njiu, conf=0.61)
+2026-01-10 06:03:26,609 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:04:39,876 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:04:40,724 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:04:40.097103+00:00
+2026-01-10 06:04:40,733 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:06:40,982 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:06:42,906 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:06:42.053256+00:00
+2026-01-10 06:06:42,906 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:08:43,119 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:08:43,955 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:08:43.347476+00:00
+2026-01-10 06:08:43,958 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:09:30,170 [INFO] GateNode: Received signal 2
+2026-01-10 06:09:30,171 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:09:30,172 [INFO] threads.sync: Sync thread stopped
+2026-01-10 06:09:30,236 [INFO] threads.ui: UI thread stopped
+2026-01-10 06:09:30,865 [INFO] threads.capture: Capture thread stopped
+2026-01-10 06:09:30,867 [INFO] storage.logs: Access logger closed
+2026-01-10 06:09:30,868 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:09:30,869 [INFO] GateNode: ==================================================
+2026-01-10 06:09:30,870 [INFO] GateNode: Session Statistics:
+2026-01-10 06:09:30,871 [INFO] GateNode:   Runtime: 899.4s
+2026-01-10 06:09:30,874 [INFO] GateNode:   Frames processed (AI): 1139
+2026-01-10 06:09:30,875 [INFO] GateNode:   Average AI FPS: 1.3
+2026-01-10 06:09:30,875 [INFO] GateNode:   Camera capture:
+2026-01-10 06:09:30,876 [INFO] GateNode:     - Frames captured: 12130
+2026-01-10 06:09:30,877 [INFO] GateNode:     - Capture FPS: 12.7
+2026-01-10 06:09:30,877 [INFO] GateNode:     - Frames dropped (AI queue): 10989
+2026-01-10 06:09:30,878 [INFO] GateNode:     - Frames dropped (stream): 12125
+2026-01-10 06:09:30,878 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:09:30,879 [INFO] GateNode:     - Detections run: 1023
+2026-01-10 06:09:30,879 [INFO] GateNode:     - Detections skipped: 115
+2026-01-10 06:09:30,880 [INFO] GateNode:     - Skip rate: 10.1%
+2026-01-10 06:09:30,880 [INFO] GateNode:   Unique tracks created: 6
+2026-01-10 06:09:30,881 [INFO] GateNode:   Tracks confirmed: 5
+2026-01-10 06:09:30,881 [INFO] GateNode:   Tracks recognized: 5
+2026-01-10 06:09:30,882 [INFO] GateNode:   People counts:
+2026-01-10 06:09:30,882 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:09:30,882 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:09:30,883 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:09:30,883 [INFO] GateNode:   Gate opens: 5
+2026-01-10 06:09:30,884 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:09:30,885 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:09:30,886 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:09:30,887 [INFO] GateNode: ==================================================
+2026-01-10 06:09:30,888 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:09:30,889 [INFO] storage.logs: Access logger closed
+2026-01-10 06:09:30,890 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:09:30,890 [INFO] GateNode: ==================================================
+2026-01-10 06:09:30,890 [INFO] GateNode: Session Statistics:
+2026-01-10 06:09:30,891 [INFO] GateNode:   Runtime: 899.4s
+2026-01-10 06:09:30,892 [INFO] GateNode:   Frames processed (AI): 1139
+2026-01-10 06:09:30,892 [INFO] GateNode:   Average AI FPS: 1.3
+2026-01-10 06:09:30,893 [INFO] GateNode:   Camera capture:
+2026-01-10 06:09:30,894 [INFO] GateNode:     - Frames captured: 12130
+2026-01-10 06:09:30,894 [INFO] GateNode:     - Capture FPS: 12.7
+2026-01-10 06:09:30,896 [INFO] GateNode:     - Frames dropped (AI queue): 10989
+2026-01-10 06:09:30,898 [INFO] GateNode:     - Frames dropped (stream): 12125
+2026-01-10 06:09:30,900 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:09:30,902 [INFO] GateNode:     - Detections run: 1023
+2026-01-10 06:09:30,904 [INFO] GateNode:     - Detections skipped: 115
+2026-01-10 06:09:30,913 [INFO] GateNode:     - Skip rate: 10.1%
+2026-01-10 06:09:30,914 [INFO] GateNode:   Unique tracks created: 6
+2026-01-10 06:09:30,915 [INFO] GateNode:   Tracks confirmed: 5
+2026-01-10 06:09:30,917 [INFO] GateNode:   Tracks recognized: 5
+2026-01-10 06:09:30,919 [INFO] GateNode:   People counts:
+2026-01-10 06:09:30,920 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:09:30,920 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:09:30,921 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:09:30,922 [INFO] GateNode:   Gate opens: 5
+2026-01-10 06:09:30,922 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:09:30,924 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:09:30,924 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:09:30,925 [INFO] GateNode: ==================================================
+2026-01-10 06:24:52,749 [INFO] GateNode: ==================================================
+2026-01-10 06:24:52,766 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 06:24:52,767 [INFO] GateNode: Organization: DKUT
+2026-01-10 06:24:52,770 [INFO] GateNode: ==================================================
+2026-01-10 06:24:52,771 [INFO] GateNode: Initializing storage...
+2026-01-10 06:24:52,832 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 06:24:52,945 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 06:24:52,997 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:24:53,116 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 06:24:53,117 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 06:24:53,118 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 06:24:53,501 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 06:24:53,502 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 06:24:56,621 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 06:24:56,642 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 06:24:56,676 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 06:24:56,705 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 06:24:56,746 [INFO] GateNode: Initializing gate controller...
+2026-01-10 06:24:56,810 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 06:24:56,835 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 06:24:56,840 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 06:24:56,841 [INFO] threads.capture: Capture thread starting...
+2026-01-10 06:24:59,517 [INFO] threads.capture: Camera opened: 640x480 @ 15.0fps
+2026-01-10 06:24:59,518 [INFO] threads.capture: Capture thread running at 15 FPS target
+2026-01-10 06:24:59,595 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-10 06:24:59,599 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 06:24:59,604 [INFO] GateNode: Alarm system initialized
+2026-01-10 06:24:59,607 [INFO] GateNode: Initializing worker threads...
+2026-01-10 06:24:59,608 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 06:24:59,608 [INFO] GateNode: Worker threads initialized
+2026-01-10 06:24:59,609 [INFO] threads.sync: Sync thread started
+2026-01-10 06:24:59,610 [INFO] GateNode: Sync thread started
+2026-01-10 06:24:59,610 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:24:59,611 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 06:24:59,611 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:24:59,612 [INFO] GateNode: UI thread started
+2026-01-10 06:24:59,614 [INFO] GateNode: Gate Node started successfully
+2026-01-10 06:24:59,615 [INFO] GateNode: Starting main vision loop...
+2026-01-10 06:25:00,281 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 06:25:05,051 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:25:02.234447+00:00
+2026-01-10 06:25:05,052 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:26:07,803 [INFO] core.gate_control: ACCESS GRANTED: 53005694-1f87-48b6-a743-02a5e7d1a956 (confidence: 0.55)
+2026-01-10 06:26:07,805 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:26:08,069 [INFO] storage.logs: Logged access event #52: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:26:08,070 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.55)
+2026-01-10 06:26:12,805 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:26:31,807 [INFO] GateNode: Received signal 2
+2026-01-10 06:26:31,808 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:26:31,809 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 06:26:31,810 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:26:31,811 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:26:31,812 [INFO] threads.sync: Sync thread stopped
+2026-01-10 06:26:32,409 [INFO] threads.capture: Capture thread stopped
+2026-01-10 06:26:32,411 [INFO] storage.logs: Access logger closed
+2026-01-10 06:26:32,412 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:26:32,412 [INFO] GateNode: ==================================================
+2026-01-10 06:26:32,413 [INFO] GateNode: Session Statistics:
+2026-01-10 06:26:32,413 [INFO] GateNode:   Runtime: 92.8s
+2026-01-10 06:26:32,414 [INFO] GateNode:   Frames processed (AI): 126
+2026-01-10 06:26:32,415 [INFO] GateNode:   Average AI FPS: 1.4
+2026-01-10 06:26:32,416 [INFO] GateNode:   Camera capture:
+2026-01-10 06:26:32,417 [INFO] GateNode:     - Frames captured: 1174
+2026-01-10 06:26:32,417 [INFO] GateNode:     - Capture FPS: 13.7
+2026-01-10 06:26:32,418 [INFO] GateNode:     - Frames dropped (AI queue): 1046
+2026-01-10 06:26:32,419 [INFO] GateNode:     - Frames dropped (stream): 1169
+2026-01-10 06:26:32,419 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:26:32,419 [INFO] GateNode:     - Detections run: 115
+2026-01-10 06:26:32,420 [INFO] GateNode:     - Detections skipped: 10
+2026-01-10 06:26:32,420 [INFO] GateNode:     - Skip rate: 8.0%
+2026-01-10 06:26:32,421 [INFO] GateNode:   Unique tracks created: 1
+2026-01-10 06:26:32,421 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 06:26:32,422 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 06:26:32,422 [INFO] GateNode:   People counts:
+2026-01-10 06:26:32,422 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:26:32,423 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:26:32,423 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:26:32,424 [INFO] GateNode:   Gate opens: 1
+2026-01-10 06:26:32,425 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:26:32,425 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:26:32,426 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:26:32,428 [INFO] GateNode: ==================================================
+2026-01-10 06:26:32,429 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:26:32,429 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:26:32,430 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:26:32,431 [INFO] storage.logs: Access logger closed
+2026-01-10 06:26:32,431 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:26:32,431 [INFO] GateNode: ==================================================
+2026-01-10 06:26:32,432 [INFO] GateNode: Session Statistics:
+2026-01-10 06:26:32,432 [INFO] GateNode:   Runtime: 92.8s
+2026-01-10 06:26:32,433 [INFO] GateNode:   Frames processed (AI): 126
+2026-01-10 06:26:32,434 [INFO] GateNode:   Average AI FPS: 1.4
+2026-01-10 06:26:32,435 [INFO] GateNode:   Camera capture:
+2026-01-10 06:26:32,435 [INFO] GateNode:     - Frames captured: 1174
+2026-01-10 06:26:32,436 [INFO] GateNode:     - Capture FPS: 13.7
+2026-01-10 06:26:32,436 [INFO] GateNode:     - Frames dropped (AI queue): 1046
+2026-01-10 06:26:32,437 [INFO] GateNode:     - Frames dropped (stream): 1169
+2026-01-10 06:26:32,437 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:26:32,440 [INFO] GateNode:     - Detections run: 115
+2026-01-10 06:26:32,441 [INFO] GateNode:     - Detections skipped: 10
+2026-01-10 06:26:32,442 [INFO] GateNode:     - Skip rate: 8.0%
+2026-01-10 06:26:32,453 [INFO] GateNode:   Unique tracks created: 1
+2026-01-10 06:26:32,454 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 06:26:32,454 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 06:26:32,455 [INFO] GateNode:   People counts:
+2026-01-10 06:26:32,456 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:26:32,456 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:26:32,457 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:26:32,458 [INFO] GateNode:   Gate opens: 1
+2026-01-10 06:26:32,459 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:26:32,460 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:26:32,460 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:26:32,461 [INFO] GateNode: ==================================================
+2026-01-10 06:27:22,018 [INFO] GateNode: ==================================================
+2026-01-10 06:27:22,019 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 06:27:22,019 [INFO] GateNode: Organization: DKUT
+2026-01-10 06:27:22,020 [INFO] GateNode: ==================================================
+2026-01-10 06:27:22,020 [INFO] GateNode: Initializing storage...
+2026-01-10 06:27:22,024 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 06:27:22,029 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 06:27:22,030 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:27:22,035 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 06:27:22,036 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 06:27:22,037 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 06:27:22,391 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 06:27:22,391 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 06:27:25,310 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 06:27:25,310 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 06:27:25,311 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 06:27:25,311 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 06:27:25,312 [INFO] GateNode: Initializing gate controller...
+2026-01-10 06:27:25,312 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 06:27:25,313 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 06:27:25,313 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 06:27:25,314 [INFO] threads.capture: Capture thread starting...
+2026-01-10 06:27:26,011 [INFO] threads.capture: Camera opened: 640x480 @ 15.0fps
+2026-01-10 06:27:26,011 [INFO] threads.capture: Capture thread running at 15 FPS target
+2026-01-10 06:27:26,018 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-10 06:27:26,021 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 06:27:26,021 [INFO] GateNode: Alarm system initialized
+2026-01-10 06:27:26,022 [INFO] GateNode: Initializing worker threads...
+2026-01-10 06:27:26,023 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 06:27:26,023 [INFO] GateNode: Worker threads initialized
+2026-01-10 06:27:26,025 [INFO] threads.sync: Sync thread started
+2026-01-10 06:27:26,025 [INFO] GateNode: Sync thread started
+2026-01-10 06:27:26,025 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:27:26,027 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:27:26,027 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 06:27:26,027 [INFO] GateNode: UI thread started
+2026-01-10 06:27:26,030 [INFO] GateNode: Gate Node started successfully
+2026-01-10 06:27:26,032 [INFO] GateNode: Starting main vision loop...
+2026-01-10 06:27:26,096 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 06:27:26,833 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:27:26.243078+00:00
+2026-01-10 06:27:26,834 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:27:30,619 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.54)
+2026-01-10 06:27:30,620 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:27:31,511 [INFO] storage.logs: Logged access event #53: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:27:31,511 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.54)
+2026-01-10 06:27:35,634 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:27:57,196 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 06:28:30,856 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 06:28:41,288 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 06:29:00,161 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.50)
+2026-01-10 06:29:00,163 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:29:00,366 [INFO] storage.logs: Logged access event #54: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:29:00,367 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.50)
+2026-01-10 06:29:04,389 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 06:29:05,170 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:29:07,916 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 06:29:09,827 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 06:29:27,020 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:29:27,829 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:29:27.226540+00:00
+2026-01-10 06:29:27,830 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:31:03,563 [INFO] GateNode: Received signal 2
+2026-01-10 06:31:03,564 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:31:03,565 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 06:31:03,565 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:31:03,566 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:31:03,567 [INFO] threads.sync: Sync thread stopped
+2026-01-10 06:31:04,249 [INFO] threads.capture: Capture thread stopped
+2026-01-10 06:31:04,250 [INFO] storage.logs: Access logger closed
+2026-01-10 06:31:04,251 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:31:04,252 [INFO] GateNode: ==================================================
+2026-01-10 06:31:04,253 [INFO] GateNode: Session Statistics:
+2026-01-10 06:31:04,254 [INFO] GateNode:   Runtime: 218.2s
+2026-01-10 06:31:04,255 [INFO] GateNode:   Frames processed (AI): 892
+2026-01-10 06:31:04,256 [INFO] GateNode:   Average AI FPS: 4.1
+2026-01-10 06:31:04,256 [INFO] GateNode:   Camera capture:
+2026-01-10 06:31:04,257 [INFO] GateNode:     - Frames captured: 2914
+2026-01-10 06:31:04,259 [INFO] GateNode:     - Capture FPS: 15.2
+2026-01-10 06:31:04,261 [INFO] GateNode:     - Frames dropped (AI queue): 2020
+2026-01-10 06:31:04,264 [INFO] GateNode:     - Frames dropped (stream): 2397
+2026-01-10 06:31:04,264 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:31:04,265 [INFO] GateNode:     - Detections run: 236
+2026-01-10 06:31:04,266 [INFO] GateNode:     - Detections skipped: 655
+2026-01-10 06:31:04,266 [INFO] GateNode:     - Skip rate: 73.5%
+2026-01-10 06:31:04,267 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 06:31:04,267 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 06:31:04,268 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 06:31:04,269 [INFO] GateNode:   People counts:
+2026-01-10 06:31:04,269 [INFO] GateNode:     - Authorized: 2
+2026-01-10 06:31:04,270 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:31:04,271 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:31:04,271 [INFO] GateNode:   Gate opens: 2
+2026-01-10 06:31:04,271 [INFO] GateNode:     - Authorized: 2
+2026-01-10 06:31:04,272 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:31:04,273 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:31:04,274 [INFO] GateNode: ==================================================
+2026-01-10 06:31:04,276 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:31:04,282 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:31:04,285 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:31:04,287 [INFO] storage.logs: Access logger closed
+2026-01-10 06:31:04,288 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:31:04,288 [INFO] GateNode: ==================================================
+2026-01-10 06:31:04,289 [INFO] GateNode: Session Statistics:
+2026-01-10 06:31:04,290 [INFO] GateNode:   Runtime: 218.3s
+2026-01-10 06:31:04,290 [INFO] GateNode:   Frames processed (AI): 892
+2026-01-10 06:31:04,291 [INFO] GateNode:   Average AI FPS: 4.1
+2026-01-10 06:31:04,291 [INFO] GateNode:   Camera capture:
+2026-01-10 06:31:04,292 [INFO] GateNode:     - Frames captured: 2914
+2026-01-10 06:31:04,293 [INFO] GateNode:     - Capture FPS: 15.2
+2026-01-10 06:31:04,293 [INFO] GateNode:     - Frames dropped (AI queue): 2020
+2026-01-10 06:31:04,294 [INFO] GateNode:     - Frames dropped (stream): 2397
+2026-01-10 06:31:04,295 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:31:04,295 [INFO] GateNode:     - Detections run: 236
+2026-01-10 06:31:04,296 [INFO] GateNode:     - Detections skipped: 655
+2026-01-10 06:31:04,296 [INFO] GateNode:     - Skip rate: 73.5%
+2026-01-10 06:31:04,296 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 06:31:04,297 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 06:31:04,297 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 06:31:04,298 [INFO] GateNode:   People counts:
+2026-01-10 06:31:04,298 [INFO] GateNode:     - Authorized: 2
+2026-01-10 06:31:04,298 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:31:04,299 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:31:04,300 [INFO] GateNode:   Gate opens: 2
+2026-01-10 06:31:04,300 [INFO] GateNode:     - Authorized: 2
+2026-01-10 06:31:04,301 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:31:04,302 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:31:04,302 [INFO] GateNode: ==================================================
+2026-01-10 06:38:17,026 [INFO] GateNode: ==================================================
+2026-01-10 06:38:17,026 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 06:38:17,027 [INFO] GateNode: Organization: DKUT
+2026-01-10 06:38:17,027 [INFO] GateNode: ==================================================
+2026-01-10 06:38:17,028 [INFO] GateNode: Initializing storage...
+2026-01-10 06:38:17,047 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 06:38:17,058 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 06:38:17,061 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:38:17,077 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 06:38:17,079 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 06:38:17,080 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 06:38:17,379 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 06:38:17,380 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 06:38:20,838 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 06:38:20,839 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 06:38:20,839 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 06:38:20,839 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 06:38:20,840 [INFO] GateNode: Initializing gate controller...
+2026-01-10 06:38:20,840 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 06:38:20,841 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 06:38:20,841 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 06:38:20,842 [INFO] threads.capture: Capture thread starting...
+2026-01-10 06:38:21,839 [INFO] threads.capture: Camera opened: 640x480 @ 15.0fps
+2026-01-10 06:38:21,839 [INFO] threads.capture: Capture thread running at 15 FPS target
+2026-01-10 06:38:21,850 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-10 06:38:21,869 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 06:38:21,870 [INFO] GateNode: Alarm system initialized
+2026-01-10 06:38:21,871 [INFO] GateNode: Initializing worker threads...
+2026-01-10 06:38:21,873 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 06:38:21,873 [INFO] GateNode: Worker threads initialized
+2026-01-10 06:38:21,875 [INFO] threads.sync: Sync thread started
+2026-01-10 06:38:21,876 [INFO] GateNode: Sync thread started
+2026-01-10 06:38:21,876 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:38:21,878 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 06:38:21,878 [INFO] GateNode: UI thread started
+2026-01-10 06:38:21,878 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:38:21,881 [INFO] GateNode: Gate Node started successfully
+2026-01-10 06:38:21,884 [INFO] GateNode: Starting main vision loop...
+2026-01-10 06:38:22,082 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 06:38:27,925 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:38:25.097259+00:00
+2026-01-10 06:38:27,926 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:38:54,224 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.61)
+2026-01-10 06:38:54,226 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:38:54,401 [INFO] storage.logs: Logged access event #55: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:38:54,403 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.61)
+2026-01-10 06:38:59,234 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:39:01,699 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 06:39:31,066 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 06:39:37,798 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 06:40:19,507 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 06:40:21,883 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 06:40:23,107 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:40:23,937 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:40:23.316645+00:00
+2026-01-10 06:40:23,938 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:40:24,734 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 06:40:30,618 [INFO] GateNode: Received signal 2
+2026-01-10 06:40:30,618 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:40:30,619 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 06:40:30,619 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:40:30,620 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:40:30,620 [INFO] threads.sync: Sync thread stopped
+2026-01-10 06:40:31,072 [INFO] threads.capture: Capture thread stopped
+2026-01-10 06:40:31,076 [INFO] storage.logs: Access logger closed
+2026-01-10 06:40:31,083 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:40:31,088 [INFO] GateNode: ==================================================
+2026-01-10 06:40:31,090 [INFO] GateNode: Session Statistics:
+2026-01-10 06:40:31,091 [INFO] GateNode:   Runtime: 129.2s
+2026-01-10 06:40:31,094 [INFO] GateNode:   Frames processed (AI): 475
+2026-01-10 06:40:31,098 [INFO] GateNode:   Average AI FPS: 3.7
+2026-01-10 06:40:31,102 [INFO] GateNode:   Camera capture:
+2026-01-10 06:40:31,104 [INFO] GateNode:     - Frames captured: 1743
+2026-01-10 06:40:31,105 [INFO] GateNode:     - Capture FPS: 14.4
+2026-01-10 06:40:31,107 [INFO] GateNode:     - Frames dropped (AI queue): 1266
+2026-01-10 06:40:31,121 [INFO] GateNode:     - Frames dropped (stream): 1303
+2026-01-10 06:40:31,122 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:40:31,123 [INFO] GateNode:     - Detections run: 154
+2026-01-10 06:40:31,124 [INFO] GateNode:     - Detections skipped: 320
+2026-01-10 06:40:31,125 [INFO] GateNode:     - Skip rate: 67.5%
+2026-01-10 06:40:31,127 [INFO] GateNode:   Unique tracks created: 1
+2026-01-10 06:40:31,127 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 06:40:31,128 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 06:40:31,129 [INFO] GateNode:   People counts:
+2026-01-10 06:40:31,130 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:40:31,130 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:40:31,131 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:40:31,131 [INFO] GateNode:   Gate opens: 1
+2026-01-10 06:40:31,132 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:40:31,132 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:40:31,133 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:40:31,133 [INFO] GateNode: ==================================================
+2026-01-10 06:40:31,134 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:40:31,135 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:40:31,136 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:40:31,137 [INFO] storage.logs: Access logger closed
+2026-01-10 06:40:31,139 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:40:31,140 [INFO] GateNode: ==================================================
+2026-01-10 06:40:31,142 [INFO] GateNode: Session Statistics:
+2026-01-10 06:40:31,143 [INFO] GateNode:   Runtime: 129.3s
+2026-01-10 06:40:31,144 [INFO] GateNode:   Frames processed (AI): 475
+2026-01-10 06:40:31,144 [INFO] GateNode:   Average AI FPS: 3.7
+2026-01-10 06:40:31,145 [INFO] GateNode:   Camera capture:
+2026-01-10 06:40:31,145 [INFO] GateNode:     - Frames captured: 1743
+2026-01-10 06:40:31,146 [INFO] GateNode:     - Capture FPS: 14.4
+2026-01-10 06:40:31,146 [INFO] GateNode:     - Frames dropped (AI queue): 1266
+2026-01-10 06:40:31,147 [INFO] GateNode:     - Frames dropped (stream): 1303
+2026-01-10 06:40:31,147 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:40:31,148 [INFO] GateNode:     - Detections run: 154
+2026-01-10 06:40:31,148 [INFO] GateNode:     - Detections skipped: 320
+2026-01-10 06:40:31,149 [INFO] GateNode:     - Skip rate: 67.5%
+2026-01-10 06:40:31,149 [INFO] GateNode:   Unique tracks created: 1
+2026-01-10 06:40:31,150 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 06:40:31,151 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 06:40:31,151 [INFO] GateNode:   People counts:
+2026-01-10 06:40:31,152 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:40:31,152 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:40:31,153 [INFO] GateNode:     - Unknown: 0
+2026-01-10 06:40:31,153 [INFO] GateNode:   Gate opens: 1
+2026-01-10 06:40:31,154 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:40:31,155 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:40:31,156 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:40:31,156 [INFO] GateNode: ==================================================
+2026-01-10 06:50:05,082 [INFO] GateNode: ==================================================
+2026-01-10 06:50:05,083 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 06:50:05,083 [INFO] GateNode: Organization: DKUT
+2026-01-10 06:50:05,083 [INFO] GateNode: ==================================================
+2026-01-10 06:50:05,084 [INFO] GateNode: Initializing storage...
+2026-01-10 06:50:05,088 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 06:50:05,092 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 06:50:05,094 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:50:05,098 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 06:50:05,099 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 06:50:05,100 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 06:50:05,401 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 06:50:05,402 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 06:50:08,335 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 06:50:08,335 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 06:50:08,336 [INFO] vision.bytetrack: ByteTracker initialized: iou_threshold=0.3, min_hits=2, max_age=30
+2026-01-10 06:50:08,336 [INFO] GateNode: Vision pipeline initialized (ByteTracker)
+2026-01-10 06:50:08,337 [INFO] GateNode: Initializing gate controller...
+2026-01-10 06:50:08,337 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 06:50:08,337 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 06:50:08,338 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 06:50:08,339 [INFO] threads.capture: Capture thread starting...
+2026-01-10 06:50:08,859 [INFO] threads.capture: Camera opened: 640x480 @ 15.0fps
+2026-01-10 06:50:08,860 [INFO] threads.capture: Capture thread running at 15 FPS target
+2026-01-10 06:50:08,944 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-10 06:50:08,947 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 06:50:08,947 [INFO] GateNode: Alarm system initialized
+2026-01-10 06:50:08,948 [INFO] GateNode: Initializing worker threads...
+2026-01-10 06:50:08,948 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 06:50:08,953 [INFO] GateNode: Worker threads initialized
+2026-01-10 06:50:08,954 [INFO] threads.sync: Sync thread started
+2026-01-10 06:50:08,954 [INFO] GateNode: Sync thread started
+2026-01-10 06:50:08,955 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:50:08,956 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 06:50:08,956 [INFO] GateNode: UI thread started
+2026-01-10 06:50:08,956 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:50:08,957 [INFO] GateNode: Gate Node started successfully
+2026-01-10 06:50:08,961 [INFO] GateNode: Starting main vision loop...
+2026-01-10 06:50:09,020 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 06:50:15,648 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:50:13.085315+00:00
+2026-01-10 06:50:15,649 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:50:23,449 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-10 06:50:23,453 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:23,453 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:50:26,464 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:30,142 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:30,143 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:50:33,693 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:37,283 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:37,283 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:50:40,969 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:44,565 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:44,566 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:50:47,570 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:50,966 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:50,966 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:50:54,620 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:58,405 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:50:58,406 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:02,047 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:05,702 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:05,703 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:08,237 [INFO] core.gate_control: ACCESS GRANTED: b7ad2442-3dae-4ab6-b95d-d606599cb00c (confidence: 0.59)
+2026-01-10 06:51:08,240 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:51:08,484 [INFO] storage.logs: Logged access event #56: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:51:08,485 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.59)
+2026-01-10 06:51:09,164 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:12,797 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:12,797 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:13,242 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:51:15,805 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:18,815 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:18,816 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:21,859 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:25,058 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:25,059 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:28,179 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:30,878 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 06:51:31,320 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:31,323 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:31,944 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 06:51:34,919 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:38,414 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:38,414 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:41,719 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:44,988 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:44,988 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:48,324 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:52,247 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:52,263 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:51:55,440 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:58,466 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:51:58,467 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:52:02,258 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:05,830 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:05,831 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:52:08,616 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 06:52:09,475 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:10,816 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:52:11,545 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:52:11.030570+00:00
+2026-01-10 06:52:11,549 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:52:13,254 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:13,255 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:52:16,863 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:20,438 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:20,439 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:52:23,976 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:28,492 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:28,513 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:52:31,693 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:35,744 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:35,747 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:52:38,766 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:42,486 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 06:52:42,487 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:52:44,385 [INFO] GateNode: Received signal 2
+2026-01-10 06:52:44,386 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:52:44,386 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 06:52:44,387 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:52:44,388 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:52:44,388 [INFO] threads.sync: Sync thread stopped
+2026-01-10 06:52:45,000 [INFO] threads.capture: Capture thread stopped
+2026-01-10 06:52:45,002 [INFO] storage.logs: Access logger closed
+2026-01-10 06:52:45,003 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:52:45,004 [INFO] GateNode: ==================================================
+2026-01-10 06:52:45,005 [INFO] GateNode: Session Statistics:
+2026-01-10 06:52:45,006 [INFO] GateNode:   Runtime: 156.0s
+2026-01-10 06:52:45,007 [INFO] GateNode:   Frames processed (AI): 608
+2026-01-10 06:52:45,008 [INFO] GateNode:   Average AI FPS: 3.9
+2026-01-10 06:52:45,009 [INFO] GateNode:   Camera capture:
+2026-01-10 06:52:45,010 [INFO] GateNode:     - Frames captured: 2238
+2026-01-10 06:52:45,011 [INFO] GateNode:     - Capture FPS: 14.8
+2026-01-10 06:52:45,013 [INFO] GateNode:     - Frames dropped (AI queue): 1628
+2026-01-10 06:52:45,014 [INFO] GateNode:     - Frames dropped (stream): 2233
+2026-01-10 06:52:45,015 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:52:45,015 [INFO] GateNode:     - Detections run: 157
+2026-01-10 06:52:45,016 [INFO] GateNode:     - Detections skipped: 450
+2026-01-10 06:52:45,017 [INFO] GateNode:     - Skip rate: 74.1%
+2026-01-10 06:52:45,018 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 06:52:45,019 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 06:52:45,020 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 06:52:45,020 [INFO] GateNode:   People counts:
+2026-01-10 06:52:45,021 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:52:45,021 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:52:45,022 [INFO] GateNode:     - Unknown: 1
+2026-01-10 06:52:45,022 [INFO] GateNode:   Gate opens: 1
+2026-01-10 06:52:45,023 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:52:45,023 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:52:45,024 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:52:45,024 [INFO] GateNode: ==================================================
+2026-01-10 06:52:45,025 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:52:45,025 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:52:45,026 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:52:45,026 [INFO] storage.logs: Access logger closed
+2026-01-10 06:52:45,027 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:52:45,027 [INFO] GateNode: ==================================================
+2026-01-10 06:52:45,028 [INFO] GateNode: Session Statistics:
+2026-01-10 06:52:45,029 [INFO] GateNode:   Runtime: 156.1s
+2026-01-10 06:52:45,030 [INFO] GateNode:   Frames processed (AI): 608
+2026-01-10 06:52:45,031 [INFO] GateNode:   Average AI FPS: 3.9
+2026-01-10 06:52:45,039 [INFO] GateNode:   Camera capture:
+2026-01-10 06:52:45,040 [INFO] GateNode:     - Frames captured: 2238
+2026-01-10 06:52:45,040 [INFO] GateNode:     - Capture FPS: 14.8
+2026-01-10 06:52:45,041 [INFO] GateNode:     - Frames dropped (AI queue): 1628
+2026-01-10 06:52:45,042 [INFO] GateNode:     - Frames dropped (stream): 2233
+2026-01-10 06:52:45,042 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:52:45,042 [INFO] GateNode:     - Detections run: 157
+2026-01-10 06:52:45,043 [INFO] GateNode:     - Detections skipped: 450
+2026-01-10 06:52:45,043 [INFO] GateNode:     - Skip rate: 74.1%
+2026-01-10 06:52:45,044 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 06:52:45,045 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 06:52:45,045 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 06:52:45,046 [INFO] GateNode:   People counts:
+2026-01-10 06:52:45,046 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:52:45,047 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:52:45,047 [INFO] GateNode:     - Unknown: 1
+2026-01-10 06:52:45,047 [INFO] GateNode:   Gate opens: 1
+2026-01-10 06:52:45,048 [INFO] GateNode:     - Authorized: 1
+2026-01-10 06:52:45,048 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:52:45,049 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:52:45,049 [INFO] GateNode: ==================================================
+2026-01-10 06:53:37,248 [INFO] GateNode: ==================================================
+2026-01-10 06:53:37,248 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 06:53:37,249 [INFO] GateNode: Organization: DKUT
+2026-01-10 06:53:37,249 [INFO] GateNode: ==================================================
+2026-01-10 06:53:37,250 [INFO] GateNode: Initializing storage...
+2026-01-10 06:53:37,253 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 06:53:37,258 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 06:53:37,259 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:53:37,264 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 06:53:37,264 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 06:53:37,265 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 06:53:37,540 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 06:53:37,540 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 06:53:40,401 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 06:53:40,401 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 06:53:40,402 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 06:53:40,402 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 06:53:40,403 [INFO] GateNode: Initializing gate controller...
+2026-01-10 06:53:40,403 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 06:53:40,404 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 06:53:40,404 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 06:53:40,405 [INFO] threads.capture: Capture thread starting...
+2026-01-10 06:53:40,853 [INFO] threads.capture: Camera opened: 640x480 @ 15.0fps
+2026-01-10 06:53:40,854 [INFO] threads.capture: Capture thread running at 15 FPS target
+2026-01-10 06:53:40,908 [INFO] GateNode: Camera opened: 640x480 @ 15fps
+2026-01-10 06:53:40,911 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 06:53:40,911 [INFO] GateNode: Alarm system initialized
+2026-01-10 06:53:40,911 [INFO] GateNode: Initializing worker threads...
+2026-01-10 06:53:40,913 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 06:53:40,914 [INFO] GateNode: Worker threads initialized
+2026-01-10 06:53:40,915 [INFO] threads.sync: Sync thread started
+2026-01-10 06:53:40,916 [INFO] GateNode: Sync thread started
+2026-01-10 06:53:40,917 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 06:53:40,922 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:53:40,924 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 06:53:40,924 [INFO] GateNode: UI thread started
+2026-01-10 06:53:40,931 [INFO] GateNode: Gate Node started successfully
+2026-01-10 06:53:40,935 [INFO] GateNode: Starting main vision loop...
+2026-01-10 06:53:40,959 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 06:53:41,657 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:53:41.145879+00:00
+2026-01-10 06:53:41,658 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:53:45,744 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.56)
+2026-01-10 06:53:45,746 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:53:45,920 [INFO] storage.logs: Logged access event #57: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:53:45,921 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.56)
+2026-01-10 06:53:50,759 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:54:04,507 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.54)
+2026-01-10 06:54:04,509 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:54:04,654 [INFO] storage.logs: Logged access event #58: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:54:04,655 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.54)
+2026-01-10 06:54:09,509 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:55:28,059 [INFO] GateNode: Track 3 marked UNKNOWN after 3 attempts
+2026-01-10 06:55:28,060 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:28,061 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:55:31,635 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:35,036 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:35,037 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:55:38,483 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:39,917 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.70)
+2026-01-10 06:55:39,919 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:55:40,068 [INFO] storage.logs: Logged access event #59: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:55:40,069 [INFO] GateNode: Track 4 recognized: AUTHORIZED (Stephen Njiu, conf=0.70)
+2026-01-10 06:55:41,762 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:41,763 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:55:41,829 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 06:55:44,919 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:55:44,990 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T03:55:43.959458+00:00
+2026-01-10 06:55:44,991 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 06:55:45,239 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:49,213 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:49,230 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:55:52,535 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:56,025 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:55:56,027 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:55:57,340 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 06:55:59,262 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:56:02,969 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:56:02,970 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:56:06,620 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:56:09,707 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:56:09,708 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:56:13,328 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:56:16,810 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:56:16,810 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 06:56:20,406 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 06:56:27,077 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.52)
+2026-01-10 06:56:27,080 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:56:27,235 [INFO] storage.logs: Logged access event #60: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:56:27,236 [INFO] GateNode: Track 5 recognized: AUTHORIZED (Stephen Njiu, conf=0.52)
+2026-01-10 06:56:32,086 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:56:55,868 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 06:56:56,837 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.62)
+2026-01-10 06:56:56,839 [INFO] core.gate_control: Gate OPENED (will close in 5.0s)
+2026-01-10 06:56:57,003 [INFO] storage.logs: Logged access event #61: AUTHORIZED -> AUTHORIZED
+2026-01-10 06:56:57,004 [INFO] GateNode: Track 6 recognized: AUTHORIZED (Stephen Njiu, conf=0.62)
+2026-01-10 06:57:01,854 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 06:57:02,264 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 06:57:06,028 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 06:57:10,907 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 06:57:22,596 [INFO] GateNode: Received signal 2
+2026-01-10 06:57:22,597 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:57:22,598 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 06:57:22,598 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:57:22,599 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:57:22,599 [INFO] threads.sync: Sync thread stopped
+2026-01-10 06:57:23,033 [INFO] threads.capture: Capture thread stopped
+2026-01-10 06:57:23,036 [INFO] storage.logs: Access logger closed
+2026-01-10 06:57:23,041 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:57:23,046 [INFO] GateNode: ==================================================
+2026-01-10 06:57:23,048 [INFO] GateNode: Session Statistics:
+2026-01-10 06:57:23,050 [INFO] GateNode:   Runtime: 222.1s
+2026-01-10 06:57:23,053 [INFO] GateNode:   Frames processed (AI): 322
+2026-01-10 06:57:23,054 [INFO] GateNode:   Average AI FPS: 1.4
+2026-01-10 06:57:23,057 [INFO] GateNode:   Camera capture:
+2026-01-10 06:57:23,057 [INFO] GateNode:     - Frames captured: 3246
+2026-01-10 06:57:23,058 [INFO] GateNode:     - Capture FPS: 14.7
+2026-01-10 06:57:23,059 [INFO] GateNode:     - Frames dropped (AI queue): 2922
+2026-01-10 06:57:23,060 [INFO] GateNode:     - Frames dropped (stream): 2296
+2026-01-10 06:57:23,061 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:57:23,063 [INFO] GateNode:     - Detections run: 251
+2026-01-10 06:57:23,063 [INFO] GateNode:     - Detections skipped: 70
+2026-01-10 06:57:23,064 [INFO] GateNode:     - Skip rate: 21.8%
+2026-01-10 06:57:23,065 [INFO] GateNode:   Unique tracks created: 6
+2026-01-10 06:57:23,068 [INFO] GateNode:   Tracks confirmed: 6
+2026-01-10 06:57:23,069 [INFO] GateNode:   Tracks recognized: 6
+2026-01-10 06:57:23,070 [INFO] GateNode:   People counts:
+2026-01-10 06:57:23,070 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:57:23,071 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:57:23,072 [INFO] GateNode:     - Unknown: 1
+2026-01-10 06:57:23,073 [INFO] GateNode:   Gate opens: 5
+2026-01-10 06:57:23,076 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:57:23,084 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:57:23,084 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:57:23,085 [INFO] GateNode: ==================================================
+2026-01-10 06:57:23,085 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 06:57:23,086 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 06:57:23,086 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 06:57:23,087 [INFO] storage.logs: Access logger closed
+2026-01-10 06:57:23,091 [INFO] GateNode: Gate Node stopped
+2026-01-10 06:57:23,091 [INFO] GateNode: ==================================================
+2026-01-10 06:57:23,091 [INFO] GateNode: Session Statistics:
+2026-01-10 06:57:23,092 [INFO] GateNode:   Runtime: 222.2s
+2026-01-10 06:57:23,092 [INFO] GateNode:   Frames processed (AI): 322
+2026-01-10 06:57:23,093 [INFO] GateNode:   Average AI FPS: 1.4
+2026-01-10 06:57:23,093 [INFO] GateNode:   Camera capture:
+2026-01-10 06:57:23,093 [INFO] GateNode:     - Frames captured: 3246
+2026-01-10 06:57:23,094 [INFO] GateNode:     - Capture FPS: 14.7
+2026-01-10 06:57:23,094 [INFO] GateNode:     - Frames dropped (AI queue): 2922
+2026-01-10 06:57:23,095 [INFO] GateNode:     - Frames dropped (stream): 2296
+2026-01-10 06:57:23,095 [INFO] GateNode:   Detection optimization:
+2026-01-10 06:57:23,096 [INFO] GateNode:     - Detections run: 251
+2026-01-10 06:57:23,096 [INFO] GateNode:     - Detections skipped: 70
+2026-01-10 06:57:23,096 [INFO] GateNode:     - Skip rate: 21.8%
+2026-01-10 06:57:23,097 [INFO] GateNode:   Unique tracks created: 6
+2026-01-10 06:57:23,097 [INFO] GateNode:   Tracks confirmed: 6
+2026-01-10 06:57:23,098 [INFO] GateNode:   Tracks recognized: 6
+2026-01-10 06:57:23,098 [INFO] GateNode:   People counts:
+2026-01-10 06:57:23,098 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:57:23,099 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:57:23,099 [INFO] GateNode:     - Unknown: 1
+2026-01-10 06:57:23,100 [INFO] GateNode:   Gate opens: 5
+2026-01-10 06:57:23,100 [INFO] GateNode:     - Authorized: 5
+2026-01-10 06:57:23,101 [INFO] GateNode:     - Wanted: 0
+2026-01-10 06:57:23,101 [INFO] GateNode:     - Rejected: 0
+2026-01-10 06:57:23,102 [INFO] GateNode: ==================================================
+2026-01-10 07:00:53,751 [INFO] GateNode: ==================================================
+2026-01-10 07:00:53,751 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 07:00:53,752 [INFO] GateNode: Organization: DKUT
+2026-01-10 07:00:53,752 [INFO] GateNode: ==================================================
+2026-01-10 07:00:53,752 [INFO] GateNode: Initializing storage...
+2026-01-10 07:00:53,756 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 07:00:53,799 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 07:00:53,800 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 07:00:53,805 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 07:00:53,805 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 07:00:53,805 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 07:00:54,080 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 07:00:54,081 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 07:00:57,163 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 07:00:57,164 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 07:00:57,164 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 07:00:57,165 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 07:00:57,165 [INFO] GateNode: Initializing gate controller...
+2026-01-10 07:00:57,166 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 07:00:57,166 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 07:00:57,166 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 07:00:57,167 [INFO] threads.capture: Capture thread starting...
+2026-01-10 07:00:58,025 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 07:00:58,025 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 07:00:58,101 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 07:00:58,104 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 07:00:58,105 [INFO] GateNode: Alarm system initialized
+2026-01-10 07:00:58,105 [INFO] GateNode: Initializing worker threads...
+2026-01-10 07:00:58,106 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 07:00:58,107 [INFO] GateNode: Worker threads initialized
+2026-01-10 07:00:58,109 [INFO] threads.sync: Sync thread started
+2026-01-10 07:00:58,109 [INFO] GateNode: Sync thread started
+2026-01-10 07:00:58,110 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 07:00:58,113 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 07:00:58,115 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 07:00:58,115 [INFO] GateNode: UI thread started
+2026-01-10 07:00:58,121 [INFO] GateNode: Gate Node started successfully
+2026-01-10 07:00:58,127 [INFO] GateNode: Starting main vision loop...
+2026-01-10 07:00:58,199 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 07:01:04,034 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T04:01:01.215710+00:00
+2026-01-10 07:01:04,035 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 07:01:08,317 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.52)
+2026-01-10 07:01:08,319 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 07:01:08,521 [INFO] storage.logs: Logged access event #62: AUTHORIZED -> AUTHORIZED
+2026-01-10 07:01:08,545 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.52)
+2026-01-10 07:01:15,322 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 07:02:04,803 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.54)
+2026-01-10 07:02:04,805 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 07:02:04,998 [INFO] storage.logs: Logged access event #63: AUTHORIZED -> AUTHORIZED
+2026-01-10 07:02:04,999 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.54)
+2026-01-10 07:02:11,816 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 07:02:12,177 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.50)
+2026-01-10 07:02:12,179 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 07:02:12,421 [INFO] storage.logs: Logged access event #64: AUTHORIZED -> AUTHORIZED
+2026-01-10 07:02:12,422 [INFO] GateNode: Track 3 recognized: AUTHORIZED (Stephen Njiu, conf=0.50)
+2026-01-10 07:02:19,179 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 07:02:36,795 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 07:02:59,166 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 07:03:00,060 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T04:02:59.445607+00:00
+2026-01-10 07:03:00,062 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 07:03:08,071 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 07:03:40,774 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 07:04:00,920 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 07:04:07,059 [INFO] GateNode: Received signal 2
+2026-01-10 07:04:07,059 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 07:04:07,060 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 07:04:07,061 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 07:04:07,061 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 07:04:07,062 [INFO] threads.sync: Sync thread stopped
+2026-01-10 07:04:07,504 [INFO] threads.capture: Capture thread stopped
+2026-01-10 07:04:07,507 [INFO] storage.logs: Access logger closed
+2026-01-10 07:04:07,510 [INFO] GateNode: Gate Node stopped
+2026-01-10 07:04:07,512 [INFO] GateNode: ==================================================
+2026-01-10 07:04:07,514 [INFO] GateNode: Session Statistics:
+2026-01-10 07:04:07,517 [INFO] GateNode:   Runtime: 189.4s
+2026-01-10 07:04:07,518 [INFO] GateNode:   Frames processed (AI): 305
+2026-01-10 07:04:07,521 [INFO] GateNode:   Average AI FPS: 1.6
+2026-01-10 07:04:07,522 [INFO] GateNode:   Camera capture:
+2026-01-10 07:04:07,523 [INFO] GateNode:     - Frames captured: 5418
+2026-01-10 07:04:07,524 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 07:04:07,525 [INFO] GateNode:     - Frames dropped (AI queue): 5111
+2026-01-10 07:04:07,527 [INFO] GateNode:     - Frames dropped (stream): 4506
+2026-01-10 07:04:07,528 [INFO] GateNode:   Detection optimization:
+2026-01-10 07:04:07,529 [INFO] GateNode:     - Detections run: 219
+2026-01-10 07:04:07,530 [INFO] GateNode:     - Detections skipped: 85
+2026-01-10 07:04:07,531 [INFO] GateNode:     - Skip rate: 28.0%
+2026-01-10 07:04:07,532 [INFO] GateNode:   Unique tracks created: 3
+2026-01-10 07:04:07,533 [INFO] GateNode:   Tracks confirmed: 3
+2026-01-10 07:04:07,535 [INFO] GateNode:   Tracks recognized: 3
+2026-01-10 07:04:07,536 [INFO] GateNode:   People counts:
+2026-01-10 07:04:07,536 [INFO] GateNode:     - Authorized: 3
+2026-01-10 07:04:07,537 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:04:07,537 [INFO] GateNode:     - Unknown: 0
+2026-01-10 07:04:07,539 [INFO] GateNode:   Gate opens: 3
+2026-01-10 07:04:07,540 [INFO] GateNode:     - Authorized: 3
+2026-01-10 07:04:07,540 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:04:07,541 [INFO] GateNode:     - Rejected: 0
+2026-01-10 07:04:07,541 [INFO] GateNode: ==================================================
+2026-01-10 07:04:07,542 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 07:04:07,543 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 07:04:07,546 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 07:04:07,550 [INFO] storage.logs: Access logger closed
+2026-01-10 07:04:07,551 [INFO] GateNode: Gate Node stopped
+2026-01-10 07:04:07,551 [INFO] GateNode: ==================================================
+2026-01-10 07:04:07,552 [INFO] GateNode: Session Statistics:
+2026-01-10 07:04:07,553 [INFO] GateNode:   Runtime: 189.4s
+2026-01-10 07:04:07,554 [INFO] GateNode:   Frames processed (AI): 305
+2026-01-10 07:04:07,555 [INFO] GateNode:   Average AI FPS: 1.6
+2026-01-10 07:04:07,555 [INFO] GateNode:   Camera capture:
+2026-01-10 07:04:07,556 [INFO] GateNode:     - Frames captured: 5418
+2026-01-10 07:04:07,556 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 07:04:07,557 [INFO] GateNode:     - Frames dropped (AI queue): 5111
+2026-01-10 07:04:07,557 [INFO] GateNode:     - Frames dropped (stream): 4506
+2026-01-10 07:04:07,557 [INFO] GateNode:   Detection optimization:
+2026-01-10 07:04:07,560 [INFO] GateNode:     - Detections run: 219
+2026-01-10 07:04:07,561 [INFO] GateNode:     - Detections skipped: 85
+2026-01-10 07:04:07,562 [INFO] GateNode:     - Skip rate: 28.0%
+2026-01-10 07:04:07,562 [INFO] GateNode:   Unique tracks created: 3
+2026-01-10 07:04:07,563 [INFO] GateNode:   Tracks confirmed: 3
+2026-01-10 07:04:07,563 [INFO] GateNode:   Tracks recognized: 3
+2026-01-10 07:04:07,564 [INFO] GateNode:   People counts:
+2026-01-10 07:04:07,564 [INFO] GateNode:     - Authorized: 3
+2026-01-10 07:04:07,564 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:04:07,565 [INFO] GateNode:     - Unknown: 0
+2026-01-10 07:04:07,565 [INFO] GateNode:   Gate opens: 3
+2026-01-10 07:04:07,566 [INFO] GateNode:     - Authorized: 3
+2026-01-10 07:04:07,566 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:04:07,567 [INFO] GateNode:     - Rejected: 0
+2026-01-10 07:04:07,567 [INFO] GateNode: ==================================================
+2026-01-10 07:04:16,952 [INFO] GateNode: ==================================================
+2026-01-10 07:04:16,952 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 07:04:16,953 [INFO] GateNode: Organization: DKUT
+2026-01-10 07:04:16,953 [INFO] GateNode: ==================================================
+2026-01-10 07:04:16,954 [INFO] GateNode: Initializing storage...
+2026-01-10 07:04:16,957 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 07:04:16,962 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 07:04:16,964 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 07:04:16,971 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 07:04:16,972 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 07:04:16,973 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 07:04:17,355 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 07:04:17,356 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 07:04:20,103 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 07:04:20,104 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 07:04:20,104 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 07:04:20,105 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 07:04:20,105 [INFO] GateNode: Initializing gate controller...
+2026-01-10 07:04:20,106 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 07:04:20,106 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 07:04:20,106 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 07:04:20,108 [INFO] threads.capture: Capture thread starting...
+2026-01-10 07:04:20,455 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 07:04:20,455 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 07:04:20,511 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 07:04:20,518 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 07:04:20,525 [INFO] GateNode: Alarm system initialized
+2026-01-10 07:04:20,527 [INFO] GateNode: Initializing worker threads...
+2026-01-10 07:04:20,529 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 07:04:20,530 [INFO] GateNode: Worker threads initialized
+2026-01-10 07:04:20,531 [INFO] threads.sync: Sync thread started
+2026-01-10 07:04:20,531 [INFO] GateNode: Sync thread started
+2026-01-10 07:04:20,532 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 07:04:20,534 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 07:04:20,536 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 07:04:20,536 [INFO] GateNode: UI thread started
+2026-01-10 07:04:20,553 [INFO] GateNode: Gate Node started successfully
+2026-01-10 07:04:20,554 [INFO] GateNode: Starting main vision loop...
+2026-01-10 07:04:20,594 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 07:04:21,339 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T04:04:20.757664+00:00
+2026-01-10 07:04:21,339 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 07:05:36,201 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.59)
+2026-01-10 07:05:36,202 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 07:05:36,370 [INFO] storage.logs: Logged access event #65: AUTHORIZED -> AUTHORIZED
+2026-01-10 07:05:36,372 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.59)
+2026-01-10 07:05:43,205 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 07:06:03,494 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 07:06:08,655 [INFO] GateNode: Received signal 2
+2026-01-10 07:06:08,656 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 07:06:08,656 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 07:06:08,657 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 07:06:08,658 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 07:06:08,658 [INFO] threads.sync: Sync thread stopped
+2026-01-10 07:06:09,073 [INFO] threads.capture: Capture thread stopped
+2026-01-10 07:06:09,078 [INFO] storage.logs: Access logger closed
+2026-01-10 07:06:09,082 [INFO] GateNode: Gate Node stopped
+2026-01-10 07:06:09,087 [INFO] GateNode: ==================================================
+2026-01-10 07:06:09,089 [INFO] GateNode: Session Statistics:
+2026-01-10 07:06:09,093 [INFO] GateNode:   Runtime: 108.5s
+2026-01-10 07:06:09,097 [INFO] GateNode:   Frames processed (AI): 239
+2026-01-10 07:06:09,099 [INFO] GateNode:   Average AI FPS: 2.2
+2026-01-10 07:06:09,101 [INFO] GateNode:   Camera capture:
+2026-01-10 07:06:09,101 [INFO] GateNode:     - Frames captured: 3094
+2026-01-10 07:06:09,102 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 07:06:09,103 [INFO] GateNode:     - Frames dropped (AI queue): 2853
+2026-01-10 07:06:09,104 [INFO] GateNode:     - Frames dropped (stream): 3089
+2026-01-10 07:06:09,104 [INFO] GateNode:   Detection optimization:
+2026-01-10 07:06:09,105 [INFO] GateNode:     - Detections run: 118
+2026-01-10 07:06:09,106 [INFO] GateNode:     - Detections skipped: 120
+2026-01-10 07:06:09,108 [INFO] GateNode:     - Skip rate: 50.4%
+2026-01-10 07:06:09,109 [INFO] GateNode:   Unique tracks created: 1
+2026-01-10 07:06:09,109 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 07:06:09,110 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 07:06:09,111 [INFO] GateNode:   People counts:
+2026-01-10 07:06:09,112 [INFO] GateNode:     - Authorized: 1
+2026-01-10 07:06:09,114 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:06:09,118 [INFO] GateNode:     - Unknown: 0
+2026-01-10 07:06:09,120 [INFO] GateNode:   Gate opens: 1
+2026-01-10 07:06:09,124 [INFO] GateNode:     - Authorized: 1
+2026-01-10 07:06:09,125 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:06:09,125 [INFO] GateNode:     - Rejected: 0
+2026-01-10 07:06:09,126 [INFO] GateNode: ==================================================
+2026-01-10 07:06:09,130 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 07:06:09,131 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 07:06:09,132 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 07:06:09,132 [INFO] storage.logs: Access logger closed
+2026-01-10 07:06:09,133 [INFO] GateNode: Gate Node stopped
+2026-01-10 07:06:09,133 [INFO] GateNode: ==================================================
+2026-01-10 07:06:09,134 [INFO] GateNode: Session Statistics:
+2026-01-10 07:06:09,134 [INFO] GateNode:   Runtime: 108.6s
+2026-01-10 07:06:09,135 [INFO] GateNode:   Frames processed (AI): 239
+2026-01-10 07:06:09,136 [INFO] GateNode:   Average AI FPS: 2.2
+2026-01-10 07:06:09,137 [INFO] GateNode:   Camera capture:
+2026-01-10 07:06:09,137 [INFO] GateNode:     - Frames captured: 3094
+2026-01-10 07:06:09,138 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 07:06:09,138 [INFO] GateNode:     - Frames dropped (AI queue): 2853
+2026-01-10 07:06:09,139 [INFO] GateNode:     - Frames dropped (stream): 3089
+2026-01-10 07:06:09,139 [INFO] GateNode:   Detection optimization:
+2026-01-10 07:06:09,140 [INFO] GateNode:     - Detections run: 118
+2026-01-10 07:06:09,140 [INFO] GateNode:     - Detections skipped: 120
+2026-01-10 07:06:09,140 [INFO] GateNode:     - Skip rate: 50.4%
+2026-01-10 07:06:09,141 [INFO] GateNode:   Unique tracks created: 1
+2026-01-10 07:06:09,141 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 07:06:09,142 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 07:06:09,142 [INFO] GateNode:   People counts:
+2026-01-10 07:06:09,143 [INFO] GateNode:     - Authorized: 1
+2026-01-10 07:06:09,143 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:06:09,144 [INFO] GateNode:     - Unknown: 0
+2026-01-10 07:06:09,144 [INFO] GateNode:   Gate opens: 1
+2026-01-10 07:06:09,144 [INFO] GateNode:     - Authorized: 1
+2026-01-10 07:06:09,145 [INFO] GateNode:     - Wanted: 0
+2026-01-10 07:06:09,145 [INFO] GateNode:     - Rejected: 0
+2026-01-10 07:06:09,146 [INFO] GateNode: ==================================================
+2026-01-10 07:09:02,457 [INFO] GateNode: ==================================================
+2026-01-10 07:09:02,457 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 07:09:02,458 [INFO] GateNode: Organization: DKUT
+2026-01-10 07:09:02,458 [INFO] GateNode: ==================================================
+2026-01-10 07:09:02,459 [INFO] GateNode: Initializing storage...
+2026-01-10 07:09:02,462 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 07:09:02,467 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 07:09:02,469 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 07:09:02,473 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 07:09:02,474 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 07:09:02,475 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 07:09:02,793 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 07:09:02,793 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 07:09:04,831 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 07:09:04,832 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 07:09:04,832 [ERROR] GateNode: Failed to initialize vision: DeepSORTLiteTracker.__init__() got an unexpected keyword argument 'max_embedding_distance'
+2026-01-10 07:09:04,833 [ERROR] GateNode: Failed to start Gate Node
+2026-01-10 08:19:23,131 [INFO] GateNode: ==================================================
+2026-01-10 08:19:23,150 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 08:19:23,150 [INFO] GateNode: Organization: DKUT
+2026-01-10 08:19:23,151 [INFO] GateNode: ==================================================
+2026-01-10 08:19:23,151 [INFO] GateNode: Initializing storage...
+2026-01-10 08:19:23,173 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 08:19:23,201 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 08:19:23,203 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:19:23,302 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 08:19:23,303 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 08:19:23,303 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 08:19:23,615 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 08:19:23,617 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 08:19:27,320 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 08:19:27,321 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 08:19:27,322 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 08:19:27,322 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 08:19:27,323 [INFO] GateNode: Initializing gate controller...
+2026-01-10 08:19:27,323 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 08:19:27,324 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 08:19:27,324 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 08:19:27,325 [INFO] threads.capture: Capture thread starting...
+2026-01-10 08:19:30,587 [ERROR] GateNode: Failed to open camera 0
+2026-01-10 08:19:30,588 [ERROR] GateNode: Failed to start Gate Node
+2026-01-10 08:19:44,716 [INFO] GateNode: ==================================================
+2026-01-10 08:19:44,717 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 08:19:44,717 [INFO] GateNode: Organization: DKUT
+2026-01-10 08:19:44,718 [INFO] GateNode: ==================================================
+2026-01-10 08:19:44,718 [INFO] GateNode: Initializing storage...
+2026-01-10 08:19:44,722 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 08:19:44,728 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 08:19:44,729 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:19:44,742 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 08:19:44,743 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 08:19:44,745 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 08:19:45,157 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 08:19:45,158 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 08:19:50,515 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 08:19:50,516 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 08:19:50,517 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 08:19:50,517 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 08:19:50,518 [INFO] GateNode: Initializing gate controller...
+2026-01-10 08:19:50,518 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 08:19:50,519 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 08:19:50,519 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 08:19:50,520 [INFO] threads.capture: Capture thread starting...
+2026-01-10 08:19:53,662 [ERROR] GateNode: Failed to open camera 0
+2026-01-10 08:19:53,664 [ERROR] GateNode: Failed to start Gate Node
+2026-01-10 08:20:18,187 [INFO] GateNode: ==================================================
+2026-01-10 08:20:18,188 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 08:20:18,188 [INFO] GateNode: Organization: DKUT
+2026-01-10 08:20:18,189 [INFO] GateNode: ==================================================
+2026-01-10 08:20:18,189 [INFO] GateNode: Initializing storage...
+2026-01-10 08:20:18,193 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 08:20:18,199 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 08:20:18,200 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:20:18,203 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 08:20:18,203 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 08:20:18,204 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 08:20:18,553 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 08:20:18,554 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 08:20:24,166 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 08:20:24,167 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 08:20:24,168 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 08:20:24,168 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 08:20:24,169 [INFO] GateNode: Initializing gate controller...
+2026-01-10 08:20:24,169 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 08:20:24,169 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 08:20:24,170 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 08:20:24,171 [INFO] threads.capture: Capture thread starting...
+2026-01-10 08:20:25,519 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 08:20:25,519 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 08:20:25,579 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 08:20:25,621 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 08:20:25,621 [INFO] GateNode: Alarm system initialized
+2026-01-10 08:20:25,622 [INFO] GateNode: Initializing worker threads...
+2026-01-10 08:20:25,624 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 08:20:25,625 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 08:20:25,626 [INFO] GateNode: Worker threads initialized
+2026-01-10 08:20:25,629 [INFO] threads.sync: Sync thread started
+2026-01-10 08:20:25,630 [INFO] GateNode: Sync thread started
+2026-01-10 08:20:25,630 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:20:25,631 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 08:20:25,632 [INFO] GateNode: UI thread started
+2026-01-10 08:20:25,632 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:20:25,632 [INFO] GateNode: Gate Node started successfully
+2026-01-10 08:20:25,634 [INFO] GateNode: Starting main vision loop...
+2026-01-10 08:20:26,077 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 08:20:27,937 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001DC6FEE6710>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:20:40,792 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.59)
+2026-01-10 08:20:40,806 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:20:40,984 [INFO] storage.logs: Logged access event #66: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:20:40,994 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.59)
+2026-01-10 08:20:47,814 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:21:29,776 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 08:21:37,069 [INFO] GateNode: Received signal 2
+2026-01-10 08:21:37,070 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:21:37,071 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 08:21:37,071 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:21:37,072 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:21:37,072 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:21:37,073 [INFO] threads.sync: Sync thread stopped
+2026-01-10 08:21:37,601 [INFO] threads.capture: Capture thread stopped
+2026-01-10 08:21:37,602 [INFO] storage.logs: Access logger closed
+2026-01-10 08:21:37,603 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:21:37,604 [INFO] GateNode: ==================================================
+2026-01-10 08:21:37,606 [INFO] GateNode: Session Statistics:
+2026-01-10 08:21:37,606 [INFO] GateNode:   Runtime: 72.0s
+2026-01-10 08:21:37,607 [INFO] GateNode:   Frames processed (AI): 168
+2026-01-10 08:21:37,607 [INFO] GateNode:   Average AI FPS: 2.3
+2026-01-10 08:21:37,608 [INFO] GateNode:   Camera capture:
+2026-01-10 08:21:37,609 [INFO] GateNode:     - Frames captured: 2012
+2026-01-10 08:21:37,610 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 08:21:37,611 [INFO] GateNode:     - Frames dropped (AI queue): 1842
+2026-01-10 08:21:37,611 [INFO] GateNode:     - Frames dropped (stream): 233
+2026-01-10 08:21:37,612 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:21:37,612 [INFO] GateNode:     - Detections run: 87
+2026-01-10 08:21:37,613 [INFO] GateNode:     - Detections skipped: 80
+2026-01-10 08:21:37,613 [INFO] GateNode:     - Skip rate: 47.9%
+2026-01-10 08:21:37,614 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 08:21:37,614 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 08:21:37,615 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 08:21:37,615 [INFO] GateNode:   People counts:
+2026-01-10 08:21:37,616 [INFO] GateNode:     - Authorized: 1
+2026-01-10 08:21:37,616 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:21:37,617 [INFO] GateNode:     - Unknown: 0
+2026-01-10 08:21:37,617 [INFO] GateNode:   Gate opens: 1
+2026-01-10 08:21:37,618 [INFO] GateNode:     - Authorized: 1
+2026-01-10 08:21:37,619 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:21:37,619 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:21:37,620 [INFO] GateNode: ==================================================
+2026-01-10 08:21:37,620 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:21:37,621 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:21:37,621 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:21:37,622 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:21:37,622 [INFO] storage.logs: Access logger closed
+2026-01-10 08:21:37,623 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:21:37,623 [INFO] GateNode: ==================================================
+2026-01-10 08:21:37,624 [INFO] GateNode: Session Statistics:
+2026-01-10 08:21:37,624 [INFO] GateNode:   Runtime: 72.0s
+2026-01-10 08:21:37,625 [INFO] GateNode:   Frames processed (AI): 168
+2026-01-10 08:21:37,625 [INFO] GateNode:   Average AI FPS: 2.3
+2026-01-10 08:21:37,626 [INFO] GateNode:   Camera capture:
+2026-01-10 08:21:37,626 [INFO] GateNode:     - Frames captured: 2012
+2026-01-10 08:21:37,626 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 08:21:37,627 [INFO] GateNode:     - Frames dropped (AI queue): 1842
+2026-01-10 08:21:37,631 [INFO] GateNode:     - Frames dropped (stream): 233
+2026-01-10 08:21:37,634 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:21:37,636 [INFO] GateNode:     - Detections run: 87
+2026-01-10 08:21:37,637 [INFO] GateNode:     - Detections skipped: 80
+2026-01-10 08:21:37,637 [INFO] GateNode:     - Skip rate: 47.9%
+2026-01-10 08:21:37,638 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 08:21:37,642 [INFO] GateNode:   Tracks confirmed: 1
+2026-01-10 08:21:37,642 [INFO] GateNode:   Tracks recognized: 1
+2026-01-10 08:21:37,643 [INFO] GateNode:   People counts:
+2026-01-10 08:21:37,643 [INFO] GateNode:     - Authorized: 1
+2026-01-10 08:21:37,644 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:21:37,644 [INFO] GateNode:     - Unknown: 0
+2026-01-10 08:21:37,645 [INFO] GateNode:   Gate opens: 1
+2026-01-10 08:21:37,645 [INFO] GateNode:     - Authorized: 1
+2026-01-10 08:21:37,646 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:21:37,646 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:21:37,647 [INFO] GateNode: ==================================================
+2026-01-10 08:21:41,694 [INFO] GateNode: ==================================================
+2026-01-10 08:21:41,695 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 08:21:41,695 [INFO] GateNode: Organization: DKUT
+2026-01-10 08:21:41,696 [INFO] GateNode: ==================================================
+2026-01-10 08:21:41,696 [INFO] GateNode: Initializing storage...
+2026-01-10 08:21:41,700 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 08:21:41,704 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 08:21:41,706 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:21:41,710 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 08:21:41,711 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 08:21:41,712 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 08:21:41,995 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 08:21:41,996 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 08:21:43,796 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 08:21:43,796 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 08:21:43,797 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 08:21:43,797 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 08:21:43,798 [INFO] GateNode: Initializing gate controller...
+2026-01-10 08:21:43,798 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 08:21:43,799 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 08:21:43,799 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 08:21:43,800 [INFO] threads.capture: Capture thread starting...
+2026-01-10 08:21:44,191 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 08:21:44,192 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 08:21:44,203 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 08:21:44,207 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 08:21:44,208 [INFO] GateNode: Alarm system initialized
+2026-01-10 08:21:44,208 [INFO] GateNode: Initializing worker threads...
+2026-01-10 08:21:44,209 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 08:21:44,210 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 08:21:44,210 [INFO] GateNode: Worker threads initialized
+2026-01-10 08:21:44,212 [INFO] threads.sync: Sync thread started
+2026-01-10 08:21:44,212 [INFO] GateNode: Sync thread started
+2026-01-10 08:21:44,213 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:21:44,215 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:21:44,215 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 08:21:44,215 [INFO] GateNode: UI thread started
+2026-01-10 08:21:44,235 [INFO] GateNode: Gate Node started successfully
+2026-01-10 08:21:44,237 [INFO] GateNode: Starting main vision loop...
+2026-01-10 08:21:44,303 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 08:21:46,282 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001ED13383BD0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:21:49,187 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.56)
+2026-01-10 08:21:49,225 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:21:49,497 [INFO] storage.logs: Logged access event #67: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:21:49,497 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.56)
+2026-01-10 08:21:56,227 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:22:18,078 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.53)
+2026-01-10 08:22:18,098 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:22:18,275 [INFO] storage.logs: Logged access event #68: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:22:18,277 [INFO] GateNode: Track 3 recognized: AUTHORIZED (Stephen Njiu, conf=0.53)
+2026-01-10 08:22:25,100 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:22:53,202 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 08:23:05,909 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 08:23:13,082 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 08:23:46,830 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:23:48,287 [INFO] GateNode: Received signal 2
+2026-01-10 08:23:48,288 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:23:48,288 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 08:23:48,290 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:23:48,291 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:23:48,292 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:23:49,080 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001ED13930410>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:23:49,081 [INFO] threads.sync: Sync thread stopped
+2026-01-10 08:23:49,619 [INFO] threads.capture: Capture thread stopped
+2026-01-10 08:23:49,620 [INFO] storage.logs: Access logger closed
+2026-01-10 08:23:49,622 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:23:49,622 [INFO] GateNode: ==================================================
+2026-01-10 08:23:49,623 [INFO] GateNode: Session Statistics:
+2026-01-10 08:23:49,623 [INFO] GateNode:   Runtime: 125.4s
+2026-01-10 08:23:49,624 [INFO] GateNode:   Frames processed (AI): 168
+2026-01-10 08:23:49,625 [INFO] GateNode:   Average AI FPS: 1.3
+2026-01-10 08:23:49,626 [INFO] GateNode:   Camera capture:
+2026-01-10 08:23:49,626 [INFO] GateNode:     - Frames captured: 3547
+2026-01-10 08:23:49,627 [INFO] GateNode:     - Capture FPS: 27.7
+2026-01-10 08:23:49,627 [INFO] GateNode:     - Frames dropped (AI queue): 3377
+2026-01-10 08:23:49,627 [INFO] GateNode:     - Frames dropped (stream): 1289
+2026-01-10 08:23:49,628 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:23:49,628 [INFO] GateNode:     - Detections run: 137
+2026-01-10 08:23:49,629 [INFO] GateNode:     - Detections skipped: 30
+2026-01-10 08:23:49,629 [INFO] GateNode:     - Skip rate: 18.0%
+2026-01-10 08:23:49,630 [INFO] GateNode:   Unique tracks created: 3
+2026-01-10 08:23:49,631 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 08:23:49,631 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 08:23:49,632 [INFO] GateNode:   People counts:
+2026-01-10 08:23:49,632 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:23:49,633 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:23:49,633 [INFO] GateNode:     - Unknown: 0
+2026-01-10 08:23:49,634 [INFO] GateNode:   Gate opens: 2
+2026-01-10 08:23:49,634 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:23:49,634 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:23:49,635 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:23:49,636 [INFO] GateNode: ==================================================
+2026-01-10 08:23:49,636 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:23:49,637 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:23:49,637 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:23:49,638 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:23:49,638 [INFO] storage.logs: Access logger closed
+2026-01-10 08:23:49,639 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:23:49,639 [INFO] GateNode: ==================================================
+2026-01-10 08:23:49,639 [INFO] GateNode: Session Statistics:
+2026-01-10 08:23:49,641 [INFO] GateNode:   Runtime: 125.4s
+2026-01-10 08:23:49,641 [INFO] GateNode:   Frames processed (AI): 168
+2026-01-10 08:23:49,644 [INFO] GateNode:   Average AI FPS: 1.3
+2026-01-10 08:23:49,644 [INFO] GateNode:   Camera capture:
+2026-01-10 08:23:49,650 [INFO] GateNode:     - Frames captured: 3547
+2026-01-10 08:23:49,651 [INFO] GateNode:     - Capture FPS: 27.7
+2026-01-10 08:23:49,652 [INFO] GateNode:     - Frames dropped (AI queue): 3377
+2026-01-10 08:23:49,653 [INFO] GateNode:     - Frames dropped (stream): 1289
+2026-01-10 08:23:49,653 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:23:49,654 [INFO] GateNode:     - Detections run: 137
+2026-01-10 08:23:49,654 [INFO] GateNode:     - Detections skipped: 30
+2026-01-10 08:23:49,655 [INFO] GateNode:     - Skip rate: 18.0%
+2026-01-10 08:23:49,655 [INFO] GateNode:   Unique tracks created: 3
+2026-01-10 08:23:49,656 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 08:23:49,656 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 08:23:49,657 [INFO] GateNode:   People counts:
+2026-01-10 08:23:49,657 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:23:49,658 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:23:49,658 [INFO] GateNode:     - Unknown: 0
+2026-01-10 08:23:49,659 [INFO] GateNode:   Gate opens: 2
+2026-01-10 08:23:49,659 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:23:49,660 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:23:49,660 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:23:49,661 [INFO] GateNode: ==================================================
+2026-01-10 08:24:05,569 [INFO] GateNode: ==================================================
+2026-01-10 08:24:05,570 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 08:24:05,571 [INFO] GateNode: Organization: DKUT
+2026-01-10 08:24:05,571 [INFO] GateNode: ==================================================
+2026-01-10 08:24:05,571 [INFO] GateNode: Initializing storage...
+2026-01-10 08:24:05,575 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 08:24:05,579 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 08:24:05,580 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:24:05,585 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 08:24:05,586 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 08:24:05,587 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 08:24:05,958 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 08:24:05,958 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 08:24:08,866 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 08:24:08,867 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 08:24:08,867 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=2, max_age=60, max_emb_dist=1.0
+2026-01-10 08:24:08,868 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 08:24:08,869 [INFO] GateNode: Initializing gate controller...
+2026-01-10 08:24:08,869 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 08:24:08,869 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 08:24:08,870 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 08:24:08,871 [INFO] threads.capture: Capture thread starting...
+2026-01-10 08:24:09,492 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 08:24:09,492 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 08:24:09,531 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 08:24:09,537 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 08:24:09,538 [INFO] GateNode: Alarm system initialized
+2026-01-10 08:24:09,539 [INFO] GateNode: Initializing worker threads...
+2026-01-10 08:24:09,541 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 08:24:09,543 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 08:24:09,543 [INFO] GateNode: Worker threads initialized
+2026-01-10 08:24:09,545 [INFO] threads.sync: Sync thread started
+2026-01-10 08:24:09,545 [INFO] GateNode: Sync thread started
+2026-01-10 08:24:09,545 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:24:09,548 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:24:09,550 [INFO] GateNode: UI thread started
+2026-01-10 08:24:09,550 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 08:24:09,562 [INFO] GateNode: Gate Node started successfully
+2026-01-10 08:24:09,573 [INFO] GateNode: Starting main vision loop...
+2026-01-10 08:24:09,617 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 08:24:11,607 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000247D16B3A90>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:25:38,037 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.51)
+2026-01-10 08:25:38,048 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:25:38,257 [INFO] storage.logs: Logged access event #69: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:25:38,258 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.51)
+2026-01-10 08:25:45,059 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:25:58,916 [INFO] core.gate_control: ACCESS GRANTED: b7ad2442-3dae-4ab6-b95d-d606599cb00c (confidence: 0.54)
+2026-01-10 08:25:58,956 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:25:59,224 [INFO] storage.logs: Logged access event #70: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:25:59,228 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.54)
+2026-01-10 08:26:05,957 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:26:11,886 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:26:13,959 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000247D16C84D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:26:33,190 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 08:26:37,312 [INFO] GateNode: Received signal 2
+2026-01-10 08:26:37,319 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:26:37,319 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 08:26:37,326 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:26:37,328 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:26:37,330 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:26:37,332 [INFO] threads.sync: Sync thread stopped
+2026-01-10 08:26:37,747 [INFO] threads.capture: Capture thread stopped
+2026-01-10 08:26:37,751 [INFO] GateNode: Received signal 2
+2026-01-10 08:26:37,755 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:26:37,763 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:26:37,768 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:26:37,770 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:26:39,777 [INFO] GateNode: Received signal 2
+2026-01-10 08:26:39,779 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:26:39,781 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:26:39,782 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:26:39,783 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:26:41,788 [INFO] storage.logs: Access logger closed
+2026-01-10 08:26:41,790 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:26:41,791 [INFO] GateNode: ==================================================
+2026-01-10 08:26:41,793 [INFO] GateNode: Session Statistics:
+2026-01-10 08:26:41,794 [INFO] GateNode:   Runtime: 152.2s
+2026-01-10 08:26:41,797 [INFO] GateNode:   Frames processed (AI): 201
+2026-01-10 08:26:41,799 [INFO] GateNode:   Average AI FPS: 1.3
+2026-01-10 08:26:41,800 [INFO] GateNode:   Camera capture:
+2026-01-10 08:26:41,804 [INFO] GateNode:     - Frames captured: 4236
+2026-01-10 08:26:41,806 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 08:26:41,807 [INFO] GateNode:     - Frames dropped (AI queue): 4033
+2026-01-10 08:26:41,810 [INFO] GateNode:     - Frames dropped (stream): 151
+2026-01-10 08:26:41,812 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:26:41,813 [INFO] GateNode:     - Detections run: 150
+2026-01-10 08:26:41,816 [INFO] GateNode:     - Detections skipped: 50
+2026-01-10 08:26:41,818 [INFO] GateNode:     - Skip rate: 25.0%
+2026-01-10 08:26:41,819 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 08:26:41,820 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 08:26:41,821 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 08:26:41,822 [INFO] GateNode:   People counts:
+2026-01-10 08:26:41,822 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:26:41,823 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:26:41,824 [INFO] GateNode:     - Unknown: 0
+2026-01-10 08:26:41,825 [INFO] GateNode:   Gate opens: 2
+2026-01-10 08:26:41,825 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:26:41,826 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:26:41,827 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:26:41,827 [INFO] GateNode: ==================================================
+2026-01-10 08:26:41,828 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:26:41,830 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:26:41,833 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:26:41,837 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:26:41,838 [INFO] storage.logs: Access logger closed
+2026-01-10 08:26:41,839 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:26:41,840 [INFO] GateNode: ==================================================
+2026-01-10 08:26:41,840 [INFO] GateNode: Session Statistics:
+2026-01-10 08:26:41,841 [INFO] GateNode:   Runtime: 152.3s
+2026-01-10 08:26:41,842 [INFO] GateNode:   Frames processed (AI): 201
+2026-01-10 08:26:41,843 [INFO] GateNode:   Average AI FPS: 1.3
+2026-01-10 08:26:41,843 [INFO] GateNode:   Camera capture:
+2026-01-10 08:26:41,844 [INFO] GateNode:     - Frames captured: 4236
+2026-01-10 08:26:41,845 [INFO] GateNode:     - Capture FPS: 28.9
+2026-01-10 08:26:41,845 [INFO] GateNode:     - Frames dropped (AI queue): 4033
+2026-01-10 08:26:41,846 [INFO] GateNode:     - Frames dropped (stream): 151
+2026-01-10 08:26:41,847 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:26:41,848 [INFO] GateNode:     - Detections run: 150
+2026-01-10 08:26:41,853 [INFO] GateNode:     - Detections skipped: 50
+2026-01-10 08:26:41,853 [INFO] GateNode:     - Skip rate: 25.0%
+2026-01-10 08:26:41,856 [INFO] GateNode:   Unique tracks created: 2
+2026-01-10 08:26:41,858 [INFO] GateNode:   Tracks confirmed: 2
+2026-01-10 08:26:41,860 [INFO] GateNode:   Tracks recognized: 2
+2026-01-10 08:26:41,861 [INFO] GateNode:   People counts:
+2026-01-10 08:26:41,862 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:26:41,863 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:26:41,863 [INFO] GateNode:     - Unknown: 0
+2026-01-10 08:26:41,863 [INFO] GateNode:   Gate opens: 2
+2026-01-10 08:26:41,864 [INFO] GateNode:     - Authorized: 2
+2026-01-10 08:26:41,864 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:26:41,865 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:26:41,865 [INFO] GateNode: ==================================================
+2026-01-10 08:31:08,650 [INFO] GateNode: ==================================================
+2026-01-10 08:31:08,651 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 08:31:08,651 [INFO] GateNode: Organization: DKUT
+2026-01-10 08:31:08,652 [INFO] GateNode: ==================================================
+2026-01-10 08:31:08,652 [INFO] GateNode: Initializing storage...
+2026-01-10 08:31:08,656 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 08:31:08,660 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 08:31:08,661 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:31:08,666 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 08:31:08,667 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 08:31:08,668 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 08:31:08,972 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 08:31:08,973 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 08:31:10,889 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 08:31:10,890 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 08:31:10,890 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 08:31:10,891 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 08:31:10,891 [INFO] GateNode: Initializing gate controller...
+2026-01-10 08:31:10,892 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 08:31:10,892 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 08:31:10,892 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 08:31:10,894 [INFO] threads.capture: Capture thread starting...
+2026-01-10 08:31:11,515 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 08:31:11,515 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 08:31:11,599 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 08:31:11,602 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 08:31:11,603 [INFO] GateNode: Alarm system initialized
+2026-01-10 08:31:11,604 [INFO] GateNode: Initializing worker threads...
+2026-01-10 08:31:11,605 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 08:31:11,606 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 08:31:11,607 [INFO] GateNode: Worker threads initialized
+2026-01-10 08:31:11,608 [INFO] threads.sync: Sync thread started
+2026-01-10 08:31:11,609 [INFO] GateNode: Sync thread started
+2026-01-10 08:31:11,609 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 08:31:11,612 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:31:11,613 [INFO] GateNode: UI thread started
+2026-01-10 08:31:11,612 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 08:31:11,614 [INFO] GateNode: Gate Node started successfully
+2026-01-10 08:31:11,636 [INFO] GateNode: Starting main vision loop...
+2026-01-10 08:31:11,677 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 08:31:13,676 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001D944A82210>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:31:15,729 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.53)
+2026-01-10 08:31:15,735 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:31:15,997 [INFO] storage.logs: Logged access event #71: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:31:16,000 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.53)
+2026-01-10 08:31:19,832 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.52)
+2026-01-10 08:31:19,849 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:31:20,008 [INFO] storage.logs: Logged access event #72: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:31:20,009 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.52)
+2026-01-10 08:31:26,855 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:31:28,868 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.51)
+2026-01-10 08:31:28,901 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:31:29,110 [INFO] storage.logs: Logged access event #73: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:31:29,111 [INFO] GateNode: Track 3 recognized: AUTHORIZED (Stephen Njiu, conf=0.51)
+2026-01-10 08:31:35,904 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:31:50,009 [INFO] GateNode: Track 4 marked UNKNOWN after 3 attempts
+2026-01-10 08:31:50,312 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 4)
+2026-01-10 08:31:50,313 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 08:31:53,506 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 4)
+2026-01-10 08:31:57,114 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 4)
+2026-01-10 08:31:57,115 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 08:32:00,806 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 4)
+2026-01-10 08:32:06,091 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 4)
+2026-01-10 08:32:06,092 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 08:32:09,191 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 4)
+2026-01-10 08:32:15,519 [INFO] core.gate_control: ACCESS GRANTED: b7ad2442-3dae-4ab6-b95d-d606599cb00c (confidence: 0.55)
+2026-01-10 08:32:15,521 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:32:15,689 [INFO] storage.logs: Logged access event #74: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:32:15,690 [INFO] GateNode: Track 6 recognized: AUTHORIZED (Stephen Njiu, conf=0.55)
+2026-01-10 08:32:22,521 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:32:38,541 [INFO] GateNode: Track 7 marked UNKNOWN after 3 attempts
+2026-01-10 08:32:59,644 [INFO] core.gate_control: ACCESS GRANTED: 53005694-1f87-48b6-a743-02a5e7d1a956 (confidence: 0.52)
+2026-01-10 08:32:59,656 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:32:59,922 [INFO] storage.logs: Logged access event #75: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:32:59,923 [INFO] GateNode: Track 9 recognized: AUTHORIZED (Stephen Njiu, conf=0.52)
+2026-01-10 08:33:06,661 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:33:10,432 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.56)
+2026-01-10 08:33:10,441 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:33:10,633 [INFO] storage.logs: Logged access event #76: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:33:10,647 [INFO] GateNode: Track 10 recognized: AUTHORIZED (Stephen Njiu, conf=0.56)
+2026-01-10 08:33:13,980 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:33:16,402 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001D944A980D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:33:17,454 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:35:16,797 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:35:19,202 [WARNING] threads.sync: Face sync failed (network): HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/v1/faces/sync?org_id=DKUT&since=2026-01-10T02%3A54%3A31.722356%2B00%3A00 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001D944A98BD0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2026-01-10 08:35:31,109 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.54)
+2026-01-10 08:35:31,116 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:35:31,349 [INFO] storage.logs: Logged access event #77: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:35:31,351 [INFO] GateNode: Track 11 recognized: AUTHORIZED (Stephen Njiu, conf=0.54)
+2026-01-10 08:35:38,131 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:36:42,415 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 08:36:49,093 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.57)
+2026-01-10 08:36:49,112 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:36:50,666 [INFO] storage.logs: Logged access event #78: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:36:50,674 [INFO] GateNode: Track 12 recognized: AUTHORIZED (Stephen Njiu, conf=0.57)
+2026-01-10 08:36:56,113 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:37:19,427 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 08:37:26,817 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T05:37:23.970855+00:00
+2026-01-10 08:37:26,841 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 08:37:42,852 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 08:37:47,971 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.57)
+2026-01-10 08:37:48,009 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 08:37:48,298 [INFO] storage.logs: Logged access event #79: AUTHORIZED -> AUTHORIZED
+2026-01-10 08:37:48,325 [INFO] GateNode: Track 13 recognized: AUTHORIZED (Stephen Njiu, conf=0.57)
+2026-01-10 08:37:55,015 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 08:38:31,121 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 08:38:40,038 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 08:38:43,369 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 08:39:09,240 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 08:39:14,807 [INFO] GateNode: Received signal 2
+2026-01-10 08:39:14,827 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:39:14,848 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 08:39:14,849 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:39:14,859 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:39:14,874 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:39:14,878 [INFO] threads.sync: Sync thread stopped
+2026-01-10 08:39:15,479 [INFO] threads.capture: Capture thread stopped
+2026-01-10 08:39:15,524 [INFO] storage.logs: Access logger closed
+2026-01-10 08:39:15,525 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:39:15,526 [INFO] GateNode: ==================================================
+2026-01-10 08:39:15,526 [INFO] GateNode: Session Statistics:
+2026-01-10 08:39:15,527 [INFO] GateNode:   Runtime: 483.9s
+2026-01-10 08:39:15,527 [INFO] GateNode:   Frames processed (AI): 425
+2026-01-10 08:39:15,527 [INFO] GateNode:   Average AI FPS: 0.9
+2026-01-10 08:39:15,538 [INFO] GateNode:   Camera capture:
+2026-01-10 08:39:15,539 [INFO] GateNode:     - Frames captured: 13454
+2026-01-10 08:39:15,539 [INFO] GateNode:     - Capture FPS: 28.2
+2026-01-10 08:39:15,567 [INFO] GateNode:     - Frames dropped (AI queue): 13027
+2026-01-10 08:39:15,567 [INFO] GateNode:     - Frames dropped (stream): 2327
+2026-01-10 08:39:15,568 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:39:15,568 [INFO] GateNode:     - Detections run: 424
+2026-01-10 08:39:15,569 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 08:39:15,569 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 08:39:15,570 [INFO] GateNode:   Unique tracks created: 13
+2026-01-10 08:39:15,570 [INFO] GateNode:   Tracks confirmed: 11
+2026-01-10 08:39:15,571 [INFO] GateNode:   Tracks recognized: 11
+2026-01-10 08:39:15,571 [INFO] GateNode:   People counts:
+2026-01-10 08:39:15,571 [INFO] GateNode:     - Authorized: 9
+2026-01-10 08:39:15,572 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:39:15,573 [INFO] GateNode:     - Unknown: 2
+2026-01-10 08:39:15,574 [INFO] GateNode:   Gate opens: 9
+2026-01-10 08:39:15,575 [INFO] GateNode:     - Authorized: 9
+2026-01-10 08:39:15,576 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:39:15,576 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:39:15,577 [INFO] GateNode: ==================================================
+2026-01-10 08:39:15,638 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 08:39:15,638 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 08:39:15,639 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 08:39:15,639 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 08:39:15,639 [INFO] storage.logs: Access logger closed
+2026-01-10 08:39:15,640 [INFO] GateNode: Gate Node stopped
+2026-01-10 08:39:15,640 [INFO] GateNode: ==================================================
+2026-01-10 08:39:15,641 [INFO] GateNode: Session Statistics:
+2026-01-10 08:39:15,641 [INFO] GateNode:   Runtime: 484.0s
+2026-01-10 08:39:15,642 [INFO] GateNode:   Frames processed (AI): 425
+2026-01-10 08:39:15,642 [INFO] GateNode:   Average AI FPS: 0.9
+2026-01-10 08:39:15,643 [INFO] GateNode:   Camera capture:
+2026-01-10 08:39:15,643 [INFO] GateNode:     - Frames captured: 13454
+2026-01-10 08:39:15,644 [INFO] GateNode:     - Capture FPS: 28.2
+2026-01-10 08:39:15,644 [INFO] GateNode:     - Frames dropped (AI queue): 13027
+2026-01-10 08:39:15,645 [INFO] GateNode:     - Frames dropped (stream): 2327
+2026-01-10 08:39:15,645 [INFO] GateNode:   Detection optimization:
+2026-01-10 08:39:15,646 [INFO] GateNode:     - Detections run: 424
+2026-01-10 08:39:15,646 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 08:39:15,647 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 08:39:15,647 [INFO] GateNode:   Unique tracks created: 13
+2026-01-10 08:39:15,648 [INFO] GateNode:   Tracks confirmed: 11
+2026-01-10 08:39:15,648 [INFO] GateNode:   Tracks recognized: 11
+2026-01-10 08:39:15,649 [INFO] GateNode:   People counts:
+2026-01-10 08:39:15,649 [INFO] GateNode:     - Authorized: 9
+2026-01-10 08:39:15,650 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:39:15,650 [INFO] GateNode:     - Unknown: 2
+2026-01-10 08:39:15,651 [INFO] GateNode:   Gate opens: 9
+2026-01-10 08:39:15,653 [INFO] GateNode:     - Authorized: 9
+2026-01-10 08:39:15,654 [INFO] GateNode:     - Wanted: 0
+2026-01-10 08:39:15,654 [INFO] GateNode:     - Rejected: 0
+2026-01-10 08:39:15,655 [INFO] GateNode: ==================================================
+2026-01-10 10:09:25,685 [INFO] GateNode: ==================================================
+2026-01-10 10:09:25,705 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:09:25,707 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:09:25,708 [INFO] GateNode: ==================================================
+2026-01-10 10:09:25,709 [INFO] GateNode: Initializing storage...
+2026-01-10 10:09:25,870 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 10:09:26,013 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:09:26,092 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 10:09:26,257 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:09:26,258 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 10:09:26,260 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:09:28,395 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:09:28,395 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:09:32,072 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:09:32,073 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:09:32,073 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:09:32,074 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:09:32,074 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:09:32,075 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:09:32,075 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:09:32,075 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:09:32,076 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:09:35,530 [ERROR] GateNode: Failed to open camera 0
+2026-01-10 10:09:35,531 [ERROR] GateNode: Failed to start Gate Node
+2026-01-10 10:09:41,250 [INFO] GateNode: ==================================================
+2026-01-10 10:09:41,251 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:09:41,252 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:09:41,252 [INFO] GateNode: ==================================================
+2026-01-10 10:09:41,252 [INFO] GateNode: Initializing storage...
+2026-01-10 10:09:41,256 [INFO] storage.face_db: Loaded 4 face records from metadata
+2026-01-10 10:09:41,260 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:09:41,262 [INFO] storage.face_db: Current sync version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 10:09:41,265 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:09:41,266 [INFO] GateNode: Storage initialized: 4 faces in database
+2026-01-10 10:09:41,267 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:09:41,608 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:09:41,609 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:09:44,491 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:09:44,492 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:09:44,492 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:09:44,493 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:09:44,493 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:09:44,493 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:09:44,494 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:09:44,494 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:09:44,495 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:09:45,359 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 10:09:45,360 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 10:09:45,402 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 10:09:46,994 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 10:09:46,995 [INFO] GateNode: Alarm system initialized
+2026-01-10 10:09:46,995 [INFO] GateNode: Initializing worker threads...
+2026-01-10 10:09:46,996 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 10:09:46,997 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 10:09:46,998 [INFO] GateNode: Worker threads initialized
+2026-01-10 10:09:46,999 [INFO] threads.sync: Sync thread started
+2026-01-10 10:09:46,999 [INFO] GateNode: Sync thread started
+2026-01-10 10:09:47,000 [INFO] threads.sync: [INIT] HNSW database: 4 faces, version: 2026-01-10T02:54:31.722356+00:00
+2026-01-10 10:09:47,002 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T02:54:31.722356+00:00)
+2026-01-10 10:09:47,003 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 10:09:47,003 [INFO] GateNode: UI thread started
+2026-01-10 10:09:47,006 [INFO] GateNode: Gate Node started successfully
+2026-01-10 10:09:47,008 [INFO] GateNode: Starting main vision loop...
+2026-01-10 10:09:48,101 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 10:09:50,183 [INFO] threads.sync: API returned: 5 upserts, 0 deletes, version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:09:50,350 [INFO] storage.face_db: Added face 39529a6e-b0a6-4aa8-89a1-2aaacdf9ba94 (Paul Kingori Mwangi) with status AUTHORIZED
+2026-01-10 10:09:50,425 [INFO] storage.face_db: Added face f7e0379b-f25c-4b68-bdc3-e10c714dd16a (Paul Kingori Mwangi) with status AUTHORIZED
+2026-01-10 10:09:50,457 [INFO] storage.face_db: Added face 9bc5e31d-a7f7-4763-bd37-e5aa137841e4 (Paul Kingori Mwangi) with status AUTHORIZED
+2026-01-10 10:09:50,458 [INFO] storage.face_db: Added face 522c6869-746e-4f71-bc04-fd129204a32f (Paul Kingori Mwangi) with status AUTHORIZED
+2026-01-10 10:09:50,459 [INFO] storage.face_db: Added face 39e027a8-821f-4c9c-b554-de0f9ad77cae (Paul Kingori Mwangi) with status AUTHORIZED
+2026-01-10 10:09:50,460 [INFO] threads.sync: Added/updated 5/5 faces
+2026-01-10 10:09:50,658 [INFO] threads.sync: [SYNC OK] 5 upserts, 0 deletes -> 9 faces in DB, version 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:09:59,361 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.55)
+2026-01-10 10:09:59,402 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:10:01,387 [INFO] storage.logs: Logged access event #80: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:10:01,388 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.55)
+2026-01-10 10:10:06,405 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:10:35,866 [INFO] GateNode: Track 2 marked UNKNOWN after 3 attempts
+2026-01-10 10:10:45,276 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.56)
+2026-01-10 10:10:45,300 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:10:45,471 [INFO] storage.logs: Logged access event #81: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:10:45,474 [INFO] GateNode: Track 4 recognized: AUTHORIZED (Stephen Njiu, conf=0.56)
+2026-01-10 10:10:52,315 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:10:59,717 [INFO] GateNode: Track 3 marked UNKNOWN after 3 attempts
+2026-01-10 10:11:03,647 [INFO] GateNode: Track 5 marked UNKNOWN after 3 attempts
+2026-01-10 10:11:04,046 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 5)
+2026-01-10 10:11:04,068 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:11:08,491 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 10:11:11,777 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 3)
+2026-01-10 10:11:11,778 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:11:15,879 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.58)
+2026-01-10 10:11:15,925 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:11:16,183 [INFO] storage.logs: Logged access event #82: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:11:16,184 [INFO] GateNode: Track 6 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:11:22,925 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:11:25,250 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 5)
+2026-01-10 10:11:25,251 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:11:28,760 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 5)
+2026-01-10 10:11:32,162 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 5)
+2026-01-10 10:11:32,163 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:11:35,655 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 5)
+2026-01-10 10:11:44,804 [INFO] GateNode: Track 7 marked UNKNOWN after 3 attempts
+2026-01-10 10:11:50,907 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:11:51,706 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:11:51.271001+00:00
+2026-01-10 10:11:51,706 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:12:12,156 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 10:12:13,437 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 10:12:14,204 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 10:12:20,300 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 10:12:21,379 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 10:12:22,938 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 10:12:23,926 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 10:12:24,961 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 10:12:27,248 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 10:12:32,841 [INFO] core.gate_control: ACCESS GRANTED: 39529a6e-b0a6-4aa8-89a1-2aaacdf9ba94 (confidence: 0.77)
+2026-01-10 10:12:32,866 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:12:33,037 [INFO] storage.logs: Logged access event #83: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:12:33,037 [INFO] GateNode: Track 9 recognized: AUTHORIZED (Paul Kingori Mwangi, conf=0.77)
+2026-01-10 10:12:39,870 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:13:18,433 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.57)
+2026-01-10 10:13:18,451 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:13:18,616 [INFO] storage.logs: Logged access event #84: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:13:18,627 [INFO] GateNode: Track 10 recognized: AUTHORIZED (Stephen Njiu, conf=0.57)
+2026-01-10 10:13:25,460 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:13:45,491 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 10:13:46,554 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 10:13:48,533 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 10:13:51,870 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:13:52,709 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:13:52.228168+00:00
+2026-01-10 10:13:52,718 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:14:03,820 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 10:14:09,529 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.57)
+2026-01-10 10:14:09,531 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:14:09,722 [INFO] storage.logs: Logged access event #85: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:14:09,722 [INFO] GateNode: Track 11 recognized: AUTHORIZED (Stephen Njiu, conf=0.57)
+2026-01-10 10:14:16,536 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:15:52,962 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:15:55,922 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:15:55.202464+00:00
+2026-01-10 10:15:55,922 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:17:06,762 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.59)
+2026-01-10 10:17:06,771 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:17:06,937 [INFO] storage.logs: Logged access event #86: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:17:06,938 [INFO] GateNode: Track 12 recognized: AUTHORIZED (Stephen Njiu, conf=0.59)
+2026-01-10 10:17:13,784 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:17:56,075 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:17:56,923 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:17:56.455373+00:00
+2026-01-10 10:17:56,924 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:18:03,835 [INFO] GateNode: Received signal 2
+2026-01-10 10:18:03,835 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:18:03,836 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 10:18:03,837 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:18:03,838 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:18:03,838 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:18:03,839 [INFO] threads.sync: Sync thread stopped
+2026-01-10 10:18:04,433 [INFO] threads.capture: Capture thread stopped
+2026-01-10 10:18:04,435 [INFO] storage.logs: Access logger closed
+2026-01-10 10:18:04,436 [INFO] GateNode: Gate Node stopped
+2026-01-10 10:18:04,438 [INFO] GateNode: ==================================================
+2026-01-10 10:18:04,439 [INFO] GateNode: Session Statistics:
+2026-01-10 10:18:04,443 [INFO] GateNode:   Runtime: 497.4s
+2026-01-10 10:18:04,444 [INFO] GateNode:   Frames processed (AI): 599
+2026-01-10 10:18:04,445 [INFO] GateNode:   Average AI FPS: 1.2
+2026-01-10 10:18:04,446 [INFO] GateNode:   Camera capture:
+2026-01-10 10:18:04,447 [INFO] GateNode:     - Frames captured: 13382
+2026-01-10 10:18:04,448 [INFO] GateNode:     - Capture FPS: 23.6
+2026-01-10 10:18:04,448 [INFO] GateNode:     - Frames dropped (AI queue): 12781
+2026-01-10 10:18:04,449 [INFO] GateNode:     - Frames dropped (stream): 6519
+2026-01-10 10:18:04,450 [INFO] GateNode:   Detection optimization:
+2026-01-10 10:18:04,451 [INFO] GateNode:     - Detections run: 598
+2026-01-10 10:18:04,451 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 10:18:04,452 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 10:18:04,453 [INFO] GateNode:   Unique tracks created: 12
+2026-01-10 10:18:04,454 [INFO] GateNode:   Tracks confirmed: 11
+2026-01-10 10:18:04,454 [INFO] GateNode:   Tracks recognized: 11
+2026-01-10 10:18:04,455 [INFO] GateNode:   People counts:
+2026-01-10 10:18:04,456 [INFO] GateNode:     - Authorized: 7
+2026-01-10 10:18:04,457 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:18:04,457 [INFO] GateNode:     - Unknown: 4
+2026-01-10 10:18:04,458 [INFO] GateNode:   Gate opens: 7
+2026-01-10 10:18:04,458 [INFO] GateNode:     - Authorized: 7
+2026-01-10 10:18:04,459 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:18:04,461 [INFO] GateNode:     - Rejected: 0
+2026-01-10 10:18:04,462 [INFO] GateNode: ==================================================
+2026-01-10 10:18:04,463 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:18:04,464 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:18:04,466 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:18:04,474 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:18:04,474 [INFO] storage.logs: Access logger closed
+2026-01-10 10:18:04,476 [INFO] GateNode: Gate Node stopped
+2026-01-10 10:18:04,477 [INFO] GateNode: ==================================================
+2026-01-10 10:18:04,477 [INFO] GateNode: Session Statistics:
+2026-01-10 10:18:04,478 [INFO] GateNode:   Runtime: 497.5s
+2026-01-10 10:18:04,478 [INFO] GateNode:   Frames processed (AI): 599
+2026-01-10 10:18:04,479 [INFO] GateNode:   Average AI FPS: 1.2
+2026-01-10 10:18:04,480 [INFO] GateNode:   Camera capture:
+2026-01-10 10:18:04,482 [INFO] GateNode:     - Frames captured: 13382
+2026-01-10 10:18:04,483 [INFO] GateNode:     - Capture FPS: 23.6
+2026-01-10 10:18:04,484 [INFO] GateNode:     - Frames dropped (AI queue): 12781
+2026-01-10 10:18:04,484 [INFO] GateNode:     - Frames dropped (stream): 6519
+2026-01-10 10:18:04,485 [INFO] GateNode:   Detection optimization:
+2026-01-10 10:18:04,486 [INFO] GateNode:     - Detections run: 598
+2026-01-10 10:18:04,486 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 10:18:04,487 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 10:18:04,487 [INFO] GateNode:   Unique tracks created: 12
+2026-01-10 10:18:04,488 [INFO] GateNode:   Tracks confirmed: 11
+2026-01-10 10:18:04,488 [INFO] GateNode:   Tracks recognized: 11
+2026-01-10 10:18:04,489 [INFO] GateNode:   People counts:
+2026-01-10 10:18:04,489 [INFO] GateNode:     - Authorized: 7
+2026-01-10 10:18:04,490 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:18:04,490 [INFO] GateNode:     - Unknown: 4
+2026-01-10 10:18:04,490 [INFO] GateNode:   Gate opens: 7
+2026-01-10 10:18:04,491 [INFO] GateNode:     - Authorized: 7
+2026-01-10 10:18:04,492 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:18:04,492 [INFO] GateNode:     - Rejected: 0
+2026-01-10 10:18:04,493 [INFO] GateNode: ==================================================
+2026-01-10 10:18:22,379 [INFO] GateNode: ==================================================
+2026-01-10 10:18:22,380 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:18:22,380 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:18:22,381 [INFO] GateNode: ==================================================
+2026-01-10 10:18:22,381 [INFO] GateNode: Initializing storage...
+2026-01-10 10:18:22,402 [INFO] storage.face_db: Loaded 9 face records from metadata
+2026-01-10 10:18:22,462 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:18:22,477 [INFO] storage.face_db: Current sync version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:18:22,481 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:18:22,482 [INFO] GateNode: Storage initialized: 9 faces in database
+2026-01-10 10:18:22,482 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:18:22,816 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:18:22,817 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:18:25,815 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:18:25,815 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:18:25,816 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:18:25,816 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:18:25,817 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:18:25,817 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:18:25,818 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:18:25,818 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:18:25,819 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:18:26,437 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 10:18:26,438 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 10:18:26,524 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 10:18:26,545 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 10:18:26,547 [INFO] GateNode: Alarm system initialized
+2026-01-10 10:18:26,548 [INFO] GateNode: Initializing worker threads...
+2026-01-10 10:18:26,549 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 10:18:26,550 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 10:18:26,551 [INFO] GateNode: Worker threads initialized
+2026-01-10 10:18:26,552 [INFO] threads.sync: Sync thread started
+2026-01-10 10:18:26,552 [INFO] GateNode: Sync thread started
+2026-01-10 10:18:26,553 [INFO] threads.sync: [INIT] HNSW database: 9 faces, version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:18:26,556 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 10:18:26,556 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:18:26,557 [INFO] GateNode: UI thread started
+2026-01-10 10:18:26,564 [INFO] GateNode: Gate Node started successfully
+2026-01-10 10:18:26,570 [INFO] GateNode: Starting main vision loop...
+2026-01-10 10:18:26,795 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 10:18:27,398 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:18:26.951547+00:00
+2026-01-10 10:18:27,399 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:18:29,939 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.58)
+2026-01-10 10:18:29,950 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:18:30,144 [INFO] storage.logs: Logged access event #87: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:18:30,144 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:18:36,950 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:20:27,674 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:20:28,479 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:20:28.011586+00:00
+2026-01-10 10:20:28,480 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:20:51,765 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.59)
+2026-01-10 10:20:51,774 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:20:51,978 [INFO] storage.logs: Logged access event #88: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:20:51,981 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.59)
+2026-01-10 10:20:58,776 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:21:03,093 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.56)
+2026-01-10 10:21:03,112 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:21:03,323 [INFO] storage.logs: Logged access event #89: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:21:03,356 [INFO] GateNode: Track 3 recognized: AUTHORIZED (Stephen Njiu, conf=0.56)
+2026-01-10 10:21:10,122 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:21:57,731 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.58)
+2026-01-10 10:21:58,087 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:21:58,727 [INFO] storage.logs: Logged access event #90: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:21:58,756 [INFO] GateNode: Track 4 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:22:05,103 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:22:28,753 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:22:30,623 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:22:29.871472+00:00
+2026-01-10 10:22:30,624 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:24:04,476 [INFO] GateNode: Received signal 2
+2026-01-10 10:24:04,477 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:24:04,478 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 10:24:04,479 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:24:04,479 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:24:04,480 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:24:04,481 [INFO] threads.sync: Sync thread stopped
+2026-01-10 10:24:04,634 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 10:24:05,460 [INFO] threads.capture: Capture thread stopped
+2026-01-10 10:24:05,462 [INFO] storage.logs: Access logger closed
+2026-01-10 10:24:05,464 [INFO] GateNode: Gate Node stopped
+2026-01-10 10:24:05,466 [INFO] GateNode: ==================================================
+2026-01-10 10:24:05,468 [INFO] GateNode: Session Statistics:
+2026-01-10 10:24:05,469 [INFO] GateNode:   Runtime: 338.9s
+2026-01-10 10:24:05,470 [INFO] GateNode:   Frames processed (AI): 296
+2026-01-10 10:24:05,472 [INFO] GateNode:   Average AI FPS: 0.9
+2026-01-10 10:24:05,473 [INFO] GateNode:   Camera capture:
+2026-01-10 10:24:05,474 [INFO] GateNode:     - Frames captured: 8531
+2026-01-10 10:24:05,475 [INFO] GateNode:     - Capture FPS: 25.2
+2026-01-10 10:24:05,477 [INFO] GateNode:     - Frames dropped (AI queue): 8233
+2026-01-10 10:24:05,478 [INFO] GateNode:     - Frames dropped (stream): 29
+2026-01-10 10:24:05,479 [INFO] GateNode:   Detection optimization:
+2026-01-10 10:24:05,480 [INFO] GateNode:     - Detections run: 295
+2026-01-10 10:24:05,483 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 10:24:05,485 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 10:24:05,487 [INFO] GateNode:   Unique tracks created: 5
+2026-01-10 10:24:05,488 [INFO] GateNode:   Tracks confirmed: 4
+2026-01-10 10:24:05,491 [INFO] GateNode:   Tracks recognized: 4
+2026-01-10 10:24:05,492 [INFO] GateNode:   People counts:
+2026-01-10 10:24:05,493 [INFO] GateNode:     - Authorized: 4
+2026-01-10 10:24:05,497 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:24:05,504 [INFO] GateNode:     - Unknown: 0
+2026-01-10 10:24:05,509 [INFO] GateNode:   Gate opens: 4
+2026-01-10 10:24:05,515 [INFO] GateNode:     - Authorized: 4
+2026-01-10 10:24:05,516 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:24:05,516 [INFO] GateNode:     - Rejected: 0
+2026-01-10 10:24:05,519 [INFO] GateNode: ==================================================
+2026-01-10 10:24:05,520 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:24:05,521 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:24:05,522 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:24:05,524 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:24:05,525 [INFO] storage.logs: Access logger closed
+2026-01-10 10:24:05,526 [INFO] GateNode: Gate Node stopped
+2026-01-10 10:24:05,527 [INFO] GateNode: ==================================================
+2026-01-10 10:24:05,529 [INFO] GateNode: Session Statistics:
+2026-01-10 10:24:05,530 [INFO] GateNode:   Runtime: 339.0s
+2026-01-10 10:24:05,531 [INFO] GateNode:   Frames processed (AI): 296
+2026-01-10 10:24:05,531 [INFO] GateNode:   Average AI FPS: 0.9
+2026-01-10 10:24:05,533 [INFO] GateNode:   Camera capture:
+2026-01-10 10:24:05,535 [INFO] GateNode:     - Frames captured: 8531
+2026-01-10 10:24:05,536 [INFO] GateNode:     - Capture FPS: 25.2
+2026-01-10 10:24:05,539 [INFO] GateNode:     - Frames dropped (AI queue): 8233
+2026-01-10 10:24:05,540 [INFO] GateNode:     - Frames dropped (stream): 29
+2026-01-10 10:24:05,540 [INFO] GateNode:   Detection optimization:
+2026-01-10 10:24:05,541 [INFO] GateNode:     - Detections run: 295
+2026-01-10 10:24:05,542 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 10:24:05,543 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 10:24:05,545 [INFO] GateNode:   Unique tracks created: 5
+2026-01-10 10:24:05,546 [INFO] GateNode:   Tracks confirmed: 4
+2026-01-10 10:24:05,546 [INFO] GateNode:   Tracks recognized: 4
+2026-01-10 10:24:05,547 [INFO] GateNode:   People counts:
+2026-01-10 10:24:05,547 [INFO] GateNode:     - Authorized: 4
+2026-01-10 10:24:05,548 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:24:05,551 [INFO] GateNode:     - Unknown: 0
+2026-01-10 10:24:05,552 [INFO] GateNode:   Gate opens: 4
+2026-01-10 10:24:05,554 [INFO] GateNode:     - Authorized: 4
+2026-01-10 10:24:05,556 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:24:05,559 [INFO] GateNode:     - Rejected: 0
+2026-01-10 10:24:05,560 [INFO] GateNode: ==================================================
+2026-01-10 10:25:02,468 [INFO] GateNode: ==================================================
+2026-01-10 10:25:02,469 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:25:02,469 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:25:02,470 [INFO] GateNode: ==================================================
+2026-01-10 10:25:02,470 [INFO] GateNode: Initializing storage...
+2026-01-10 10:25:02,494 [INFO] storage.face_db: Loaded 9 face records from metadata
+2026-01-10 10:25:02,520 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:25:02,521 [INFO] storage.face_db: Current sync version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:25:02,579 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:25:02,580 [INFO] GateNode: Storage initialized: 9 faces in database
+2026-01-10 10:25:02,580 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:25:02,872 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:25:02,873 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:25:06,077 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:25:06,078 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:25:06,078 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:25:06,079 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:25:06,079 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:25:06,079 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:25:06,080 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:25:06,080 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:25:06,081 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:25:07,183 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 10:25:07,184 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 10:25:07,188 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 10:25:07,212 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 10:25:07,216 [INFO] GateNode: Alarm system initialized
+2026-01-10 10:25:07,218 [INFO] GateNode: Initializing worker threads...
+2026-01-10 10:25:07,221 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 10:25:07,222 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 10:25:07,223 [INFO] GateNode: Worker threads initialized
+2026-01-10 10:25:07,225 [INFO] threads.sync: Sync thread started
+2026-01-10 10:25:07,226 [INFO] GateNode: Sync thread started
+2026-01-10 10:25:07,227 [INFO] threads.sync: [INIT] HNSW database: 9 faces, version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:25:07,231 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:25:07,232 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 10:25:07,232 [INFO] GateNode: UI thread started
+2026-01-10 10:25:07,234 [INFO] GateNode: Gate Node started successfully
+2026-01-10 10:25:07,234 [INFO] GateNode: Starting main vision loop...
+2026-01-10 10:25:07,642 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 10:25:08,115 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:25:07.642665+00:00
+2026-01-10 10:25:08,115 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:25:11,296 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.58)
+2026-01-10 10:25:11,300 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:25:12,321 [INFO] storage.logs: Logged access event #91: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:25:12,324 [INFO] GateNode: Track 1 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:25:18,309 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:25:27,312 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.56)
+2026-01-10 10:25:27,314 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:25:27,479 [INFO] storage.logs: Logged access event #92: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:25:27,487 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.56)
+2026-01-10 10:25:34,326 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:25:38,160 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.58)
+2026-01-10 10:25:38,167 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:25:38,325 [INFO] storage.logs: Logged access event #93: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:25:38,339 [INFO] GateNode: Track 3 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:25:45,182 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:25:57,751 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.57)
+2026-01-10 10:25:57,826 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:25:58,049 [INFO] storage.logs: Logged access event #94: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:25:58,055 [INFO] GateNode: Track 4 recognized: AUTHORIZED (Stephen Njiu, conf=0.57)
+2026-01-10 10:26:04,836 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:26:06,129 [INFO] core.gate_control: ACCESS GRANTED: 3a88d549-655c-491e-a207-cba58728cb48 (confidence: 0.61)
+2026-01-10 10:26:06,144 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:26:06,327 [INFO] storage.logs: Logged access event #95: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:26:06,331 [INFO] GateNode: Track 5 recognized: AUTHORIZED (Stephen Njiu, conf=0.61)
+2026-01-10 10:26:13,155 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:27:08,403 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:27:09,220 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:27:08.719444+00:00
+2026-01-10 10:27:09,230 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:28:07,285 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 10:28:10,294 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 10:28:17,437 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 10:28:23,273 [INFO] threads.ui_v2: Display mode changed to: streaming
+2026-01-10 10:28:42,653 [INFO] threads.ui_v2: Display mode changed to: alert_only
+2026-01-10 10:28:43,905 [INFO] threads.ui_v2: Display mode changed to: continuous
+2026-01-10 10:29:05,371 [INFO] GateNode: Received signal 2
+2026-01-10 10:29:05,372 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:29:05,375 [INFO] core.singletons: ONNXSessionManager initialized with providers: ['CPUExecutionProvider']
+2026-01-10 10:29:05,377 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:29:05,379 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:29:05,381 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:29:05,383 [INFO] threads.sync: Sync thread stopped
+2026-01-10 10:29:05,479 [INFO] threads.ui_v2: UI thread stopped
+2026-01-10 10:29:05,502 [INFO] GateNode: Received signal 2
+2026-01-10 10:29:05,509 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:29:05,514 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:29:05,515 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:29:05,517 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:29:07,531 [INFO] GateNode: Received signal 2
+2026-01-10 10:29:07,533 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:29:07,535 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:29:07,539 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:29:07,541 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:29:10,206 [INFO] threads.capture: Capture thread stopped
+2026-01-10 10:29:10,207 [INFO] storage.logs: Access logger closed
+2026-01-10 10:29:10,208 [INFO] GateNode: Gate Node stopped
+2026-01-10 10:29:10,209 [INFO] GateNode: ==================================================
+2026-01-10 10:29:10,210 [INFO] GateNode: Session Statistics:
+2026-01-10 10:29:10,212 [INFO] GateNode:   Runtime: 243.0s
+2026-01-10 10:29:10,212 [INFO] GateNode:   Frames processed (AI): 137
+2026-01-10 10:29:10,213 [INFO] GateNode:   Average AI FPS: 0.6
+2026-01-10 10:29:10,215 [INFO] GateNode:   Camera capture:
+2026-01-10 10:29:10,216 [INFO] GateNode:     - Frames captured: 6385
+2026-01-10 10:29:10,217 [INFO] GateNode:     - Capture FPS: 28.0
+2026-01-10 10:29:10,218 [INFO] GateNode:     - Frames dropped (AI queue): 6246
+2026-01-10 10:29:10,218 [INFO] GateNode:     - Frames dropped (stream): 404
+2026-01-10 10:29:10,220 [INFO] GateNode:   Detection optimization:
+2026-01-10 10:29:10,221 [INFO] GateNode:     - Detections run: 136
+2026-01-10 10:29:10,222 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 10:29:10,223 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 10:29:10,224 [INFO] GateNode:   Unique tracks created: 5
+2026-01-10 10:29:10,226 [INFO] GateNode:   Tracks confirmed: 5
+2026-01-10 10:29:10,227 [INFO] GateNode:   Tracks recognized: 5
+2026-01-10 10:29:10,228 [INFO] GateNode:   People counts:
+2026-01-10 10:29:10,229 [INFO] GateNode:     - Authorized: 5
+2026-01-10 10:29:10,230 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:29:10,230 [INFO] GateNode:     - Unknown: 0
+2026-01-10 10:29:10,231 [INFO] GateNode:   Gate opens: 5
+2026-01-10 10:29:10,232 [INFO] GateNode:     - Authorized: 5
+2026-01-10 10:29:10,232 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:29:10,232 [INFO] GateNode:     - Rejected: 0
+2026-01-10 10:29:10,233 [INFO] GateNode: ==================================================
+2026-01-10 10:29:10,233 [INFO] GateNode: Gate Node shutting down...
+2026-01-10 10:29:10,234 [INFO] core.singletons: ONNXSessionManager cleaned up
+2026-01-10 10:29:10,234 [INFO] core.singletons: All singleton resources cleaned up
+2026-01-10 10:29:10,235 [INFO] GateNode: Recognition executor shutdown
+2026-01-10 10:29:10,236 [INFO] storage.logs: Access logger closed
+2026-01-10 10:29:10,240 [INFO] GateNode: Gate Node stopped
+2026-01-10 10:29:10,249 [INFO] GateNode: ==================================================
+2026-01-10 10:29:10,251 [INFO] GateNode: Session Statistics:
+2026-01-10 10:29:10,253 [INFO] GateNode:   Runtime: 243.0s
+2026-01-10 10:29:10,254 [INFO] GateNode:   Frames processed (AI): 137
+2026-01-10 10:29:10,255 [INFO] GateNode:   Average AI FPS: 0.6
+2026-01-10 10:29:10,257 [INFO] GateNode:   Camera capture:
+2026-01-10 10:29:10,257 [INFO] GateNode:     - Frames captured: 6385
+2026-01-10 10:29:10,258 [INFO] GateNode:     - Capture FPS: 28.0
+2026-01-10 10:29:10,258 [INFO] GateNode:     - Frames dropped (AI queue): 6246
+2026-01-10 10:29:10,262 [INFO] GateNode:     - Frames dropped (stream): 404
+2026-01-10 10:29:10,263 [INFO] GateNode:   Detection optimization:
+2026-01-10 10:29:10,264 [INFO] GateNode:     - Detections run: 136
+2026-01-10 10:29:10,265 [INFO] GateNode:     - Detections skipped: 0
+2026-01-10 10:29:10,266 [INFO] GateNode:     - Skip rate: 0.0%
+2026-01-10 10:29:10,266 [INFO] GateNode:   Unique tracks created: 5
+2026-01-10 10:29:10,267 [INFO] GateNode:   Tracks confirmed: 5
+2026-01-10 10:29:10,267 [INFO] GateNode:   Tracks recognized: 5
+2026-01-10 10:29:10,267 [INFO] GateNode:   People counts:
+2026-01-10 10:29:10,268 [INFO] GateNode:     - Authorized: 5
+2026-01-10 10:29:10,268 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:29:10,269 [INFO] GateNode:     - Unknown: 0
+2026-01-10 10:29:10,269 [INFO] GateNode:   Gate opens: 5
+2026-01-10 10:29:10,270 [INFO] GateNode:     - Authorized: 5
+2026-01-10 10:29:10,270 [INFO] GateNode:     - Wanted: 0
+2026-01-10 10:29:10,271 [INFO] GateNode:     - Rejected: 0
+2026-01-10 10:29:10,271 [INFO] GateNode: ==================================================
+2026-01-10 10:34:55,914 [INFO] GateNode: ==================================================
+2026-01-10 10:34:55,915 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:34:55,916 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:34:55,917 [INFO] GateNode: ==================================================
+2026-01-10 10:34:55,918 [INFO] GateNode: Initializing storage...
+2026-01-10 10:34:55,924 [INFO] storage.face_db: Loaded 9 face records from metadata
+2026-01-10 10:34:55,931 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:34:55,933 [INFO] storage.face_db: Current sync version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:34:55,940 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:34:55,941 [INFO] GateNode: Storage initialized: 9 faces in database
+2026-01-10 10:34:55,943 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:34:56,229 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:34:56,230 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:34:59,289 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:34:59,290 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:34:59,290 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:34:59,291 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:34:59,291 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:34:59,292 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:34:59,292 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:34:59,292 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:34:59,294 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:35:02,315 [ERROR] GateNode: Failed to open camera 0
+2026-01-10 10:35:02,317 [ERROR] GateNode: Failed to start Gate Node
+2026-01-10 10:35:07,092 [INFO] GateNode: ==================================================
+2026-01-10 10:35:07,093 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:35:07,093 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:35:07,094 [INFO] GateNode: ==================================================
+2026-01-10 10:35:07,094 [INFO] GateNode: Initializing storage...
+2026-01-10 10:35:07,098 [INFO] storage.face_db: Loaded 9 face records from metadata
+2026-01-10 10:35:07,103 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:35:07,105 [INFO] storage.face_db: Current sync version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:35:07,107 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:35:07,108 [INFO] GateNode: Storage initialized: 9 faces in database
+2026-01-10 10:35:07,109 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:35:07,269 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:35:07,270 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:35:08,150 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:35:08,150 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:35:08,151 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:35:08,151 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:35:08,152 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:35:08,152 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:35:08,152 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:35:08,153 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:35:08,154 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:35:08,739 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 10:35:08,739 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 10:35:08,758 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 10:35:08,780 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 10:35:08,781 [INFO] GateNode: Alarm system initialized
+2026-01-10 10:35:08,783 [INFO] GateNode: Initializing worker threads...
+2026-01-10 10:35:08,784 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 10:35:08,784 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 10:35:08,785 [INFO] GateNode: Worker threads initialized
+2026-01-10 10:35:08,786 [INFO] threads.sync: Sync thread started
+2026-01-10 10:35:08,786 [INFO] GateNode: Sync thread started
+2026-01-10 10:35:08,787 [INFO] threads.sync: [INIT] HNSW database: 9 faces, version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:35:08,788 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:35:08,788 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 10:35:08,789 [INFO] GateNode: UI thread started
+2026-01-10 10:35:08,792 [INFO] GateNode: Gate Node started successfully
+2026-01-10 10:35:08,796 [INFO] GateNode: Starting main vision loop...
+2026-01-10 10:35:09,074 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 10:35:14,977 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-10 10:35:15,118 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:35:11.999654+00:00
+2026-01-10 10:35:15,119 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:35:15,757 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:15,758 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:19,503 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:23,188 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:23,190 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:26,836 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:30,481 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:30,482 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:34,171 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:38,054 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:38,055 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:42,080 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:45,789 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:45,790 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:52,348 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.57)
+2026-01-10 10:35:52,365 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:35:52,536 [INFO] storage.logs: Logged access event #96: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:35:52,540 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.57)
+2026-01-10 10:35:59,373 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:36:18,317 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.58)
+2026-01-10 10:36:18,333 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:36:18,516 [INFO] storage.logs: Logged access event #97: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:36:18,517 [INFO] GateNode: Track 4 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:36:25,338 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:36:44,628 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.52)
+2026-01-10 10:36:44,646 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:36:44,874 [INFO] storage.logs: Logged access event #98: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:36:44,878 [INFO] GateNode: Track 5 recognized: AUTHORIZED (Stephen Njiu, conf=0.52)
+2026-01-10 10:36:51,655 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:37:10,323 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:37:11,256 [INFO] GateNode: Track 7 marked UNKNOWN after 3 attempts
+2026-01-10 10:37:11,531 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:37:11.004392+00:00
+2026-01-10 10:37:11,532 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:37:12,201 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 7)
+2026-01-10 10:37:12,201 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:37:15,353 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 7)
+2026-01-10 10:37:40,656 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.58)
+2026-01-10 10:37:40,723 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:37:40,878 [INFO] storage.logs: Logged access event #99: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:37:40,895 [INFO] GateNode: Track 8 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:37:47,726 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:38:33,285 [INFO] GateNode: Track 13 marked UNKNOWN after 3 attempts
+2026-01-10 10:38:34,492 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 13)
+2026-01-10 10:38:34,495 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
