@@ -2219,3 +2219,114 @@
 2026-01-10 10:29:10,270 [INFO] GateNode:     - Wanted: 0
 2026-01-10 10:29:10,271 [INFO] GateNode:     - Rejected: 0
 2026-01-10 10:29:10,271 [INFO] GateNode: ==================================================
+2026-01-10 10:34:55,914 [INFO] GateNode: ==================================================
+2026-01-10 10:34:55,915 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:34:55,916 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:34:55,917 [INFO] GateNode: ==================================================
+2026-01-10 10:34:55,918 [INFO] GateNode: Initializing storage...
+2026-01-10 10:34:55,924 [INFO] storage.face_db: Loaded 9 face records from metadata
+2026-01-10 10:34:55,931 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:34:55,933 [INFO] storage.face_db: Current sync version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:34:55,940 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:34:55,941 [INFO] GateNode: Storage initialized: 9 faces in database
+2026-01-10 10:34:55,943 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:34:56,229 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:34:56,230 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:34:59,289 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:34:59,290 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:34:59,290 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:34:59,291 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:34:59,291 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:34:59,292 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:34:59,292 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:34:59,292 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:34:59,294 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:35:02,315 [ERROR] GateNode: Failed to open camera 0
+2026-01-10 10:35:02,317 [ERROR] GateNode: Failed to start Gate Node
+2026-01-10 10:35:07,092 [INFO] GateNode: ==================================================
+2026-01-10 10:35:07,093 [INFO] GateNode: Gate Node starting: gate-001
+2026-01-10 10:35:07,093 [INFO] GateNode: Organization: DKUT
+2026-01-10 10:35:07,094 [INFO] GateNode: ==================================================
+2026-01-10 10:35:07,094 [INFO] GateNode: Initializing storage...
+2026-01-10 10:35:07,098 [INFO] storage.face_db: Loaded 9 face records from metadata
+2026-01-10 10:35:07,103 [INFO] storage.face_db: Loaded hnswlib index from data/faces.index
+2026-01-10 10:35:07,105 [INFO] storage.face_db: Current sync version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:35:07,107 [INFO] storage.logs: Initialized access log database at data/logs.db
+2026-01-10 10:35:07,108 [INFO] GateNode: Storage initialized: 9 faces in database
+2026-01-10 10:35:07,109 [INFO] GateNode: Initializing vision pipeline...
+2026-01-10 10:35:07,269 [INFO] vision.detector: Loaded SCRFD model from ..\backend-fastapi\models\models\buffalo_l\det_10g.onnx
+2026-01-10 10:35:07,270 [INFO] vision.detector: Using providers: ['CPUExecutionProvider']
+2026-01-10 10:35:08,150 [INFO] vision.recognizer: Loaded ArcFace model from ..\backend-fastapi\models\models\buffalo_l\w600k_r50.onnx
+2026-01-10 10:35:08,150 [INFO] vision.recognizer: Embedding dimension: 512
+2026-01-10 10:35:08,151 [INFO] vision.tracker: DeepSORT-lite tracker initialized: iou_threshold=0.2, min_hits=1, max_age=30, max_emb_dist=1.0
+2026-01-10 10:35:08,151 [INFO] GateNode: Vision pipeline initialized
+2026-01-10 10:35:08,152 [INFO] GateNode: Initializing gate controller...
+2026-01-10 10:35:08,152 [INFO] core.gate_control: GPIO disabled - gate control in simulation mode
+2026-01-10 10:35:08,152 [INFO] GateNode: Gate controller initialized (GPIO disabled - mock mode)
+2026-01-10 10:35:08,153 [INFO] GateNode: Opening camera 0 via capture thread...
+2026-01-10 10:35:08,154 [INFO] threads.capture: Capture thread starting...
+2026-01-10 10:35:08,739 [INFO] threads.capture: Camera opened: 640x480 @ 30.0fps
+2026-01-10 10:35:08,739 [INFO] threads.capture: Capture thread running at 30 FPS target
+2026-01-10 10:35:08,758 [INFO] GateNode: Camera opened: 640x480 @ 30fps
+2026-01-10 10:35:08,780 [INFO] core.alarm: AlarmSystem initialized for platform: windows
+2026-01-10 10:35:08,781 [INFO] GateNode: Alarm system initialized
+2026-01-10 10:35:08,783 [INFO] GateNode: Initializing worker threads...
+2026-01-10 10:35:08,784 [INFO] GateNode: Recognition thread pool initialized (2 workers)
+2026-01-10 10:35:08,784 [INFO] GateNode: Streaming disabled (MQTT/LiveKit not configured or unavailable)
+2026-01-10 10:35:08,785 [INFO] GateNode: Worker threads initialized
+2026-01-10 10:35:08,786 [INFO] threads.sync: Sync thread started
+2026-01-10 10:35:08,786 [INFO] GateNode: Sync thread started
+2026-01-10 10:35:08,787 [INFO] threads.sync: [INIT] HNSW database: 9 faces, version: 2026-01-10T07:09:47.970077+00:00
+2026-01-10 10:35:08,788 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:35:08,788 [INFO] threads.ui_v2: UI thread starting in continuous mode
+2026-01-10 10:35:08,789 [INFO] GateNode: UI thread started
+2026-01-10 10:35:08,792 [INFO] GateNode: Gate Node started successfully
+2026-01-10 10:35:08,796 [INFO] GateNode: Starting main vision loop...
+2026-01-10 10:35:09,074 [INFO] threads.ui_v2: Display window created: 1280x720
+2026-01-10 10:35:14,977 [INFO] GateNode: Track 1 marked UNKNOWN after 3 attempts
+2026-01-10 10:35:15,118 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:35:11.999654+00:00
+2026-01-10 10:35:15,119 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:35:15,757 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:15,758 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:19,503 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:23,188 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:23,190 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:26,836 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:30,481 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:30,482 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:34,171 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:38,054 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:38,055 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:42,080 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:45,789 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 1)
+2026-01-10 10:35:45,790 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:35:52,348 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.57)
+2026-01-10 10:35:52,365 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:35:52,536 [INFO] storage.logs: Logged access event #96: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:35:52,540 [INFO] GateNode: Track 2 recognized: AUTHORIZED (Stephen Njiu, conf=0.57)
+2026-01-10 10:35:59,373 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:36:18,317 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.58)
+2026-01-10 10:36:18,333 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:36:18,516 [INFO] storage.logs: Logged access event #97: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:36:18,517 [INFO] GateNode: Track 4 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:36:25,338 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:36:44,628 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.52)
+2026-01-10 10:36:44,646 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:36:44,874 [INFO] storage.logs: Logged access event #98: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:36:44,878 [INFO] GateNode: Track 5 recognized: AUTHORIZED (Stephen Njiu, conf=0.52)
+2026-01-10 10:36:51,655 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:37:10,323 [INFO] threads.sync: Syncing faces from http://127.0.0.1:8000/api/v1/faces/sync (current version: 2026-01-10T07:09:47.970077+00:00)
+2026-01-10 10:37:11,256 [INFO] GateNode: Track 7 marked UNKNOWN after 3 attempts
+2026-01-10 10:37:11,531 [INFO] threads.sync: API returned: 0 upserts, 0 deletes, version: 2026-01-10T07:37:11.004392+00:00
+2026-01-10 10:37:11,532 [INFO] threads.sync: No updates from backend (database up to date)
+2026-01-10 10:37:12,201 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 7)
+2026-01-10 10:37:12,201 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN
+2026-01-10 10:37:15,353 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 7)
+2026-01-10 10:37:40,656 [INFO] core.gate_control: ACCESS GRANTED: 25079658-9b13-472c-bee5-27f4649ff4ed (confidence: 0.58)
+2026-01-10 10:37:40,723 [INFO] core.gate_control: Gate OPENED (will close in 7.0s)
+2026-01-10 10:37:40,878 [INFO] storage.logs: Logged access event #99: AUTHORIZED -> AUTHORIZED
+2026-01-10 10:37:40,895 [INFO] GateNode: Track 8 recognized: AUTHORIZED (Stephen Njiu, conf=0.58)
+2026-01-10 10:37:47,726 [INFO] core.gate_control: Gate auto-closed
+2026-01-10 10:38:33,285 [INFO] GateNode: Track 13 marked UNKNOWN after 3 attempts
+2026-01-10 10:38:34,492 [INFO] threads.ui_v2: Alert shown: UNKNOWN - Unknown (track 13)
+2026-01-10 10:38:34,495 [WARNING] core.alarm: ALARM TRIGGERED: UNKNOWN

@@ -317,21 +317,165 @@ class BuffaloLPipeline:
 # ==============================================================================
 # Embedding Service (High-Level API)
 # ==============================================================================
+
+def _ensure_buffalo_l_models(models_root: str) -> Tuple[str, str]:
+    """
+    Ensure buffalo_l models are downloaded and return paths.
+    
+    Downloads from InsightFace model zoo if not present.
+    
+    Returns:
+        Tuple of (det_model_path, rec_model_path)
+    """
+    # Expected paths
+    model_dir = os.path.join(models_root, "models", "buffalo_l")
+    det_path = os.path.join(model_dir, "det_10g.onnx")
+    rec_path = os.path.join(model_dir, "w600k_r50.onnx")
+    
+    # Check if models already exist
+    if os.path.exists(det_path) and os.path.exists(rec_path):
+        print(f"Models found at {model_dir}")
+        return det_path, rec_path
+    
+    print(f"Models not found at {model_dir}, downloading buffalo_l...")
+    
+    # Create directory structure
+    os.makedirs(model_dir, exist_ok=True)
+    
+    # Method 1: Use insightface's built-in model download
+    try:
+        from insightface.utils import storage
+        
+        print("Downloading buffalo_l using InsightFace...")
+        
+        # Get the default insightface home directory
+        home = os.path.expanduser("~")
+        insightface_home = os.path.join(home, ".insightface")
+        buffalo_dir = os.path.join(insightface_home, "models", "buffalo_l")
+        
+        # Download to InsightFace home if not exists there
+        if not os.path.exists(os.path.join(buffalo_dir, "det_10g.onnx")):
+            # This downloads the full buffalo_l pack
+            storage.download_onnx("buffalo_l")
+        
+        # Copy from InsightFace home to our models directory
+        if os.path.exists(buffalo_dir):
+            import shutil
+            
+            for filename in ["det_10g.onnx", "w600k_r50.onnx"]:
+                src = os.path.join(buffalo_dir, filename)
+                dst = os.path.join(model_dir, filename)
+                if os.path.exists(src) and not os.path.exists(dst):
+                    print(f"Copying {filename} to {model_dir}")
+                    shutil.copy2(src, dst)
+            
+            if os.path.exists(det_path) and os.path.exists(rec_path):
+                print("Models downloaded successfully!")
+                return det_path, rec_path
+                
+    except Exception as e:
+        print(f"InsightFace download method 1 failed: {e}")
+    
+    # Method 2: Direct download from correct URLs
+    try:
+        import urllib.request
+        
+        print("Attempting direct download from InsightFace releases...")
+        print("The latest cors updated")
+        
+        # Correct URLs for individual model files from buffalo_l release
+        # The buffalo_l pack is at: https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip
+        pack_url = "https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip"
+        
+        zip_path = os.path.join(model_dir, "buffalo_l.zip")
+        
+        print(f"Downloading buffalo_l.zip from {pack_url}...")
+        urllib.request.urlretrieve(pack_url, zip_path)
+        
+        # Extract the zip - extract files one by one to handle partial failures
+        import zipfile
+        print("Extracting buffalo_l.zip...")
+        
+        needed_files = ["det_10g.onnx", "w600k_r50.onnx"]
+        
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            for filename in needed_files:
+                try:
+                    if filename in zip_ref.namelist():
+                        print(f"Extracting {filename}...")
+                        zip_ref.extract(filename, model_dir)
+                except Exception as e:
+                    print(f"Warning: Failed to extract {filename}: {e}")
+        
+        # Clean up zip file
+        try:
+            os.remove(zip_path)
+        except:
+            pass
+        
+        if os.path.exists(det_path) and os.path.exists(rec_path):
+            print("Models downloaded and extracted successfully!")
+            return det_path, rec_path
+            
+    except Exception as e:
+        print(f"Direct download failed: {e}")
+    
+    # Method 3: Check InsightFace default location and copy
+    try:
+        home = os.path.expanduser("~")
+        default_locations = [
+            os.path.join(home, ".insightface", "models", "buffalo_l"),
+            os.path.join(home, ".insightface", "buffalo_l"),
+            "/root/.insightface/models/buffalo_l",  # Docker
+        ]
+        
+        import shutil
+        
+        for loc in default_locations:
+            src_det = os.path.join(loc, "det_10g.onnx")
+            src_rec = os.path.join(loc, "w600k_r50.onnx")
+            
+            if os.path.exists(src_det) and os.path.exists(src_rec):
+                print(f"Found models at {loc}, copying...")
+                shutil.copy2(src_det, det_path)
+                shutil.copy2(src_rec, rec_path)
+                return det_path, rec_path
+                
+    except Exception as e:
+        print(f"Copy from default location failed: {e}")
+    
+    # If we get here, list what files we have
+    if os.path.exists(model_dir):
+        files = os.listdir(model_dir)
+        print(f"Files in {model_dir}: {files}")
+    
+    raise RuntimeError(
+        f"Could not download buffalo_l models. "
+        f"Please manually download buffalo_l.zip from "
+        f"https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip "
+        f"and extract det_10g.onnx and w600k_r50.onnx to {model_dir}"
+    )
+
+
 class EmbeddingService:
     """
     High-level embedding service for the FastAPI backend.
     
     Pipeline:
         det_10g -> landmarks -> alignment -> w600k_r50 -> L2-normalized 512-D
+    
+    Models are automatically downloaded if not present.
     """
     
     def __init__(self):
         models_root = settings.INSIGHTFACE_ROOT or "models"
         
-        # InsightFace expects: {root}/models/{name}/ structure
-        # So actual model files are at: models/models/buffalo_l/
-        det_path = os.path.join(models_root, "models", "buffalo_l", "det_10g.onnx")
-        rec_path = os.path.join(models_root, "models", "buffalo_l", "w600k_r50.onnx")
+        # Ensure models are downloaded (auto-download if missing)
+        det_path, rec_path = _ensure_buffalo_l_models(models_root)
+        
+        print(f"Initializing EmbeddingService with:")
+        print(f"  Detection model: {det_path}")
+        print(f"  Recognition model: {rec_path}")
         
         self.pipeline = BuffaloLPipeline(
             det_model_path=det_path,

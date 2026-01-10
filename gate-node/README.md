@@ -91,6 +91,16 @@ cp ../backend-fastapi/models/buffalo_l/w600k_r50.onnx models/
 cp ../backend-fastapi/models/buffalo_l/det_10g.onnx models/scrfd_10g_bnkps.onnx
 ```
 
+### Model Download (Auto/Manual)
+
+On first run, the node will attempt to auto-download the required ONNX models (det_10g.onnx, w600k_r50.onnx) if not present in the `models/` directory.
+
+If auto-download fails, you can manually download the full model pack from:
+
+- [buffalo_l.zip (InsightFace v0.7)](https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip)
+
+Extract `det_10g.onnx` and `w600k_r50.onnx` from the zip and place them in your `models/` directory.
+
 ### 3. Configure Environment
 
 ```bash

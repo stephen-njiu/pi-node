@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     # ===============================
     # Environment
     # ===============================
-    ENVIRONMENT: str = "development"  # Set to "production" in Railway
+    ENVIRONMENT: str = "production"  # Set to "production" in Railway
 
     # ===============================
     # InsightFace buffalo_l Models

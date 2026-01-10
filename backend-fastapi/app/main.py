@@ -1,14 +1,15 @@
 from __future__ import annotations
 
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Form
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from uuid import uuid4
 from datetime import datetime
 import os
+import traceback
 
 from .config.settings import settings
 from .services.embedding import EmbeddingService
@@ -25,8 +26,8 @@ except Exception:
 # =========================
 # App
 # =========================
-# Disable docs in production (set ENVIRONMENT=production in Railway)
-is_production = os.getenv("ENVIRONMENT", "development") == "production"
+# Disable docs in production (set FG_ENVIRONMENT=production in Railway)
+is_production = settings.ENVIRONMENT == "production"
 
 app = FastAPI(
     title="Gate Backend API", 
@@ -34,6 +35,60 @@ app = FastAPI(
     docs_url=None,  # Disable default docs, we'll create custom one
     redoc_url="/redoc" if not is_production else None,
 )
+
+# =========================
+# CORS (MUST be added BEFORE any routes)
+# =========================
+# Allow ALL origins to help diagnose deployment issues
+allow_origins = ["*"]
+
+# Log CORS configuration
+print(f"🌐 CORS Origins: {allow_origins}")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allow_origins,
+    allow_credentials=False,  # Must be False when using "*"
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
+
+# =========================
+# Explicit OPTIONS handler for preflight requests
+# =========================
+@app.options("/{full_path:path}")
+async def preflight_handler(full_path: str):
+    """Handle CORS preflight requests explicitly."""
+    return JSONResponse(
+        content={"status": "ok"},
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Max-Age": "86400",
+        }
+    )
+
+# =========================
+# Global Exception Handler (ensures CORS on errors)
+# =========================
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Catch all exceptions and return proper CORS headers."""
+    error_msg = str(exc)
+    print(f"❌ Unhandled exception: {error_msg}")
+    traceback.print_exc()
+    
+    return JSONResponse(
+        status_code=500,
+        content={"detail": error_msg, "type": type(exc).__name__},
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*",
+        }
+    )
 
 # =========================
 # Startup
@@ -89,19 +144,6 @@ def get_embedding_service() -> EmbeddingService:
     return app.state.embedding_service  # type: ignore
 
 # =========================
-# CORS
-# =========================
-origins_cfg = settings.ALLOW_ORIGINS or "http://localhost:3000,http://127.0.0.1:3000"
-allow_origins = [o.strip() for o in origins_cfg.split(",") if o.strip()]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allow_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# =========================
 # Custom Docs (Read-Only)
 # =========================
 @app.get("/docs", include_in_schema=False)
@@ -130,6 +172,7 @@ async def health():
         "store": "pinecone",
         "pi_sync": "postgres" if pg_connected else "disabled",
     }
+
 
 @app.post(f"{settings.API_PREFIX}/embeddings", response_model=EmbeddingResponse)
 async def create_embeddings(
