@@ -9,6 +9,8 @@ import requests
 import logging
 from typing import Optional
 
+import numpy as np
+
 from storage import FaceDatabase
 
 
@@ -53,6 +55,12 @@ class SyncThread(threading.Thread):
         """Main sync loop."""
         logger.info("Sync thread started")
         
+        # Print initial database status
+        initial_count = self.face_db.count()
+        initial_version = self.face_db.get_version()
+        logger.info(f"[INIT] HNSW database: {initial_count} faces, version: {initial_version}")
+        print(f"[INIT] HNSW database: {initial_count} faces, version: {initial_version}")
+        
         # Initial sync on startup
         self._sync_faces()
         
@@ -82,8 +90,11 @@ class SyncThread(threading.Thread):
             url = f"{self.backend_url}/api/v1/faces/sync"
             params = {
                 "org_id": self.org_id,
-                "since_version": current_version
             }
+            
+            # Only include 'since' for delta sync (not first sync)
+            if current_version and current_version != "0":
+                params["since"] = current_version
             
             logger.info(f"Syncing faces from {url} (current version: {current_version})")
             
@@ -92,34 +103,60 @@ class SyncThread(threading.Thread):
             
             data = response.json()
             
-            if data.get("full_sync"):
-                # Full sync: replace all faces
-                faces = data.get("faces", [])
-                version = data.get("version", current_version + 1)
-                
-                self.face_db.sync_from_backend(faces, version)
-                logger.info(f"Full sync complete: {len(faces)} faces, version {version}")
-                
-            elif data.get("updates"):
-                # Incremental updates
-                for update in data["updates"]:
-                    if update.get("deleted"):
-                        self.face_db.remove_face(update["face_id"])
-                    else:
-                        self.face_db.add_face(
-                            face_id=update["face_id"],
-                            user_id=update["user_id"],
-                            name=update["name"],
-                            status=update["status"],
-                            embedding=update["embedding"]
-                        )
-                
-                new_version = data.get("version", current_version)
-                self.face_db.set_version(new_version)
-                logger.info(f"Incremental sync: {len(data['updates'])} updates, version {new_version}")
+            # Debug: log raw response structure
+            logger.debug(f"Sync response keys: {data.keys()}")
             
+            # API returns: { version, upserts, deletes, count }
+            upserts = data.get("upserts", [])
+            deletes = data.get("deletes", [])
+            new_version = data.get("version", current_version)
+            
+            logger.info(f"API returned: {len(upserts)} upserts, {len(deletes)} deletes, version: {new_version}")
+            
+            if upserts or deletes:
+                # Debug: verify embedding format
+                if upserts:
+                    first_emb = upserts[0].get("embedding", [])
+                    logger.debug(f"First embedding type: {type(first_emb)}, len: {len(first_emb) if first_emb else 0}")
+                    if first_emb:
+                        logger.debug(f"First embedding sample: {first_emb[:3]}... (first 3 values)")
+                
+                # Handle deletes first
+                for face_id in deletes:
+                    self.face_db.remove_face(face_id)
+                
+                # Handle upserts - add/update each face individually (delta sync)
+                # Don't use sync_from_backend() as that clears all data (full sync only)
+                added_count = 0
+                for item in upserts:
+                    try:
+                        embedding = np.array(item["embedding"], dtype=np.float32)
+                        success = self.face_db.add_face(
+                            face_id=item["id"],
+                            user_id=item.get("person_id"),
+                            name=item["full_name"],
+                            status=item["status"],
+                            embedding=embedding
+                        )
+                        if success:
+                            added_count += 1
+                    except Exception as e:
+                        logger.error(f"Failed to add face {item.get('id')}: {e}")
+                
+                logger.info(f"Added/updated {added_count}/{len(upserts)} faces")
+                
+                # Save to disk after batch add
+                self.face_db.save()
+                
+                # Update version (this also saves to disk)
+                self.face_db.set_version(new_version)
+                
+                # Print final count
+                final_count = self.face_db.count()
+                logger.info(f"[SYNC OK] {len(upserts)} upserts, {len(deletes)} deletes -> {final_count} faces in DB, version {new_version}")
+                print(f"[SYNC OK] {len(upserts)} upserts, {len(deletes)} deletes -> {final_count} faces in DB, version {new_version}")
             else:
-                logger.debug("No updates from backend")
+                logger.info("No updates from backend (database up to date)")
             
             self.last_sync_success = True
             self.last_sync_time = time.time()

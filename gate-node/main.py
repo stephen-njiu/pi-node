@@ -37,8 +37,10 @@ import sys
 import time
 import logging
 import threading
+import queue
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Dict, Set
 import numpy as np
 
 try:
@@ -51,7 +53,16 @@ except ImportError:
 # Local imports
 from config import config
 from storage import FaceDatabase, AccessLogger
-from vision import SCRFDDetector, ArcFaceRecognizer, SimpleTracker, Track, align_face
+from vision import (
+    SCRFDDetector, 
+    ArcFaceRecognizer, 
+    SimpleTracker, 
+    Track, 
+    align_face, 
+    align_face_from_bbox,
+    filter_quality_detections,
+    MIN_FACE_WIDTH,
+)
 from vision.tracker import TrackPhase  # Import phase enum
 from core import (
     TrackStateManager,
@@ -60,6 +71,14 @@ from core import (
     GateDecision,
     DecisionEngine,
     create_gate_controller_from_config,
+    # Singletons for production optimization
+    get_onnx_manager,
+    cleanup_all,
+    # Alarm system
+    get_alarm_system,
+    trigger_alarm,
+    AlarmType,
+    AlarmConfig,
 )
 from threads import (
     SyncThread,
@@ -129,6 +148,11 @@ class GateNode:
         self.stream_thread = None  # Optional: StreamThread
         self.capture_thread: Optional[CaptureThread] = None  # Decoupled camera capture
         
+        # Non-blocking recognition system
+        self._recognition_executor: Optional[ThreadPoolExecutor] = None
+        self._pending_recognition: Set[int] = set()  # Track IDs being recognized
+        self._recognition_lock = threading.Lock()
+        
         # Recognition config
         self.max_recognition_attempts = getattr(config, 'MAX_RECOGNITION_ATTEMPTS', 3)
         
@@ -183,7 +207,7 @@ class GateNode:
             self.detector = SCRFDDetector(
                 model_path=str(scrfd_path),
                 input_size=(640, 640),
-                conf_threshold=0.5,
+                conf_threshold=0.4,  # Lower threshold for better detection at distance/angles
             )
             
             # Initialize recognizer
@@ -192,13 +216,14 @@ class GateNode:
             )
             
             # Initialize DeepSORT-lite tracker
-            # Tuned for low FPS scenarios (~1-2 FPS)
+            # ByteTrack-style: PURE IOU TRACKING (no embedding in matching cost)
+            # Embeddings are only used for RECOGNITION, not for track association
             self.tracker = SimpleTracker(
-                max_age=60,              # ~60 seconds at 1fps - keep tracks longer
-                min_hits=2,              # 2 consecutive detections to confirm (faster)
+                max_age=30,              # ~30 frames - keep tracks for reasonable time
+                min_hits=1,              # 1 detection to confirm (immediate tracking)
                 iou_threshold=0.2,       # Lower IoU for low-FPS (more permissive)
-                max_embedding_distance=0.7,  # Slightly more permissive for embeddings
-                embedding_weight=0.5,    # Give more weight to embeddings vs IoU
+                max_embedding_distance=1.0,  # Disabled (always passes)
+                embedding_weight=0.0,    # PURE IOU - no embedding in cost matrix
             )
             
             logger.info("Vision pipeline initialized")
@@ -281,10 +306,41 @@ class GateNode:
             logger.error(f"Failed to initialize camera: {e}")
             return False
     
+    def _init_alarm(self) -> bool:
+        """Initialize alarm system."""
+        try:
+            if config.ALARM_ENABLED:
+                alarm_config = AlarmConfig(
+                    enabled=True,
+                    wanted_frequency=config.ALARM_WANTED_FREQUENCY,
+                    wanted_duration=config.ALARM_WANTED_DURATION,
+                    wanted_beeps=config.ALARM_WANTED_BEEPS,
+                    unknown_frequency=config.ALARM_UNKNOWN_FREQUENCY,
+                    unknown_duration=config.ALARM_UNKNOWN_DURATION,
+                    unknown_beeps=config.ALARM_UNKNOWN_BEEPS,
+                )
+                alarm = get_alarm_system()
+                alarm.config = alarm_config
+                logger.info("Alarm system initialized")
+            else:
+                logger.info("Alarm system disabled")
+            return True
+        except Exception as e:
+            logger.warning(f"Alarm system init warning: {e}")
+            return True  # Non-critical
+    
     def _init_threads(self) -> bool:
         """Initialize worker threads."""
         try:
             logger.info("Initializing worker threads...")
+            
+            # Recognition thread pool (non-blocking recognition)
+            # Use 2 workers - enough for parallel recognition without overloading
+            self._recognition_executor = ThreadPoolExecutor(
+                max_workers=2, 
+                thread_name_prefix="Recognition"
+            )
+            logger.info("Recognition thread pool initialized (2 workers)")
             
             # Sync thread
             self.sync_thread = SyncThread(
@@ -295,9 +351,16 @@ class GateNode:
                 version_file=config.VERSION_PATH,
             )
             
-            # UI thread
+            # UI thread - pass capture thread for streaming mode
             if config.DISPLAY_ENABLED:
-                self.ui_thread = create_ui_thread_from_config(config)
+                self.ui_thread = UIThread(
+                    display_width=config.DISPLAY_WIDTH,
+                    display_height=config.DISPLAY_HEIGHT,
+                    mode=config.DISPLAY_MODE,
+                    fullscreen=getattr(config, 'DISPLAY_FULLSCREEN', False),
+                    capture_thread=self.capture_thread,  # For streaming mode
+                    alarm_enabled=config.ALARM_ENABLED,
+                )
             
             # Stream thread (optional)
             if STREAMING_AVAILABLE and (config.MQTT_ENABLED or config.LIVEKIT_URL):
@@ -355,6 +418,9 @@ class GateNode:
         if not self._init_camera():
             return False
         
+        if not self._init_alarm():
+            return False
+        
         if not self._init_threads():
             return False
         
@@ -382,6 +448,14 @@ class GateNode:
         
         self._running = False
         self._shutdown_event.set()
+        
+        # Cleanup singletons
+        cleanup_all()
+        
+        # Shutdown recognition executor
+        if self._recognition_executor:
+            self._recognition_executor.shutdown(wait=False)
+            logger.info("Recognition executor shutdown")
         
         # Stop threads (order matters - stop capture last to avoid frame starvation)
         if self.sync_thread:
@@ -477,31 +551,39 @@ class GateNode:
         """
         track_id = track.track_id
         bbox = track.bbox
+        landmarks = track.landmarks  # Get landmarks for proper face alignment
         
         try:
-            # Extract face region
-            x1, y1, x2, y2 = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
+            # =========================
+            # FACE ALIGNMENT (CRITICAL!)
+            # =========================
+            # The backend stores embeddings from ALIGNED faces (5-point landmark warp).
+            # We MUST align the same way for embeddings to match correctly.
+            # Without alignment, embeddings from different head poses don't match!
             
-            # Clamp to frame bounds
-            h, w = frame.shape[:2]
-            x1, y1 = max(0, x1), max(0, y1)
-            x2, y2 = min(w, x2), min(h, y2)
+            if landmarks is not None and len(landmarks) >= 5:
+                # Use proper 5-point landmark alignment (same as backend)
+                aligned_face = align_face(frame, landmarks)
+                
+                if aligned_face is None:
+                    # Fallback to bbox crop if alignment fails
+                    logger.warning(f"Track {track_id}: Alignment failed, using bbox crop")
+                    aligned_face = align_face_from_bbox(frame, bbox, landmarks=None)
+            else:
+                # No landmarks available - use bbox fallback
+                logger.warning(f"Track {track_id}: No landmarks, using bbox crop")
+                aligned_face = align_face_from_bbox(frame, bbox, landmarks=None)
             
-            if x2 <= x1 or y2 <= y1:
-                logger.warning(f"Track {track_id}: Invalid bbox after clamping")
+            if aligned_face is None or aligned_face.size == 0:
+                logger.warning(f"Track {track_id}: Empty aligned face")
                 return False
             
-            face_crop = frame[y1:y2, x1:x2]
-            
-            if face_crop.size == 0:
-                logger.warning(f"Track {track_id}: Empty face crop")
-                return False
-            
-            # Resize to recognition model input size
-            aligned_face = cv2.resize(face_crop, (112, 112))
-            
-            # Get embedding
+            # Get embedding from properly aligned face
             embedding = self.recognizer.get_embedding(aligned_face)
+            
+            if embedding is None:
+                logger.warning(f"Track {track_id}: Failed to get embedding")
+                return False
             
             # Search in database
             results = self.face_db.search(embedding, k=1)
@@ -590,6 +672,43 @@ class GateNode:
             logger.error(f"Recognition error for track {track_id}: {e}")
             self.tracker.record_recognition_attempt(track_id)
             return False
+        finally:
+            # Remove from pending set when done
+            with self._recognition_lock:
+                self._pending_recognition.discard(track_id)
+    
+    def _submit_recognition(self, track: Track, frame: np.ndarray):
+        """
+        Submit recognition task to background thread pool (non-blocking).
+        
+        This allows the main loop to continue processing frames while
+        recognition runs in the background.
+        """
+        track_id = track.track_id
+        
+        with self._recognition_lock:
+            # Skip if already being recognized
+            if track_id in self._pending_recognition:
+                return
+            self._pending_recognition.add(track_id)
+        
+        # Make a copy of the frame for the background thread
+        frame_copy = frame.copy()
+        
+        # Submit to executor
+        try:
+            self._recognition_executor.submit(
+                self._recognize_track, track, frame_copy
+            )
+        except Exception as e:
+            logger.error(f"Failed to submit recognition for track {track_id}: {e}")
+            with self._recognition_lock:
+                self._pending_recognition.discard(track_id)
+    
+    def _is_track_pending_recognition(self, track_id: int) -> bool:
+        """Check if track is currently being recognized."""
+        with self._recognition_lock:
+            return track_id in self._pending_recognition
     
     def run(self):
         """
@@ -631,7 +750,7 @@ class GateNode:
             # =========================
             # CaptureThread handles camera read at full FPS
             # We pull frames from AI queue (drops old frames if we're slow)
-            frame = self.capture_thread.get_ai_frame(timeout=0.5)
+            frame = self.capture_thread.get_ai_frame(timeout=0.1)  # Shorter timeout for responsiveness
             if frame is None:
                 # No frame available, capture thread might be starting up
                 continue
@@ -639,85 +758,123 @@ class GateNode:
             self.stats["frames_processed"] += 1
             
             # =========================
-            # SMART DETECTION DECISION
+            # DETECTION (always run for real-time feedback)
             # =========================
-            # Skip expensive detection if:
-            # 1. We have active tracks that are all recognized
-            # 2. Tracks are still being matched (not lost)
-            # 3. Haven't skipped too many frames
-            # 
-            # WHY THIS WORKS:
-            # - After recognition, person stays in frame
-            # - We don't need to re-detect them every frame
-            # - Skip 5 frames, then do 1 detection to check if they left
-            # - This can boost FPS 5x when person is standing still
-            should_detect = True
+            # CRITICAL: Always detect to show landmarks in real-time
+            # Detection is fast (~50-100ms), skipping causes "invisible" faces
+            detections = self.detector.detect(frame)
             
-            if self.tracker and detection_skip_frames < max_skip_frames:
-                active_tracks = self.tracker.get_all_active_tracks()
-                if active_tracks:
-                    # Check if all tracks are recognized AND recently updated
-                    all_recognized = all(t.recognized for t in active_tracks)
-                    all_stable = all(t.time_since_update <= 1 for t in active_tracks)
-                    
-                    if all_recognized and all_stable:
-                        # Skip detection - but we STILL need to keep tracks alive
-                        should_detect = False
-                        detection_skip_frames += 1
+            # Store raw detections for UI (show landmarks for ALL detected faces)
+            raw_detections = detections  # Keep all detections for display
             
             # =========================
-            # DETECTION (conditional)
+            # QUALITY FILTER (only for tracker/recognition)
             # =========================
-            if should_detect:
-                detection_skip_frames = 0  # Reset skip counter
-                detections = self.detector.detect(frame)
-                tracker_detections = [(det.bbox, det.score, None) for det in detections]
+            # Filter for TRACKING only - we still show raw detections as landmarks
+            # This allows UI to show all faces while only tracking high-quality ones
+            quality_detections = filter_quality_detections(
+                detections,
+                frame=frame,
+                min_width=60,           # Lower threshold (60px) for tracking
+                check_blur=False,   # DISABLED - motion blur is common
+                check_pose=False,   # DISABLED - people look around
+            )
+            
+            # =========================
+            # COMPUTE EMBEDDINGS FOR SWAP DETECTION
+            # =========================
+            # Only compute embeddings for detections that might match recognized tracks
+            # This enables person-swap detection without computing all embeddings
+            tracker_detections = []
+            for det in quality_detections:
+                embedding = None
                 
-                # Update tracker with detections
-                confirmed_tracks = self.tracker.update(tracker_detections)
-                self.stats["detections_run"] += 1
-            else:
-                # Skip detection - DON'T update tracker, just use last known tracks
-                # This prevents time_since_update from incrementing
-                confirmed_tracks = self.tracker.get_all_active_tracks()
-                self.stats["detections_skipped"] += 1
+                # Check if this detection might match a recognized track
+                # (compute embedding for swap detection)
+                det_cx = (det.bbox[0] + det.bbox[2]) / 2
+                det_cy = (det.bbox[1] + det.bbox[3]) / 2
+                
+                for track in self.tracker.get_all_active_tracks():
+                    if track.recognized:
+                        trk_cx = (track.bbox[0] + track.bbox[2]) / 2
+                        trk_cy = (track.bbox[1] + track.bbox[3]) / 2
+                        
+                        # If detection is near a recognized track, compute embedding
+                        if abs(det_cx - trk_cx) < 100 and abs(det_cy - trk_cy) < 100:
+                            # Compute embedding for swap detection
+                            if det.landmarks is not None:
+                                aligned = align_face(frame, det.landmarks)
+                                if aligned is not None:
+                                    embedding = self.recognizer.get_embedding(aligned)
+                            break
+                
+                tracker_detections.append((det.bbox, det.score, embedding, det.landmarks))
+            
+            # Update tracker with quality detections (now with embeddings for swap detection)
+            confirmed_tracks = self.tracker.update(tracker_detections)
+            self.stats["detections_run"] += 1
             
             # =========================
-            # RECOGNITION (once per track)
+            # RECOGNITION (non-blocking, once per track)
             # =========================
             # Get tracks that need recognition (CONFIRMED + not recognized)
             tracks_to_recognize = self.tracker.get_tracks_for_recognition()
             
             for track in tracks_to_recognize:
-                # Run recognition ONCE for this track
-                # After this, track.recognized=True and it won't appear again
-                self._recognize_track(track, frame)
+                # Skip if already being processed
+                if not self._is_track_pending_recognition(track.track_id):
+                    # Submit to background thread (non-blocking!)
+                    self._submit_recognition(track, frame)
             
             # =========================
             # BUILD UI OVERLAYS
             # =========================
+            # Show ALL raw detections as landmarks (real-time feedback)
+            # Only show bounding boxes for confirmed/recognized tracks
             face_overlays: List[FaceOverlay] = []
             
+            # Create a set of tracked bboxes for matching
+            tracked_bboxes = {}
             for track in confirmed_tracks:
+                # Use center point for matching
                 bbox = track.bbox
+                cx, cy = (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2
+                tracked_bboxes[(int(cx), int(cy))] = track
+            
+            # First, add ALL raw detections as PENDING (show landmarks)
+            for det in raw_detections:
+                bbox = det.bbox
                 bbox_tuple = (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))
+                cx, cy = (bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2
                 
-                # Determine display status
-                if track.recognized:
-                    status = track.status or "UNKNOWN"
-                    name = track.name
-                    confidence = track.confidence
+                # Check if this detection matches a confirmed track
+                matched_track = None
+                for (tcx, tcy), track in tracked_bboxes.items():
+                    # Simple distance check (within 50px)
+                    if abs(cx - tcx) < 50 and abs(cy - tcy) < 50:
+                        matched_track = track
+                        break
+                
+                if matched_track and matched_track.recognized:
+                    # This is a recognized face - show full box
+                    status = matched_track.status or "UNKNOWN"
+                    name = matched_track.name
+                    confidence = matched_track.confidence
+                    track_id = matched_track.track_id
                 else:
+                    # Not recognized yet - show as PENDING (landmarks only)
                     status = "PENDING"
                     name = None
                     confidence = 0.0
+                    track_id = matched_track.track_id if matched_track else -1
                 
                 face_overlays.append(FaceOverlay(
                     bbox=bbox_tuple,
-                    track_id=track.track_id,
+                    track_id=track_id,
                     status=status,
                     person_name=name,
                     confidence=confidence,
+                    landmarks=det.landmarks,  # ALWAYS pass landmarks from detection
                 ))
             
             # =========================

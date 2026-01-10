@@ -9,6 +9,22 @@ from .gate_control import (
     GateAction,
     AccessDecision,
 )
+from .singletons import (
+    ONNXSessionManager,
+    BufferPool,
+    FrameCounter,
+    get_onnx_manager,
+    get_buffer_pool,
+    get_frame_counter,
+    cleanup_all,
+)
+from .alarm import (
+    AlarmSystem,
+    AlarmType,
+    AlarmConfig,
+    get_alarm_system,
+    trigger_alarm,
+)
 
 
 def create_gate_controller_from_config(config) -> GateController:
@@ -33,4 +49,18 @@ __all__ = [
     "GateAction",
     "AccessDecision",
     "create_gate_controller_from_config",
+    # Singletons
+    "ONNXSessionManager",
+    "BufferPool",
+    "FrameCounter",
+    "get_onnx_manager",
+    "get_buffer_pool",
+    "get_frame_counter",
+    "cleanup_all",
+    # Alarm
+    "AlarmSystem",
+    "AlarmType",
+    "AlarmConfig",
+    "get_alarm_system",
+    "trigger_alarm",
 ]

@@ -32,6 +32,8 @@ class AccessEvent:
     status: str  # AUTHORIZED, UNKNOWN, WANTED
     decision: str  # OPEN, CLOSE
     confidence: float
+    similarity: Optional[float]
+    embedding_hash: Optional[str]
     face_crop_b64: Optional[str]  # Base64 encoded JPEG
     synced: bool
 
@@ -72,11 +74,24 @@ class AccessLogger:
                     status TEXT NOT NULL,
                     decision TEXT NOT NULL,
                     confidence REAL NOT NULL,
+                    similarity REAL,
+                    embedding_hash TEXT,
                     face_crop_b64 TEXT,
                     synced INTEGER DEFAULT 0,
                     created_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            
+            # Add new columns if they don't exist (migration for existing DBs)
+            try:
+                cursor.execute("ALTER TABLE access_events ADD COLUMN similarity REAL")
+            except sqlite3.OperationalError:
+                pass  # Column already exists
+            
+            try:
+                cursor.execute("ALTER TABLE access_events ADD COLUMN embedding_hash TEXT")
+            except sqlite3.OperationalError:
+                pass  # Column already exists
             
             # Index for efficient queries
             cursor.execute("""
@@ -126,6 +141,8 @@ class AccessLogger:
         person_name: Optional[str] = None,
         status: str = "UNKNOWN",
         confidence: float = 0.0,
+        similarity: Optional[float] = None,
+        embedding_hash: Optional[str] = None,
         gate_id: str = "gate-001",
         track_id: int = 0,
         frame: Optional[np.ndarray] = None,
@@ -144,6 +161,8 @@ class AccessLogger:
             person_name: Person's full name
             status: AUTHORIZED, UNKNOWN, or WANTED
             confidence: Recognition confidence (0-1)
+            similarity: Cosine similarity score (0-1)
+            embedding_hash: Hash of the query embedding for audit
             gate_id: Gate identifier
             track_id: Track ID from tracker
             frame: Video frame for face crop
@@ -170,11 +189,11 @@ class AccessLogger:
             
             cursor.execute("""
                 INSERT INTO access_events 
-                (timestamp, gate_id, track_id, face_id, user_id, name, status, decision, confidence, face_crop_b64, synced)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+                (timestamp, gate_id, track_id, face_id, user_id, name, status, decision, confidence, similarity, embedding_hash, face_crop_b64, synced)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
             """, (
                 timestamp, gate_id, track_id, actual_face_id, user_id, actual_name,
-                status, actual_decision, confidence, face_crop_b64
+                status, actual_decision, confidence, similarity, embedding_hash, face_crop_b64
             ))
             
             event_id = cursor.lastrowid
@@ -197,7 +216,7 @@ class AccessLogger:
             
             cursor.execute("""
                 SELECT id, timestamp, gate_id, track_id, face_id, user_id, name,
-                       status, decision, confidence, face_crop_b64, synced
+                       status, decision, confidence, similarity, embedding_hash, face_crop_b64, synced
                 FROM access_events
                 WHERE synced = 0
                 ORDER BY timestamp ASC
@@ -217,8 +236,10 @@ class AccessLogger:
                     status=row[7],
                     decision=row[8],
                     confidence=row[9],
-                    face_crop_b64=row[10],
-                    synced=bool(row[11])
+                    similarity=row[10],
+                    embedding_hash=row[11],
+                    face_crop_b64=row[12],
+                    synced=bool(row[13])
                 ))
             
             conn.close()

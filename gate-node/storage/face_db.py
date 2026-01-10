@@ -67,11 +67,11 @@ class FaceDatabase:
         self.ef_construction = ef_construction
         self.m = m
         
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()  # Reentrant lock for nested calls
         self._metadata: dict[int, dict] = {}  # idx -> {face_id, user_id, name, status}
         self._face_id_to_idx: dict[str, int] = {}  # face_id -> idx
         self._next_idx = 0
-        self._current_version = 0
+        self._current_version = "0"  # String version (ISO timestamp or "0")
         
         # hnswlib index or fallback embeddings array
         self._index = None
@@ -125,7 +125,7 @@ class FaceDatabase:
             if os.path.exists(self.version_path):
                 try:
                     with open(self.version_path, "r") as f:
-                        self._current_version = int(f.read().strip())
+                        self._current_version = f.read().strip() or "0"
                     logger.info(f"Current sync version: {self._current_version}")
                 except Exception as e:
                     logger.warning(f"Failed to load version: {e}")
@@ -159,13 +159,13 @@ class FaceDatabase:
             except Exception as e:
                 logger.error(f"Failed to save version: {e}")
     
-    def get_version(self) -> int:
-        """Get current sync version."""
+    def get_version(self) -> str:
+        """Get current sync version (ISO timestamp or '0')."""
         return self._current_version
     
-    def set_version(self, version: int):
-        """Set sync version."""
-        self._current_version = version
+    def set_version(self, version: str):
+        """Set sync version (ISO timestamp)."""
+        self._current_version = str(version)
         self._save()
     
     def add_face(
@@ -226,6 +226,10 @@ class FaceDatabase:
                 logger.info(f"Added face {face_id} ({name}) with status {status}")
             
             return True
+    
+    def save(self):
+        """Public method to save database to disk."""
+        self._save()
     
     def remove_face(self, face_id: str) -> bool:
         """Remove a face from the database."""
@@ -326,14 +330,14 @@ class FaceDatabase:
             
             return results
     
-    def sync_from_backend(self, faces: list[dict], version: int):
+    def sync_from_backend(self, faces: list[dict], version: str):
         """
         Full sync from backend.
         Replaces all faces with the provided list.
         
         Args:
             faces: List of face dicts with face_id, user_id, name, status, embedding
-            version: New sync version
+            version: New sync version (ISO timestamp string)
         """
         logger.info(f"Syncing {len(faces)} faces from backend (version {version})")
         

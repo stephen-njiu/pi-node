@@ -210,14 +210,22 @@ class PostgresStore:
             # Build query
             if since:
                 # Delta sync - only changed records
+                # Use >= instead of > to catch records updated at exact same timestamp
+                # This may return some duplicates but ensures we don't miss any
                 query = """
                     SELECT id, "personId", "orgId", "fullName", email, role, 
                            status, embedding, "imageUrl", notes, "deletedAt"
                     FROM face
-                    WHERE "orgId" = $1 AND "updatedAt" > $2
+                    WHERE "orgId" = $1 AND "updatedAt" >= $2
                     ORDER BY "updatedAt" ASC
                 """
-                rows = await conn.fetch(query, org_id, since)
+                try:
+                    rows = await conn.fetch(query, org_id, since)
+                    print(f"📊 Delta sync: org={org_id}, since={since}, found {len(rows)} records")
+                except Exception as e:
+                    print(f"❌ Delta sync query failed: {e}")
+                    print(f"   org_id: {org_id}, since: {since} (type: {type(since)})")
+                    raise
             else:
                 # Full sync - all active records
                 query = """

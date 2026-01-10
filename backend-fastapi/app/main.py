@@ -13,9 +13,6 @@ import os
 from .config.settings import settings
 from .services.embedding import EmbeddingService
 from .storage.postgres import PostgresStore
-from .utils.image import load_image_to_rgb
-from .utils.augment import generate_variants
-from .utils.face import detect_and_align
 
 # =========================
 # Pinecone
@@ -129,7 +126,7 @@ async def health():
     pg_connected = hasattr(app.state, 'postgres_store') and app.state.postgres_store is not None
     return {
         "status": "ok",
-        "backend": settings.EMBEDDING_BACKEND,
+        # "backend": settings.EMBEDDING_BACKEND,
         "store": "pinecone",
         "pi_sync": "postgres" if pg_connected else "disabled",
     }
@@ -138,8 +135,6 @@ async def health():
 async def create_embeddings(
     files: List[UploadFile] = File(...),
     person_id: Optional[str] = None,
-    augment: bool = Query(default=True),
-    aug_per_image: int = Query(default=3, ge=0, le=5),
     fullName: str = Form(...),
     email: str = Form(...),
     organization: str = Form(...),
@@ -148,31 +143,35 @@ async def create_embeddings(
     notes: Optional[str] = Form(None),
     svc: EmbeddingService = Depends(get_embedding_service),
 ):
+    """
+    Create face embeddings from uploaded images.
+    
+    Pipeline (buffalo_l):
+        1. det_10g.onnx → detect faces + 5-point landmarks
+        2. Similarity transform alignment → 112×112 RGB
+        3. w600k_r50.onnx → 512-D embedding (L2 normalized)
+    
+    Each image produces ONE embedding (from the largest detected face).
+    Embeddings are stored in both Pinecone and PostgreSQL.
+    """
     if not files:
         raise HTTPException(400, "No files uploaded")
     if len(files) > 5:
         raise HTTPException(400, "Maximum of 5 images allowed")
 
+    # Read all image bytes
     images_bytes: List[bytes] = []
-
     for f in files:
         raw = await f.read()
-        img = load_image_to_rgb(raw)
-        aligned = detect_and_align(img) if not settings.ASSUME_ALIGNED else img
-        aligned = aligned or img
+        images_bytes.append(raw)
 
-        import io
-        buf = io.BytesIO()
-        aligned.save(buf, format="JPEG", quality=95)
-        images_bytes.append(buf.getvalue())
-
-        if augment:
-            for _, aug in generate_variants(aligned, aug_per_image, allow_flip=False):
-                buf = io.BytesIO()
-                aug.save(buf, format="JPEG", quality=90)
-                images_bytes.append(buf.getvalue())
-
+    # Extract embeddings using the buffalo_l pipeline
+    # (detection → alignment → recognition → L2 normalize)
     embeddings = svc.embed_many(images_bytes)
+    
+    if not embeddings:
+        raise HTTPException(400, "No faces detected in any of the uploaded images")
+    
     vectors = [e.vector.tolist() for e in embeddings]
 
     index = app.state.pinecone_index
@@ -288,13 +287,19 @@ async def sync_faces(
     if since:
         try:
             # Handle ISO format with or without timezone
-            since_dt = datetime.fromisoformat(since.replace('Z', '+00:00'))
+            parsed = datetime.fromisoformat(since.replace('Z', '+00:00'))
+            # Strip timezone for naive comparison (Postgres timestamp without tz)
+            since_dt = parsed.replace(tzinfo=None)
         except ValueError:
             raise HTTPException(400, f"Invalid timestamp format: {since}")
     
     try:
         result = await pg_store.get_faces_for_sync(org_id, since_dt)
     except Exception as e:
+        import traceback
+        print(f"❌ Database query failed: {e}")
+        print(f"   org_id: {org_id}, since: {since}, since_dt: {since_dt}")
+        traceback.print_exc()
         raise HTTPException(502, f"Database query failed: {e}")
     
     return FaceSyncResponse(
@@ -318,5 +323,59 @@ async def face_count(
     try:
         count = await pg_store.get_face_count(org_id)
         return {"org_id": org_id, "count": count}
+    except Exception as e:
+        raise HTTPException(502, f"Database query failed: {e}")
+
+
+@app.get(f"{settings.API_PREFIX}/faces/debug")
+async def face_debug(
+    org_id: Optional[str] = Query(None, description="Filter by organization ID"),
+):
+    """Debug endpoint to see face records and their timestamps."""
+    pg_store: Optional[PostgresStore] = app.state.postgres_store
+    
+    if not pg_store:
+        raise HTTPException(503, "Pi sync not configured - DATABASE_URL not set")
+    
+    try:
+        async with pg_store.pool.acquire() as conn:
+            if org_id:
+                query = """
+                    SELECT id, "orgId", "fullName", status, "createdAt", "updatedAt", "deletedAt"
+                    FROM face
+                    WHERE "orgId" = $1
+                    ORDER BY "updatedAt" DESC
+                    LIMIT 50
+                """
+                rows = await conn.fetch(query, org_id)
+            else:
+                query = """
+                    SELECT id, "orgId", "fullName", status, "createdAt", "updatedAt", "deletedAt"
+                    FROM face
+                    ORDER BY "updatedAt" DESC
+                    LIMIT 50
+                """
+                rows = await conn.fetch(query)
+            
+            # Also get distinct org_ids
+            org_query = """SELECT DISTINCT "orgId", COUNT(*) as count FROM face GROUP BY "orgId" """
+            org_rows = await conn.fetch(org_query)
+        
+        return {
+            "total_shown": len(rows),
+            "orgs": [{"org_id": r["orgId"], "count": r["count"]} for r in org_rows],
+            "faces": [
+                {
+                    "id": r["id"][:8] + "...",
+                    "org_id": r["orgId"],
+                    "full_name": r["fullName"],
+                    "status": r["status"],
+                    "created_at": r["createdAt"].isoformat() if r["createdAt"] else None,
+                    "updated_at": r["updatedAt"].isoformat() if r["updatedAt"] else None,
+                    "deleted_at": r["deletedAt"].isoformat() if r["deletedAt"] else None,
+                }
+                for r in rows
+            ],
+        }
     except Exception as e:
         raise HTTPException(502, f"Database query failed: {e}")

@@ -151,7 +151,7 @@ model OrganizationRegistration {
 model Face {
   id        String     @id // Same ID used in Pinecone
   personId  String? // Optional person identifier
-  orgId     String // Organization this face belongs to
+  orgId     String // Organization this face belongs e.g DKUT
   fullName  String // Person's full name
   email     String? // Optional email
   role      String? // Role at organization

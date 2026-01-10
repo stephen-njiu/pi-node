@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "0": {
+      "face_id": "b7ad2442-3dae-4ab6-b95d-d606599cb00c",
+      "user_id": null,
+      "name": "Stephen Njiu",
+      "status": "AUTHORIZED"
+    },
+    "1": {
+      "face_id": "3a88d549-655c-491e-a207-cba58728cb48",
+      "user_id": null,
+      "name": "Stephen Njiu",
+      "status": "AUTHORIZED"
+    },
+    "2": {
+      "face_id": "25079658-9b13-472c-bee5-27f4649ff4ed",
+      "user_id": null,
+      "name": "Stephen Njiu",
+      "status": "AUTHORIZED"
+    },
+    "3": {
+      "face_id": "53005694-1f87-48b6-a743-02a5e7d1a956",
+      "user_id": null,
+      "name": "Stephen Njiu",
+      "status": "AUTHORIZED"
+    },
+    "4": {
+      "face_id": "39529a6e-b0a6-4aa8-89a1-2aaacdf9ba94",
+      "user_id": null,
+      "name": "Paul Kingori Mwangi",
+      "status": "AUTHORIZED"
+    },
+    "5": {
+      "face_id": "f7e0379b-f25c-4b68-bdc3-e10c714dd16a",
+      "user_id": null,
+      "name": "Paul Kingori Mwangi",
+      "status": "AUTHORIZED"
+    },
+    "6": {
+      "face_id": "9bc5e31d-a7f7-4763-bd37-e5aa137841e4",
+      "user_id": null,
+      "name": "Paul Kingori Mwangi",
+      "status": "AUTHORIZED"
+    },
+    "7": {
+      "face_id": "522c6869-746e-4f71-bc04-fd129204a32f",
+      "user_id": null,
+      "name": "Paul Kingori Mwangi",
+      "status": "AUTHORIZED"
+    },
+    "8": {
+      "face_id": "39e027a8-821f-4c9c-b554-de0f9ad77cae",
+      "user_id": null,
+      "name": "Paul Kingori Mwangi",
+      "status": "AUTHORIZED"
+    }
+  },
+  "face_id_to_idx": {
+    "b7ad2442-3dae-4ab6-b95d-d606599cb00c": 0,
+    "3a88d549-655c-491e-a207-cba58728cb48": 1,
+    "25079658-9b13-472c-bee5-27f4649ff4ed": 2,
+    "53005694-1f87-48b6-a743-02a5e7d1a956": 3,
+    "39529a6e-b0a6-4aa8-89a1-2aaacdf9ba94": 4,
+    "f7e0379b-f25c-4b68-bdc3-e10c714dd16a": 5,
+    "9bc5e31d-a7f7-4763-bd37-e5aa137841e4": 6,
+    "522c6869-746e-4f71-bc04-fd129204a32f": 7,
+    "39e027a8-821f-4c9c-b554-de0f9ad77cae": 8
+  },
+  "next_idx": 9
+}

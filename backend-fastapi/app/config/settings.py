@@ -9,23 +9,17 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"  # Set to "production" in Railway
 
     # ===============================
-    # Embeddings
+    # InsightFace buffalo_l Models
     # ===============================
-    EMBEDDING_BACKEND: str = "onnx_arcface"
-
-    ARC_FACE_ONNX_PATH: Optional[str] = "models/arcface.onnx"
-    ARC_FACE_ONNX_URL: Optional[str] = None
-
-    ASSUME_ALIGNED: bool = False
+    # Root directory containing buffalo_l folder with:
+    #   - det_10g.onnx (face detection)
+    #   - w600k_r50.onnx (face recognition)
+    INSIGHTFACE_ROOT: Optional[str] = "models"
+    INSIGHTFACE_MODEL_NAME: str = "buffalo_l"
 
     # ===============================
-    # Vector Store
+    # Vector Store (Pinecone)
     # ===============================
-    VECTOR_STORE: str = "pinecone"
-
-    LOCAL_STORE_PATH: str = "data/embeddings.jsonl"
-
-    # 🔑 Pinecone (ALL via Pydantic)
     PINECONE_API_KEY: Optional[str] = None
     PINECONE_INDEX: Optional[str] = None
     PINECONE_INDEX_HOST: Optional[str] = None
@@ -45,13 +39,6 @@ class Settings(BaseSettings):
     # Database URL for face embeddings storage (same DB as Next.js/Prisma)
     # FG_DATABASE_URL="postgresql://user:pass@host:5432/db"
     DATABASE_URL: Optional[str] = None
-
-    # ===============================
-    # InsightFace
-    # ===============================
-    INSIGHTFACE_ROOT: Optional[str] = "models"
-    INSIGHTFACE_MODEL_NAME: str = "buffalo_l"
-    INSIGHTFACE_ALLOW_AUTO_DOWNLOAD: bool = True
 
     model_config = SettingsConfigDict(
         env_file=".env",

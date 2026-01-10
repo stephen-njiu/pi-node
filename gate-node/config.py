@@ -44,7 +44,7 @@ class Config:
     # =========================
     # Recognition
     # =========================
-    RECOGNITION_THRESHOLD: float = field(default_factory=lambda: float(os.getenv("RECOGNITION_THRESHOLD", "0.4")))
+    RECOGNITION_THRESHOLD: float = field(default_factory=lambda: float(os.getenv("RECOGNITION_THRESHOLD", "0.50")))
     WANTED_CONFIDENCE_THRESHOLD: float = field(default_factory=lambda: float(os.getenv("WANTED_CONFIDENCE_THRESHOLD", "0.7")))
     MAX_RECOGNITION_ATTEMPTS: int = field(default_factory=lambda: int(os.getenv("MAX_RECOGNITION_ATTEMPTS", "3")))
     TRACK_COOLDOWN_SECONDS: int = field(default_factory=lambda: int(os.getenv("TRACK_COOLDOWN_SECONDS", "30")))
@@ -64,9 +64,21 @@ class Config:
     DISPLAY_ENABLED: bool = field(default_factory=lambda: os.getenv("DISPLAY_ENABLED", "true").lower() == "true")
     DISPLAY_WIDTH: int = field(default_factory=lambda: int(os.getenv("DISPLAY_WIDTH", "1280")))
     DISPLAY_HEIGHT: int = field(default_factory=lambda: int(os.getenv("DISPLAY_HEIGHT", "720")))
-    # "continuous" = live video (demo), "alert_only" = only UNKNOWN/WANTED (production)
+    DISPLAY_FULLSCREEN: bool = field(default_factory=lambda: os.getenv("DISPLAY_FULLSCREEN", "false").lower() == "true")
+    # "continuous" = live video (demo), "alert_only" = only UNKNOWN/WANTED (production), "streaming" = raw video
     DISPLAY_MODE: str = field(default_factory=lambda: os.getenv("DISPLAY_MODE", "continuous"))
-    ALERT_DISPLAY_DURATION: float = field(default_factory=lambda: float(os.getenv("ALERT_DISPLAY_DURATION", "5.0")))
+    ALERT_DISPLAY_DURATION: float = field(default_factory=lambda: float(os.getenv("ALERT_DISPLAY_DURATION", "60.0")))
+    
+    # =========================
+    # Alarm System
+    # =========================
+    ALARM_ENABLED: bool = field(default_factory=lambda: os.getenv("ALARM_ENABLED", "true").lower() == "true")
+    ALARM_WANTED_FREQUENCY: int = field(default_factory=lambda: int(os.getenv("ALARM_WANTED_FREQUENCY", "2500")))
+    ALARM_WANTED_DURATION: int = field(default_factory=lambda: int(os.getenv("ALARM_WANTED_DURATION", "500")))
+    ALARM_WANTED_BEEPS: int = field(default_factory=lambda: int(os.getenv("ALARM_WANTED_BEEPS", "5")))
+    ALARM_UNKNOWN_FREQUENCY: int = field(default_factory=lambda: int(os.getenv("ALARM_UNKNOWN_FREQUENCY", "1500")))
+    ALARM_UNKNOWN_DURATION: int = field(default_factory=lambda: int(os.getenv("ALARM_UNKNOWN_DURATION", "300")))
+    ALARM_UNKNOWN_BEEPS: int = field(default_factory=lambda: int(os.getenv("ALARM_UNKNOWN_BEEPS", "2")))
     
     # =========================
     # MQTT

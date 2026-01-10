@@ -72,6 +72,10 @@ class ArcFaceRecognizer:
         """
         Preprocess face image for model input.
         
+        MUST MATCH backend-fastapi preprocessing exactly:
+        - Normalize: (arr - 127.5) / 128.0
+        - Format: RGB, CHW
+        
         Args:
             face: Aligned face image (112x112 BGR)
         
@@ -85,8 +89,8 @@ class ArcFaceRecognizer:
         # Convert BGR to RGB
         face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
         
-        # Normalize to [-1, 1]
-        face = (face.astype(np.float32) - 127.5) / 127.5
+        # Normalize to [-1, 1] - MUST match backend: (arr - 127.5) / 128.0
+        face = (face.astype(np.float32) - 127.5) / 128.0
         
         # HWC to CHW
         face = face.transpose(2, 0, 1)

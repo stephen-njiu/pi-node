@@ -137,7 +137,8 @@ class GateController:
     ) -> bool:
         """
         Open the gate for configured duration.
-        Returns True if gate was opened, False if in cooldown.
+        If gate is already open, EXTENDS the open duration (resets timer).
+        Returns True if gate was opened/extended.
         """
         with self._lock:
             now = time.time()
@@ -150,16 +151,22 @@ class GateController:
                 elif hasattr(decision, 'value') and decision.value == "WANTED":
                     self._stats["wanted_opens"] += 1
             
-            # Check cooldown
-            if now - self._last_open_time < self.cooldown and self._is_open:
-                logger.debug("Gate already open, ignoring")
-                return False
-            
-            # Cancel any pending close timer
+            # Cancel any pending close timer (ALWAYS - to extend duration)
             if self._close_timer:
                 self._close_timer.cancel()
+                self._close_timer = None
             
-            # Open gate
+            # If gate is already open, just extend the timer
+            if self._is_open:
+                # Reset the close timer (extend open duration)
+                self._close_timer = threading.Timer(self.open_duration, self._auto_close)
+                self._close_timer.start()
+                self._last_open_time = now
+                
+                logger.info(f"Gate EXTENDED (will close in {self.open_duration}s)")
+                return True
+            
+            # Open gate (was closed)
             self._set_relay(True)
             self._is_open = True
             self._last_open_time = now
