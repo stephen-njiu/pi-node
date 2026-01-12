@@ -199,7 +199,26 @@ class BuffaloLPipeline:
         self.rec_model_path = rec_model_path
         
         # Load recognition model
-        self.rec_session = ort.InferenceSession(rec_model_path, providers=self.providers)
+        # Configure SessionOptions to reduce peak memory usage on constrained hosts
+        try:
+            sess_opts = ort.SessionOptions()
+            # Lower thread usage and disable memory arena / pattern to reduce peak RSS
+            sess_opts.intra_op_num_threads = 1
+            sess_opts.inter_op_num_threads = 1
+            # Turn off memory pattern and CPU memory arena (trades some perf for lower peak memory)
+            try:
+                sess_opts.enable_mem_pattern = False
+            except Exception:
+                pass
+            try:
+                sess_opts.enable_cpu_mem_arena = False
+            except Exception:
+                pass
+
+            self.rec_session = ort.InferenceSession(rec_model_path, sess_options=sess_opts, providers=self.providers)
+        except Exception:
+            # Fall back to default session creation if SessionOptions not supported
+            self.rec_session = ort.InferenceSession(rec_model_path, providers=self.providers)
         self.rec_input_name = self.rec_session.get_inputs()[0].name
         
         # Detection via InsightFace FaceAnalysis (handles det_10g parsing)

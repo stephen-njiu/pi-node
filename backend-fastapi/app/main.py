@@ -10,6 +10,7 @@ from uuid import uuid4
 from datetime import datetime
 import os
 import traceback
+import threading
 
 from .config.settings import settings
 from .services.embedding import EmbeddingService
@@ -39,64 +40,48 @@ app = FastAPI(
 # =========================
 # CORS (MUST be added BEFORE any routes)
 # =========================
-# Allow ALL origins to help diagnose deployment issues
-allow_origins = ["*"]
+# Load allowed origins from settings (env var FG_ALLOW_ORIGINS expected)
+# Default to the public frontend origin if not provided
+origins_cfg = settings.ALLOW_ORIGINS or "https://savannah-gates.vercel.app"
 
-# Log CORS configuration
-print(f"🌐 CORS Origins: {allow_origins}")
+# Parse comma-separated list and explicitly disallow wildcard entries
+if isinstance(origins_cfg, str):
+    parsed = [o.strip() for o in origins_cfg.split(",") if o.strip()]
+else:
+    parsed = list(origins_cfg)
+
+# Remove any wildcard entries - we do not allow '*'
+parsed = [o for o in parsed if o != "*"]
+
+# If nothing left after parsing, fall back to the public frontend
+if not parsed:
+    parsed = ["https://savannah-gates.vercel.app"]
+
+allow_origins = parsed
+
+print(f"🌐 CORS Origins (from FG_ALLOW_ORIGINS): {allow_origins}")
+
+# Credentials allowed only when explicit origins are set (not wildcard)
+allow_credentials = True
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
-    allow_credentials=False,  # Must be False when using "*"
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],
 )
 
-# =========================
-# Explicit OPTIONS handler for preflight requests
-# =========================
-@app.options("/{full_path:path}")
-async def preflight_handler(full_path: str):
-    """Handle CORS preflight requests explicitly."""
-    return JSONResponse(
-        content={"status": "ok"},
-        headers={
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Max-Age": "86400",
-        }
-    )
 
-# =========================
-# Global Exception Handler (ensures CORS on errors)
-# =========================
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    """Catch all exceptions and return proper CORS headers."""
-    error_msg = str(exc)
-    print(f"❌ Unhandled exception: {error_msg}")
-    traceback.print_exc()
-    
-    return JSONResponse(
-        status_code=500,
-        content={"detail": error_msg, "type": type(exc).__name__},
-        headers={
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "*",
-            "Access-Control-Allow-Headers": "*",
-        }
-    )
-
-# =========================
-# Startup
-# =========================
 @app.on_event("startup")
 async def startup_event():
-    # Embedding service
+    print("⏳ Loading embedding models (buffalo_l)... this may take a few seconds")
     app.state.embedding_service = EmbeddingService()
+    print("✅ Model buffalo_l loaded successfully")
+    # Keep a lock available (used by get_embedding_service as a safeguard)
+    if not hasattr(app.state, "_embedding_lock"):
+        app.state._embedding_lock = threading.Lock()
 
     # Validate settings
     if not settings.PINECONE_API_KEY or not settings.PINECONE_INDEX_HOST:
@@ -141,7 +126,23 @@ class EmbeddingResponse(BaseModel):
     store: str
 
 def get_embedding_service() -> EmbeddingService:
-    return app.state.embedding_service  # type: ignore
+    # Lazy, thread-safe singleton creation for EmbeddingService.
+    # This avoids loading large ONNX models during process startup which
+    # can cause out-of-memory crashes on constrained hosts.
+    svc = getattr(app.state, "embedding_service", None)
+    if svc is None:
+        # Acquire lock stored on app.state during startup
+        lock = getattr(app.state, "_embedding_lock", None)
+        if lock is None:
+            # Fallback: create a lock if missing
+            lock = threading.Lock()
+            app.state._embedding_lock = lock
+        with lock:
+            svc = getattr(app.state, "embedding_service", None)
+            if svc is None:
+                svc = EmbeddingService()
+                app.state.embedding_service = svc
+    return svc
 
 # =========================
 # Custom Docs (Read-Only)

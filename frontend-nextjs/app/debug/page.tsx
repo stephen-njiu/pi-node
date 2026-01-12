@@ -1,6 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_APP_URL
+  ? `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/faces/count?org_id=DKUT`
+  : "https://gate-backend-production-3b50.up.railway.app/api/v1/faces/count?org_id=DKUT";
+
 export default function DebugPage() {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -11,9 +15,7 @@ export default function DebugPage() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(
-          "https://gate-backend-production-3b50.up.railway.app/api/v1/faces/count?org_id=DKUT"
-        );
+        const res = await fetch(API_URL);
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}`);
         }
