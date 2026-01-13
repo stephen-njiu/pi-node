@@ -659,7 +659,7 @@ class UIThread(threading.Thread):
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, 3)
         
         # Label
-        label = track.person_name if track.person_name else track.status
+        label = f'{track.status}-{track.person_name}' if track.person_name else track.status
         if track.confidence > 0:
             label += f" ({track.confidence:.0%})"
         

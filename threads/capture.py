@@ -135,6 +135,55 @@ class CaptureThread(threading.Thread):
             logger.error(f"Camera open error: {e}")
             return False
     
+    # def _open_camera(self) -> bool:
+    #     """Open camera with configured settings."""
+    #     if cv2 is None:
+    #         logger.error("OpenCV not available")
+    #         return False
+        
+    #     try:
+    #         # Use DirectShow backend explicitly on Windows (more reliable)
+    #         self._camera = cv2.VideoCapture(self.camera_index, cv2.CAP_DSHOW)
+            
+    #         if not self._camera.isOpened():
+    #             logger.warning(f"Failed with DirectShow, trying default backend...")
+    #             # Fallback to default backend
+    #             self._camera = cv2.VideoCapture(self.camera_index)
+                
+    #         if not self._camera.isOpened():
+    #             logger.error(f"Failed to open camera {self.camera_index}")
+    #             return False
+            
+    #         # Configure camera BEFORE checking if opened helps on some systems
+    #         self._camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
+    #         self._camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
+    #         self._camera.set(cv2.CAP_PROP_FPS, self.fps)
+            
+    #         # Reduce buffer to minimize latency
+    #         self._camera.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+            
+    #         # Read a test frame to ensure camera is truly working
+    #         ret, frame = self._camera.read()
+    #         if not ret or frame is None:
+    #             logger.error("Camera opened but cannot read frames")
+    #             self._camera.release()
+    #             return False
+            
+    #         # Get actual settings
+    #         actual_w = int(self._camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+    #         actual_h = int(self._camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    #         actual_fps = self._camera.get(cv2.CAP_PROP_FPS)
+            
+    #         logger.info(f"Camera opened: {actual_w}x{actual_h} @ {actual_fps}fps")
+    #         self.camera_opened = True
+    #         return True
+            
+    #     except Exception as e:
+    #         logger.error(f"Camera open error: {e}")
+    #         if self._camera is not None:
+    #             self._camera.release()
+    #         return False
+
     def run(self):
         """Main capture loop - runs at camera FPS."""
         logger.info("Capture thread starting...")

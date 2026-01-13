@@ -1,70 +1,112 @@
 {
   "metadata": {
     "0": {
-      "face_id": "b7ad2442-3dae-4ab6-b95d-d606599cb00c",
+      "face_id": "ad50e2cb-0c61-44aa-ab72-3056a3b309f5",
       "user_id": null,
-      "name": "Stephen Njiu",
-      "status": "AUTHORIZED"
+      "name": "Meshack Ngari Muriithi",
+      "status": "WANTED"
     },
     "1": {
-      "face_id": "3a88d549-655c-491e-a207-cba58728cb48",
+      "face_id": "31aeff9d-bf39-4e74-b580-2ed7293c67ed",
       "user_id": null,
-      "name": "Stephen Njiu",
-      "status": "AUTHORIZED"
+      "name": "Meshack Ngari Muriithi",
+      "status": "WANTED"
     },
     "2": {
-      "face_id": "25079658-9b13-472c-bee5-27f4649ff4ed",
+      "face_id": "ebc9dfa4-ffed-4620-8632-1022320f6cb5",
       "user_id": null,
-      "name": "Stephen Njiu",
-      "status": "AUTHORIZED"
+      "name": "Meshack Ngari Muriithi",
+      "status": "WANTED"
     },
     "3": {
-      "face_id": "53005694-1f87-48b6-a743-02a5e7d1a956",
+      "face_id": "3859e9fb-3453-4bc5-856f-13212e37c171",
       "user_id": null,
-      "name": "Stephen Njiu",
-      "status": "AUTHORIZED"
+      "name": "Meshack Ngari Muriithi",
+      "status": "WANTED"
     },
     "4": {
-      "face_id": "39529a6e-b0a6-4aa8-89a1-2aaacdf9ba94",
+      "face_id": "93c6599c-79a4-4509-bfc8-b14ae0441534",
       "user_id": null,
-      "name": "Paul Kingori Mwangi",
-      "status": "AUTHORIZED"
+      "name": "Meshack Ngari Muriithi",
+      "status": "WANTED"
     },
     "5": {
-      "face_id": "f7e0379b-f25c-4b68-bdc3-e10c714dd16a",
+      "face_id": "9c8ff4fe-6326-4886-90ce-61bfdabd6bb7",
       "user_id": null,
-      "name": "Paul Kingori Mwangi",
+      "name": "Stephen Njiu",
       "status": "AUTHORIZED"
     },
     "6": {
-      "face_id": "9bc5e31d-a7f7-4763-bd37-e5aa137841e4",
+      "face_id": "0314847c-43af-4f06-9d5d-2f4c9a20182a",
       "user_id": null,
-      "name": "Paul Kingori Mwangi",
+      "name": "Stephen Njiu",
       "status": "AUTHORIZED"
     },
     "7": {
-      "face_id": "522c6869-746e-4f71-bc04-fd129204a32f",
+      "face_id": "fb82c4b7-35b2-43ed-b7f9-f0425e88c47c",
       "user_id": null,
-      "name": "Paul Kingori Mwangi",
+      "name": "Stephen Njiu",
       "status": "AUTHORIZED"
     },
     "8": {
-      "face_id": "39e027a8-821f-4c9c-b554-de0f9ad77cae",
+      "face_id": "2fcab2ad-684e-4c9d-942f-32c6268c8dbb",
       "user_id": null,
-      "name": "Paul Kingori Mwangi",
+      "name": "Stephen Njiu",
+      "status": "AUTHORIZED"
+    },
+    "9": {
+      "face_id": "ee6ec557-8786-4ff1-ac3a-77f12854e63d",
+      "user_id": null,
+      "name": "Stephen Njiu",
+      "status": "AUTHORIZED"
+    },
+    "10": {
+      "face_id": "1dc33103-f648-44ae-b628-9e479e6ef7c4",
+      "user_id": null,
+      "name": "Onesmus Mosoti",
+      "status": "AUTHORIZED"
+    },
+    "11": {
+      "face_id": "aed7a31f-c2ac-48bc-b9ab-fcb8d2bc3a9b",
+      "user_id": null,
+      "name": "Onesmus Mosoti",
+      "status": "AUTHORIZED"
+    },
+    "12": {
+      "face_id": "493d5463-20e2-49db-a245-5c99d3c79c7f",
+      "user_id": null,
+      "name": "Onesmus Mosoti",
+      "status": "AUTHORIZED"
+    },
+    "13": {
+      "face_id": "fbb7ea15-e27d-4d83-a93a-22c2325d45d6",
+      "user_id": null,
+      "name": "Onesmus Mosoti",
+      "status": "AUTHORIZED"
+    },
+    "14": {
+      "face_id": "24ce706e-870d-44c5-97a1-d65533087086",
+      "user_id": null,
+      "name": "Onesmus Mosoti",
       "status": "AUTHORIZED"
     }
   },
   "face_id_to_idx": {
-    "b7ad2442-3dae-4ab6-b95d-d606599cb00c": 0,
-    "3a88d549-655c-491e-a207-cba58728cb48": 1,
-    "25079658-9b13-472c-bee5-27f4649ff4ed": 2,
-    "53005694-1f87-48b6-a743-02a5e7d1a956": 3,
-    "39529a6e-b0a6-4aa8-89a1-2aaacdf9ba94": 4,
-    "f7e0379b-f25c-4b68-bdc3-e10c714dd16a": 5,
-    "9bc5e31d-a7f7-4763-bd37-e5aa137841e4": 6,
-    "522c6869-746e-4f71-bc04-fd129204a32f": 7,
-    "39e027a8-821f-4c9c-b554-de0f9ad77cae": 8
+    "ad50e2cb-0c61-44aa-ab72-3056a3b309f5": 0,
+    "31aeff9d-bf39-4e74-b580-2ed7293c67ed": 1,
+    "ebc9dfa4-ffed-4620-8632-1022320f6cb5": 2,
+    "3859e9fb-3453-4bc5-856f-13212e37c171": 3,
+    "93c6599c-79a4-4509-bfc8-b14ae0441534": 4,
+    "9c8ff4fe-6326-4886-90ce-61bfdabd6bb7": 5,
+    "0314847c-43af-4f06-9d5d-2f4c9a20182a": 6,
+    "fb82c4b7-35b2-43ed-b7f9-f0425e88c47c": 7,
+    "2fcab2ad-684e-4c9d-942f-32c6268c8dbb": 8,
+    "ee6ec557-8786-4ff1-ac3a-77f12854e63d": 9,
+    "1dc33103-f648-44ae-b628-9e479e6ef7c4": 10,
+    "aed7a31f-c2ac-48bc-b9ab-fcb8d2bc3a9b": 11,
+    "493d5463-20e2-49db-a245-5c99d3c79c7f": 12,
+    "fbb7ea15-e27d-4d83-a93a-22c2325d45d6": 13,
+    "24ce706e-870d-44c5-97a1-d65533087086": 14
   },
-  "next_idx": 9
+  "next_idx": 15
 }
