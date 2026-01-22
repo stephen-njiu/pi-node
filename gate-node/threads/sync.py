@@ -32,7 +32,7 @@ class SyncThread(threading.Thread):
         face_db: FaceDatabase,
         backend_url: str,
         org_id: str,
-        interval_seconds: float = 120.0,
+        interval_seconds: float = 10,
         version_file: str = "data/sync_version.txt",
     ):
         super().__init__(name="SyncThread", daemon=True)
